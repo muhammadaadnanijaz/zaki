@@ -1,0 +1,146 @@
+{
+    "=====>>>Comment<<<=====":"Whats up sign up screen",
+    "Confirmation code will be sent to":"Confirmation code will be sent to",
+
+    "=====>>>Home Screen Page<<<=====":"Home screen Page",
+    "My Family":"My Family",
+    "Savings Wallet":"Savings Wallet",
+    "Donation Wallet":"Donation Wallet",
+    "Pay":"Pay",
+    "Activities":"Activities",
+    "Manage":"Manage",
+    "Allowances":"Allowances",
+    "Videos":"Videos",
+    "Upload a Video":"Upload Video",
+    "=====>>>Manage Debet Cards Page<<<=====":"Manage debatcard screen Page",
+
+    "Manage Debit Cards":"Manage Debit Cards",
+    "Your Card":"Your Card",
+    "ZakiPay Family Cards":"ZakiPay Family Cards",
+
+    "=====>>>Activate or Deactivate Card Page<<<=====":"Activate or Deactivate Card Page",
+
+    "Deactivate Card":"Deactivate Card",
+    "Activate Card":"Activate Card",
+    "Forgot your Pin Code?":"Forgot your Pin Code?",
+    "Use Biometric ID to Deactivate this card":"إستعمال بصمة الأصبع لإلغاء هذه البطاقة ",
+    "Use Biometric ID to Activate this card":"Use Biometric ID to Activate this card",
+    "Deactivate":"Deactivate",
+    "Activate":"Activate",
+
+    "Settings":"Settings",
+    "My Profile":" My Profile",
+    "Register here":"Register here",
+    "Change Language":"Change Language",
+    "Dashboard":"Dashboard",
+    "I am on Break":"I am on Break",
+    "Orders":"Orders",
+    "New":"New",
+    "Delivery":"Delivery",
+    "On":"On",
+    "Delivered":"Delivered",
+    "Total":"Total",
+    "Make Your Own":"Make Your Own",
+    "Route Easy and Fast":"Route Easy and Fast",
+    "Make":"Make",
+    "Delivery For":"Delivery For",
+    "30 days":"30 days",
+    "Active":"Active",
+    "Deliver":"Deliver",
+   
+    "Notifications":"Notifications",
+    "Logout":"Logout",
+
+    
+    "Search":"Search",
+    "GoodMorning":"Good Morning",
+    "GoodEvening":"Good Evening",
+    "GoodAfternoon":"Good Afternoon",
+    "ChangeLanguage":"Change Language",
+    "hello":"hello",
+    "continue":"Continue",
+    "GetStartedNow":"Get Started Now",
+    "ShopTags":"ShopTags",
+    "ViewMap":"View Map",
+    "NearYou":"Near You",
+    "close":"close",
+    "open":"open",
+    "RestDay":"Rest Day",
+    "AllResturents":"All Resturents",
+    "AddToCart":"Add To Cart",
+    "MyOrders":"My Orders",
+    "DiscountCode":"Discount Code",
+    "AddCode":"Add Code",
+    
+    "SelectOrderType":"Select your order type",
+    
+    "TakeAway":"TakeAway",
+    
+    "confirm":"OK",
+
+    "OrderNow":"Order Now",
+    "ShowRoute":"Show Route",
+
+    "CartIsEmpty":"Cart is Empty",
+    "ProductComment":"Product Comment",
+    "Comment":"Comment",
+    "AddComment":"Add Comment",
+    "UpdateComment":"Update Comment",
+    "CommentSaved":"Comment added to Product!",
+
+
+    "SubTotal":"Sub Total",
+    "Discount":"Discount",
+    "DeliveryCharges":"Delivery Charges",
+    "Tip":"Tip",
+    
+    "Checkout":"Checkout",
+
+    
+    "Category":"Category",
+
+    "Addresses":"Addresses",
+    "AddAddress":"Add Address",
+    "TelephoneList":"Telephone List",
+    "AddTelephone":"Add Telephone",
+    "Add":"Add",
+    "Update":"Update",
+    "Delete":"Delete",
+
+    "Login":"Login",
+    "LoginWithGoogle":"Login With Google",
+    "AsAGuest":"As A Guest",
+
+    "Welcome Back":"Welcome Back",
+    "Email":"Email",
+    "Password":"Password",
+    "DontHaveAnAccount":"Don't have an account?",
+    "Sign Up":"Sign Up",
+    
+
+    "CreateAccount":"Create Account",
+    "ConfirmPassword":"Confirm Password",
+    "CompanyName":"CompanyName",
+    "First Name":"First Name",
+    "Last Name":"Last Name",
+    "Pick Location":"Pick Location",
+    "PhoneNumber":"Phone Number",
+    "HaveAnAccount":"Have an account?",
+    "SignIn":"  Sign In",
+
+    "SelectDeliveryAddress":"Pick Delivery Address",
+    "SelectBillingAddress":"Pick Billing Address",
+    "DifferentBillingAddress":"Different Billing Address?",
+
+    "ASAP":"Soon as Possible",
+    "Appointment":"Scheduled",
+
+    "cancel":"Cancel",
+    "next":"Next",
+    "finish":"Finish",
+    "back":"Back"
+
+
+
+    
+}

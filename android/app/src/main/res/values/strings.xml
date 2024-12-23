@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Zaki</string>
+    <string name="facebook_app_id">390510760577455</string>
+    <string name="fb_login_protocol_scheme">fb390510760577455</string>
+    <string name="facebook_client_token">726b64c51f56405ba9357d31b098b599</string>
+</resources>

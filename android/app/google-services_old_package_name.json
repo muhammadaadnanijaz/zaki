@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "988544902171",
+    "project_id": "zakipayapp",
+    "storage_bucket": "zakipayapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988544902171:android:89cb53a54ef42adcd2c4be",
+        "android_client_info": {
+          "package_name": "com.zakipay.teencard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "988544902171-ugdhjidtsil5ul0nfv01vqv6g7d7fb0u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zakipay.teencard",
+            "certificate_hash": "5252f0b7a0b3b9136f7f0ffbade4a6d11a6a2bd8"
+          }
+        },
+        {
+          "client_id": "988544902171-7ih7ddj54tlqiqiinq73o3o9k5v929e4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqkD5Ic3gcXxOKZI3FJXfi0OpJoiRBC70"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "988544902171-7ih7ddj54tlqiqiinq73o3o9k5v929e4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
