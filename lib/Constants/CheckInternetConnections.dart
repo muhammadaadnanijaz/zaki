@@ -16,6 +16,7 @@ class CheckInternet extends ChangeNotifier {
   late StreamSubscription _streamSubscription;
  
   // void checkConnectivity() async {
+  // code
   //   var connectionResult = await _connectivity.checkConnectivity();
   //   if (connectionResult == ConnectivityResult.mobile) {
   //     status = "Connected to MobileData";

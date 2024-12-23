@@ -12,6 +12,8 @@ import '../Screens/MoveMoneyForGoals.dart';
 import '../Services/api.dart';
 import '../Widgets/PrivacyTypeButton.dart';
 
+// bottom
+
 removeGoalBottomSheet(
     {String? title,
     double? width,

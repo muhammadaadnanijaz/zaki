@@ -26,9 +26,9 @@ Future<UserCredential> signInWithFacebook() async {
   return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
 }
  
-  // sign in with twitter
+  // sign in with twitter method
   Future<UserCredential> signInWithTwitter() async {
-  // Create a TwitterLogin instance
+  // Create a TwitterLogin instances
   final twitterLogin = new TwitterLogin(
       apiKey: AppConstants.TWITTER_API_KEY,
       apiSecretKey: AppConstants.TWITTER_SECRET_API_KEY,
