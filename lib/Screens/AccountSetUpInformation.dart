@@ -199,21 +199,21 @@ class _AccountSetupInformationState extends State<AccountSetupInformation> {
                 //               child: CustomStepper(
                 //                 color: selectedIndexMe >= 0
                 //                     ? primaryButtonColor
-                //                     : grey.withOpacity(0.3),
+                //                     : grey.withValues(alpha:0.3),
                 //               ),
                 //             ),
                 //             Expanded(
                 //               child: CustomStepper(
                 //                 color: selectedIndexMe >= 1
                 //                     ? primaryButtonColor
-                //                     : grey.withOpacity(0.3),
+                //                     : grey.withValues(alpha:0.3),
                 //               ),
                 //             ),
                 //             Expanded(
                 //               child: CustomStepper(
                 //                 color: selectedIndexMe >= 2
                 //                     ? primaryButtonColor
-                //                     : grey.withOpacity(0.3),
+                //                     : grey.withValues(alpha:0.3),
                 //               ),
                 //             ),
                 //           ],
@@ -232,7 +232,7 @@ class _AccountSetupInformationState extends State<AccountSetupInformation> {
                               child: CustomStepper(
                                 color: appConstants.selectedIndex >= 1
                                     ? primaryButtonColor
-                                    : grey.withOpacity(0.3),
+                                    : grey.withValues(alpha:0.3),
                               ),
                             ),
                             // if (appConstants.accountSettingUpFor != "Me")
@@ -240,21 +240,21 @@ class _AccountSetupInformationState extends State<AccountSetupInformation> {
                                 child: CustomStepper(
                                   color: appConstants.selectedIndex >= 2
                                       ? primaryButtonColor
-                                      : grey.withOpacity(0.3),
+                                      : grey.withValues(alpha:0.3),
                                 ),
                               ),
                             Expanded(
                               child: CustomStepper(
                                 color: appConstants.selectedIndex >= 3
                                     ? primaryButtonColor
-                                    : grey.withOpacity(0.3),
+                                    : grey.withValues(alpha:0.3),
                               ),
                             ),
                             // Expanded(
                             //   child: CustomStepper(
                             //     color: appConstants.selectedIndex >= 3
                             //         ? primaryButtonColor
-                            //         : grey.withOpacity(0.3),
+                            //         : grey.withValues(alpha:0.3),
                             //   ),
                             // )
                           ],

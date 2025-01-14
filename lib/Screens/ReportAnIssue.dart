@@ -66,12 +66,12 @@ class _ReportAnIssueState extends State<ReportAnIssue> {
                       hintStyle: heading3TextStyle(width),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
-                            BorderSide(width: 1, color: grey.withOpacity(0.4)),
+                            BorderSide(width: 1, color: grey.withValues(alpha:0.4)),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                            BorderSide(width: 1, color: grey.withOpacity(0.4)),
+                            BorderSide(width: 1, color: grey.withValues(alpha:0.4)),
                         borderRadius: BorderRadius.circular(8),
                       )),
                 ),

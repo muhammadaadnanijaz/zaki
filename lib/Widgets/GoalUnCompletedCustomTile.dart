@@ -226,7 +226,7 @@ class _GoalCustomTileState extends State<GoalCustomTile> {
                                                 style: heading3TextStyle(
                                                     width * 0.65,
                                                     color:
-                                                        grey.withOpacity(0.8)),
+                                                        grey.withValues(alpha:0.8)),
                                               ),
                                             ),
                                             Text(

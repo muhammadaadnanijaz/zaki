@@ -31,7 +31,8 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
    }
    
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
+    namespace = "com.zakipay.teencard"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -56,7 +57,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.zakipay.teencard"
         minSdkVersion 23
-        targetSdkVersion 34
+        targetSdkVersion 35
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -75,6 +76,11 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.release
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // minifyEnabled false
+            // shrinkResources false
         }
     }
 }
@@ -86,5 +92,17 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'io.card:android-sdk:5.+'
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
+     // Use the Firebase Bill of Materials (BOM)
+    implementation platform('com.google.firebase:firebase-bom:32.1.1') // Latest BOM version
+
+    // Declare Firebase dependencies without specifying versions
+    implementation 'com.google.firebase:firebase-analytics'
+
+    // Add other Firebase services your app needs
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'org.jetbrains:annotations:16.0.2'
 }
 apply plugin: 'com.google.gms.google-services'

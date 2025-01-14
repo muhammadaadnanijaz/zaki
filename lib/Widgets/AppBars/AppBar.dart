@@ -7,7 +7,6 @@ import '../../Constants/HelperFunctions.dart';
 import '../../Constants/Spacing.dart';
 import '../../Constants/Styles.dart';
 import '../../Screens/EdittedProfile.dart';
-import '../../Screens/FundMyWallet.dart';
 import '../../Screens/GetStartedScreen.dart';
 import '../../Screens/NotificationScreen.dart';
 import '../../Screens/Settings.dart';

@@ -433,7 +433,7 @@ void checkForKids({required String parentId, required String familyId}) async {
                             : userKids == null
                                 ? const SizedBox()
                                 : Container(
-                                    color: green.withOpacity(0.05),
+                                    color: green.withValues(alpha:0.05),
                                     height: height * 0.127,
                                     width: width,
                                     child: StreamBuilder<QuerySnapshot>(
@@ -746,7 +746,7 @@ void checkForKids({required String parentId, required String familyId}) async {
                                 textFieldLimit: 3,
                                 hintText: false,
                                 textFieldColor: (appConstants.userModel.usaUserType !=
-                    AppConstants.USER_TYPE_PARENT || ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withOpacity(0.5): green,
+                    AppConstants.USER_TYPE_PARENT || ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withValues(alpha:0.5): green,
                                 readOnly: appConstants.userModel.usaUserType !=
                                         AppConstants.USER_TYPE_PARENT
                                     ? true
@@ -794,7 +794,7 @@ void checkForKids({required String parentId, required String familyId}) async {
                                   icon: Icon(
                                     Icons.keyboard_arrow_down,
                                     color: (appConstants.userModel.usaUserType !=
-                    AppConstants.USER_TYPE_PARENT || ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))? grey.withOpacity(0.5) : green,
+                    AppConstants.USER_TYPE_PARENT || ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))? grey.withValues(alpha:0.5) : green,
                                   ),
               
                                   // Array list of items
@@ -864,7 +864,7 @@ void checkForKids({required String parentId, required String familyId}) async {
                                               },
                                               style:
                                                   heading2TextStyle(context, width, color: (appConstants.userModel.usaUserType !=
-                    AppConstants.USER_TYPE_PARENT || ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withOpacity(0.5): null,),
+                    AppConstants.USER_TYPE_PARENT || ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withValues(alpha:0.5): null,),
                                               controller: spendAnyWhereController,
                                               // obscureText: appConstants.passwordVissibleRegistration,
                                               keyboardType: TextInputType.number,
@@ -885,7 +885,7 @@ void checkForKids({required String parentId, required String familyId}) async {
                                                   suffix: Icon(
                                                     Icons.percent,
                                                     color:(appConstants.userModel.usaUserType !=
-                    AppConstants.USER_TYPE_PARENT|| ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withOpacity(0.5): green,
+                    AppConstants.USER_TYPE_PARENT|| ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withValues(alpha:0.5): green,
                                                     size: width * 0.042,
                                                   )),
                                             ),
@@ -924,7 +924,7 @@ void checkForKids({required String parentId, required String familyId}) async {
                                               },
                                               style:
                                                   heading2TextStyle(context, width,color: (appConstants.userModel.usaUserType !=
-                    AppConstants.USER_TYPE_PARENT|| ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withOpacity(0.5): null,),
+                    AppConstants.USER_TYPE_PARENT|| ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withValues(alpha:0.5): null,),
                                             onFieldSubmitted: (String value){
                                               check100Per = int.parse(donationsController.text.toString())+(int.parse(savingController.text.toString())+(int.parse(spendAnyWhereController.text.toString())));
                                               setState(() {});
@@ -944,7 +944,7 @@ void checkForKids({required String parentId, required String familyId}) async {
                                                   suffix: Icon(
                                                     Icons.percent,
                                                     color:(appConstants.userModel.usaUserType !=
-                    AppConstants.USER_TYPE_PARENT|| ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withOpacity(0.5): green,
+                    AppConstants.USER_TYPE_PARENT|| ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withValues(alpha:0.5): green,
                                                     size: width * 0.042,
                                                   )),
                                             ),
@@ -993,7 +993,7 @@ void checkForKids({required String parentId, required String familyId}) async {
                                               },
                                               style:
                                                   heading2TextStyle(context, width, color:(appConstants.userModel.usaUserType !=
-                    AppConstants.USER_TYPE_PARENT|| ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withOpacity(0.5): green),
+                    AppConstants.USER_TYPE_PARENT|| ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withValues(alpha:0.5): green),
                                               controller: donationsController,
                                               readOnly: (appConstants
                                                           .userModel.usaUserType !=
@@ -1011,7 +1011,7 @@ void checkForKids({required String parentId, required String familyId}) async {
                                                   suffix: Icon(
                                                     Icons.percent,
                                                     color:(appConstants.userModel.usaUserType !=
-                    AppConstants.USER_TYPE_PARENT|| ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withOpacity(0.5): green,
+                    AppConstants.USER_TYPE_PARENT|| ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withValues(alpha:0.5): green,
                                                     size: width * 0.042,
                                                   )),
                                             ),
@@ -1040,14 +1040,14 @@ void checkForKids({required String parentId, required String familyId}) async {
                                     padding: const EdgeInsets.only(top: 8.0, right: 12),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: grey.withOpacity(0.5))
+                                        border: Border.all(color: grey.withValues(alpha:0.5))
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           '${check100Per.toString()} %', 
                                           style: heading2TextStyle(context, width, color:(appConstants.userModel.usaUserType !=
-                    AppConstants.USER_TYPE_PARENT|| ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withOpacity(0.5): check100Per==100 ? green : red),
+                    AppConstants.USER_TYPE_PARENT|| ( !checkPrimaryUserWithParent(appConstants, appConstants.userModel.usaUserType)))?grey.withValues(alpha:0.5): check100Per==100 ? green : red),
                                           textAlign: TextAlign.end,
                                           ),
                                       ),

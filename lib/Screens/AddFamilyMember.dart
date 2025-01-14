@@ -199,7 +199,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                       Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: grey.withOpacity(0.4))),
+                            border: Border.all(color: grey.withValues(alpha:0.4))),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: DropdownButtonHideUnderline(
@@ -310,7 +310,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                       Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: grey.withOpacity(0.4))),
+                            border: Border.all(color: grey.withValues(alpha:0.4))),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: ListTile(

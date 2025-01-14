@@ -100,7 +100,7 @@ class _CustomFeedCardState extends State<CustomFeedCard> {
                       width: width,
                       decoration: BoxDecoration(
                                 // shape: BoxShape.circle,
-                                // border: Border.all(color: grey.withOpacity(0.5)),
+                                // border: Border.all(color: grey.withValues(alpha:0.5)),
                                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(width * 0.03), bottomRight: Radius.circular(width * 0.03)),
                               ),
                       // color: green,
@@ -353,7 +353,7 @@ class UserSection extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(color: grey.withOpacity(0.5)),
+                              border: Border.all(color: grey.withValues(alpha:0.5)),
                               // borderRadius: BorderRadius.circular(width * 0.03),
                             ),
                           child: CircleAvatar(

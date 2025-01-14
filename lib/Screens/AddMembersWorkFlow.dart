@@ -159,7 +159,7 @@ class _AddMemberWorkFlowState extends State<AddMemberWorkFlow> {
                       border: Border.all(
                           color: appConstants.userModel.subScriptionValue == 3
                               ? white
-                              : green.withOpacity(0.3),
+                              : green.withValues(alpha:0.3),
                           width: appConstants.userModel.subScriptionValue == 3
                               ? 0
                               : 1)),
@@ -182,7 +182,7 @@ class _AddMemberWorkFlowState extends State<AddMemberWorkFlow> {
                       trailing: appConstants.userModel.subScriptionValue == 3
                           ? Icon(
                               Icons.done,
-                              color: grey.withOpacity(0.6),
+                              color: grey.withValues(alpha:0.6),
                             )
                           : null,
                       // initiallyExpanded: appConstants.userModel.subScriptionValue==2?false:true ,
@@ -191,7 +191,7 @@ class _AddMemberWorkFlowState extends State<AddMemberWorkFlow> {
                         style: heading1TextStyle(context, width,
                             color:
                                 appConstants.userModel.subScriptionValue == 3
-                                    ? grey.withOpacity(0.6)
+                                    ? grey.withValues(alpha:0.6)
                                     : grey),
                       ),
                       children: [
@@ -276,7 +276,7 @@ class _AddMemberWorkFlowState extends State<AddMemberWorkFlow> {
                                           borderRadius:
                                               BorderRadius.circular(12),
                                           border: Border.all(
-                                              color: grey.withOpacity(0.4))),
+                                              color: grey.withValues(alpha:0.4))),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8.0),
@@ -999,7 +999,7 @@ class _AddMemberWorkFlowState extends State<AddMemberWorkFlow> {
                                                             .USER_SubscriptionValue] ==
                                                     3
                                                 ? white
-                                                : green.withOpacity(0.3),
+                                                : green.withValues(alpha:0.3),
                                             width: snapshot.data!.docs[index][
                                                         AppConstants
                                                             .USER_SubscriptionValue] ==
@@ -1022,7 +1022,7 @@ class _AddMemberWorkFlowState extends State<AddMemberWorkFlow> {
                                                           AppConstants
                                                               .USER_SubscriptionValue] ==
                                                       3
-                                                  ? grey.withOpacity(0.6)
+                                                  ? grey.withValues(alpha:0.6)
                                                   : grey),
                                         ),
                                         trailing: snapshot.data!.docs[index][
@@ -1030,7 +1030,7 @@ class _AddMemberWorkFlowState extends State<AddMemberWorkFlow> {
                                                         .USER_SubscriptionValue] ==
                                                 3
                                             ? Icon(Icons.done,
-                                                color: grey.withOpacity(0.6))
+                                                color: grey.withValues(alpha:0.6))
                                             : null,
                                         iconColor: green,
                                         children: [

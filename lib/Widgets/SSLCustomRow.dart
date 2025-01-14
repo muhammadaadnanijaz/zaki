@@ -44,7 +44,7 @@ class CustomImage extends StatelessWidget {
       imageBaseAddress+imageUrl!, 
       height: 30,
       width: 100,
-      // color: grey.withOpacity(0.3),
+      // color: grey.withValues(alpha:0.3),
       );
   }
 }

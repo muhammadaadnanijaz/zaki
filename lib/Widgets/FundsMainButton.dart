@@ -27,9 +27,9 @@ class FundsMainButton extends StatelessWidget {
         child: Container(
           height: height * 0.14,
           decoration: BoxDecoration(
-            color: green.withOpacity(0.02),
+            color: green.withValues(alpha:0.02),
             borderRadius: BorderRadius.circular(width*0.04),
-            border: Border.all(color: green.withOpacity(0.3)),
+            border: Border.all(color: green.withValues(alpha:0.3)),
               // image: DecorationImage(
               //     image: AssetImage(imageBaseAddress + 'manage_home.png'))
                   ),

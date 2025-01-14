@@ -40,7 +40,7 @@ class LoginCircularButton extends StatelessWidget {
           ],
         ),
         style: ElevatedButton.styleFrom(
-            backgroundColor: border == 1 ? white : black.withOpacity(0.2),
+            backgroundColor: border == 1 ? white : black.withValues(alpha:0.2),
             //  side: BorderSide(width: 2, color: black)
             shape: StadiumBorder(
                 side: BorderSide(

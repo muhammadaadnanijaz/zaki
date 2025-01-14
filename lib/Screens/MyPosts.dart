@@ -68,7 +68,7 @@ class _MyPostsState extends State<MyPosts> {
     // var height = MediaQuery.of(context).size.height;
     // var width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(0.95),
+      backgroundColor: Colors.white.withValues(alpha:0.95),
       body: Column(
         children: [
           // Expanded(

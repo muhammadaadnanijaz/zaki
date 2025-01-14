@@ -188,7 +188,7 @@ class _PayReviewState extends State<PayReview> {
                             height: height * 0.24,
                             decoration: BoxDecoration(
                               // shape: BoxShape.circle,
-                              border: Border.all(color: grey.withOpacity(0.5)),
+                              border: Border.all(color: grey.withValues(alpha:0.5)),
                               borderRadius: BorderRadius.circular(width * 0.03),
                             ),
                             child: appConstants.payRequestModel.imageUrl

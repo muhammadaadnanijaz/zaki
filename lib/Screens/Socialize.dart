@@ -73,7 +73,7 @@ class _AllActivitiesState extends State<AllActivities> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(0.95),
+      backgroundColor: Colors.white.withValues(alpha:0.95),
       floatingActionButton: CustomFloadtingActionButton(),
       bottomNavigationBar: widget.needBottomNavbar == false
           ? null
@@ -139,7 +139,7 @@ class _AllActivitiesState extends State<AllActivities> {
                     height: height * 0.07,
                     decoration: BoxDecoration(
                         color: white,
-                        border: Border.all(color: grey.withOpacity(0.4)),
+                        border: Border.all(color: grey.withValues(alpha:0.4)),
                         borderRadius: BorderRadius.circular(width * 0.08)),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),

@@ -642,7 +642,7 @@ class _LoginWithPinCodeState extends State<LoginWithPinCode> {
                       child: Container(
                         decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4),
-                                  border:Border.all(color: green.withOpacity(0.3))
+                                  border:Border.all(color: green.withValues(alpha:0.3))
                                 ),
                         child: Padding(
                           padding: EdgeInsets.all(0),

@@ -238,7 +238,7 @@ class _NewGoalState extends State<NewGoal> {
                           child: Checkbox(
                               materialTapTargetSize:
                                   MaterialTapTargetSize.shrinkWrap,
-                              activeColor: grey.withOpacity(0.6),
+                              activeColor: grey.withValues(alpha:0.6),
                               // focusColor: lightGrey,
                               // fillColor: ,
                               // fillColor: ,

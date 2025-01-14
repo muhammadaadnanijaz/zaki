@@ -41,7 +41,7 @@ class _LoginTypesListState extends State<LoginTypesList> {
           
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: grey.withOpacity(0.3)),
+              border: Border.all(color: grey.withValues(alpha:0.3)),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Padding(

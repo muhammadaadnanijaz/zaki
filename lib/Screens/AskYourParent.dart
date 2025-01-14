@@ -61,7 +61,7 @@ class _AskYourParentState extends State<AskYourParent> {
 
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.blueAccent.withOpacity(0.1),
+                      color: Colors.blueAccent.withValues(alpha:0.1),
                       borderRadius: BorderRadius.circular(14)
                     ),
                     child: Padding(

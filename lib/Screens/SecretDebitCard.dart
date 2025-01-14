@@ -234,7 +234,7 @@ class _IssueDebitCardState extends State<SecretDebitCard> {
                                     Container(
                                       decoration: BoxDecoration(
                                           color: Colors.blueAccent
-                                              .withOpacity(0.1),
+                                              .withValues(alpha:0.1),
                                           borderRadius:
                                               BorderRadius.circular(14)),
                                       child: Padding(
@@ -1111,7 +1111,7 @@ class _IssueDebitCardState extends State<SecretDebitCard> {
               alignment: Alignment.center,
               child: Icon(
                 Icons.lock_outline,
-                color: grey.withOpacity(0.4),
+                color: grey.withValues(alpha:0.4),
                 size: height * 0.2,
               ),
             )

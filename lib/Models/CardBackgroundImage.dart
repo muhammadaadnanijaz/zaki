@@ -79,7 +79,7 @@ class _CardBackGroundImageState extends State<CardBackGroundImage> {
                     padding: const EdgeInsets.only(right: 4.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: green.withOpacity(0.15)),
+                        border: Border.all(color: green.withValues(alpha: 0.15)),
                         // shape:appConstants.fromLogo == true? BoxShape.circle : BoxShape.rectangle
                       ),
                       child: Padding(
@@ -177,9 +177,9 @@ class _CardBackGroundImageState extends State<CardBackGroundImage> {
                                   // width: width * 0.25,
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: grey.withOpacity(0.5)),
+                                        color: grey.withValues(alpha:0.5)),
                                   ),
-                                  // color: Colors.grey.withOpacity(0.2),
+                                  // color: Colors.grey.withValues(alpha:0.2),
                                   child: imageList[index]
                                           .imageName!
                                           .contains('com.zakipay.teencard')
@@ -206,7 +206,7 @@ class _CardBackGroundImageState extends State<CardBackGroundImage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                    border: Border.all(color: grey.withOpacity(0.5))),
+                    border: Border.all(color: grey.withValues(alpha:0.5))),
                 child: imageUrl == '1'
                     ? Image.asset(
                         imageBaseAddress + 'image_upload.png',

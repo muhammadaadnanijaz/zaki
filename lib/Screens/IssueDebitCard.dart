@@ -424,7 +424,7 @@ class _IssueDebitCardState extends State<IssueDebitCard> {
                                             Container(
                                               decoration: BoxDecoration(
                                                   color: Colors.blueAccent
-                                                      .withOpacity(0.1),
+                                                      .withValues(alpha:0.1),
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           14)),
@@ -470,7 +470,7 @@ class _IssueDebitCardState extends State<IssueDebitCard> {
                                       if (appConstants.userModel.usaUserType ==
                                           AppConstants.USER_TYPE_PARENT)
                                         Container(
-                                          color: green.withOpacity(0.05),
+                                          color: green.withValues(alpha:0.05),
                                           width: width,
                                           child: Padding(
                                             padding: getCustomPadding(),
@@ -1321,7 +1321,7 @@ class _IssueDebitCardState extends State<IssueDebitCard> {
               alignment: Alignment.center,
               child: Icon(
                 Icons.lock_outline,
-                color: grey.withOpacity(0.4),
+                color: grey.withValues(alpha:0.4),
                 size: height * 0.2,
               ),
             )

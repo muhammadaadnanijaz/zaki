@@ -24,7 +24,7 @@ class CustomTextButton extends StatelessWidget {
         ),
       ),
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(grey.withOpacity(0.2)),
+        backgroundColor: WidgetStateProperty.all(grey.withValues(alpha:0.2)),
         shape: WidgetStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(14.0),
           // side: BorderSide(color: black),

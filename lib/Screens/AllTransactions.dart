@@ -572,7 +572,7 @@ class _AllTransactionState extends State<AllTransaction> {
                                         iconColor: green,
                                         // trailing:Icon(
                                         //         Icons.done,
-                                        //         color: grey.withOpacity(0.6),
+                                        //         color: grey.withValues(alpha:0.6),
                                         //       ),
                                         // initiallyExpanded: appConstants.userModel.subScriptionValue==2?false:true ,
                                         title: Text(
@@ -810,7 +810,7 @@ class _AllTransactionState extends State<AllTransaction> {
                                       iconColor: green,
                                       // trailing:Icon(
                                       //         Icons.done,
-                                      //         color: grey.withOpacity(0.6),
+                                      //         color: grey.withValues(alpha:0.6),
                                       //       ),
                                       // initiallyExpanded: appConstants.userModel.subScriptionValue==2?false:true ,
                                       title: Text(
@@ -941,7 +941,7 @@ class _AllTransactionState extends State<AllTransaction> {
                                       iconColor: green,
                                       // trailing:Icon(
                                       //         Icons.done,
-                                      //         color: grey.withOpacity(0.6),
+                                      //         color: grey.withValues(alpha:0.6),
                                       //       ),
                                       // initiallyExpanded: appConstants.userModel.subScriptionValue==2?false:true ,
                                       title: Text(
@@ -1063,7 +1063,7 @@ class _AllTransactionState extends State<AllTransaction> {
                                       iconColor: green,
                                       // trailing:Icon(
                                       //         Icons.done,
-                                      //         color: grey.withOpacity(0.6),
+                                      //         color: grey.withValues(alpha:0.6),
                                       //       ),
                                       // initiallyExpanded: appConstants.userModel.subScriptionValue==2?false:true ,
                                       title: Text(
@@ -1341,7 +1341,7 @@ class _AllTransactionState extends State<AllTransaction> {
                                       iconColor: green,
                                       // trailing:Icon(
                                       //         Icons.done,
-                                      //         color: grey.withOpacity(0.6),
+                                      //         color: grey.withValues(alpha:0.6),
                                       //       ),
                                       // initiallyExpanded: appConstants.userModel.subScriptionValue==2?false:true ,
                                       title: Text(
@@ -1451,7 +1451,7 @@ class _AllTransactionState extends State<AllTransaction> {
                                       iconColor: green,
                                       // trailing:Icon(
                                       //         Icons.done,
-                                      //         color: grey.withOpacity(0.6),
+                                      //         color: grey.withValues(alpha:0.6),
                                       //       ),
                                       // initiallyExpanded: appConstants.userModel.subScriptionValue==2?false:true ,
                                       title: Text(
@@ -1774,7 +1774,7 @@ class _AllTransactionState extends State<AllTransaction> {
     return BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                        color: grey.withOpacity(0.5),
+                        color: grey.withValues(alpha:0.5),
                         width: 1)
                             );
   }
@@ -1785,7 +1785,7 @@ class _AllTransactionState extends State<AllTransaction> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-      // backgroundColor: grey.withOpacity(0.98),
+      // backgroundColor: grey.withValues(alpha:0.98),
       floatingActionButton: CustomFloadtingActionButton(),
       bottomNavigationBar: CustomBottomNavigationBar(),
       body: 
@@ -1808,7 +1808,7 @@ class _AllTransactionState extends State<AllTransaction> {
             if (appConstants.userModel.usaUserType ==
                 AppConstants.USER_TYPE_PARENT)
               Container(
-                color: orange.withOpacity(0.05),
+                color: orange.withValues(alpha:0.05),
                 width: width,
                 child: Padding(
                   padding: getCustomPadding(),
@@ -2284,7 +2284,7 @@ class _AllTransactionState extends State<AllTransaction> {
                       },
                       child: Icon(
                         Icons.list,
-                        color: filterApply ? green : grey.withOpacity(0.8),
+                        color: filterApply ? green : grey.withValues(alpha:0.8),
                       )),
                 ],
               ),
@@ -3267,7 +3267,7 @@ class _AllTransactionState extends State<AllTransaction> {
                                       duration:
                                           const Duration(milliseconds: 300),
                                       color: selected == index
-                                          ? green.withOpacity(0.15)
+                                          ? green.withValues(alpha:0.15)
                                           : transparent,
                                       child: ListTile(
                                         onTap: () async {

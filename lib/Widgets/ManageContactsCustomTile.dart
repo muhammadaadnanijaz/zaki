@@ -80,7 +80,7 @@ class _ManageContactCustomTileState extends State<ManageContactCustomTile> {
         child: Container(
           height: 60,
           width: 60,
-          decoration: BoxDecoration(shape: BoxShape.circle, color: grey.withOpacity(0.2)),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: grey.withValues(alpha:0.2)),
           child: imageUrl == ''
               ? SizedBox()
               : imageUrl.contains('assets/images/')

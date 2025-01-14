@@ -210,7 +210,7 @@ class _SpendingLimitState extends State<SpendingLimit> {
                                       : Container(
                                           width: width,
                                           height: height * 0.127,
-                                          color: green.withOpacity(0.05),
+                                          color: green.withValues(alpha:0.05),
                                           child: Padding(
                                             padding: getCustomPadding(),
                                             child: StreamBuilder<QuerySnapshot>(
@@ -540,7 +540,7 @@ class _SpendingLimitState extends State<SpendingLimit> {
                                         ? true
                                         : false,
                                     textFieldColor: (appConstants.userModel.usaUserType !=
-                    AppConstants.USER_TYPE_PARENT)?grey.withOpacity(0.5): green,
+                    AppConstants.USER_TYPE_PARENT)?grey.withValues(alpha:0.5): green,
                                   ),
                               ),
                         ),
@@ -558,7 +558,7 @@ class _SpendingLimitState extends State<SpendingLimit> {
                                         ? true
                                         : false,
                                     textFieldColor: (appConstants.userModel.usaUserType !=
-                    AppConstants.USER_TYPE_PARENT)?grey.withOpacity(0.5): green,
+                    AppConstants.USER_TYPE_PARENT)?grey.withValues(alpha:0.5): green,
                                   ),
                               ),
                         spacing_large,
@@ -1038,7 +1038,7 @@ class _AllocationCustomFieldsState extends State<AllocationCustomFields> {
                 ? true
                 : false,
              textFieldColor: (appConstants.userModel.usaUserType !=
-                    AppConstants.USER_TYPE_PARENT)?grey.withOpacity(0.5): green,
+                    AppConstants.USER_TYPE_PARENT)?grey.withValues(alpha:0.5): green,
           ),
           // TextFormField(
           //                 autovalidateMode: AutovalidateMode.onUserInteraction,

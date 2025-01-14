@@ -132,7 +132,9 @@
 <!-- End For Android Alarm Manager -->
 
        <activity android:name="com.braintreepayments.api.DropInActivity"
-           android:launchMode="singleTask">
+           android:launchMode="singleTask"
+           android:exported="true"
+           >
            <intent-filter>
                <action android:name="android.intent.action.VIEW" />
                <category android:name="android.intent.category.DEFAULT" />

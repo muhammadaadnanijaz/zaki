@@ -127,7 +127,7 @@ class _ChooseImageForUploadState extends State<ChooseImageForUpload> {
                     padding: const EdgeInsets.only(right: 4.0),
                     child: Container(
                       decoration: BoxDecoration(
-                          border: Border.all(color: grey.withOpacity(0.5)),
+                          border: Border.all(color: grey.withValues(alpha:0.5)),
                           shape: appConstants.fromLogo == true
                               ? BoxShape.circle
                               : BoxShape.rectangle),
@@ -224,11 +224,11 @@ class _ChooseImageForUploadState extends State<ChooseImageForUpload> {
                                   // width: width * 0.25,
                                   decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: grey.withOpacity(0.5)),
+                                          color: grey.withValues(alpha:0.5)),
                                       shape: appConstants.fromLogo == true
                                           ? BoxShape.circle
                                           : BoxShape.rectangle),
-                                  // color: Colors.grey.withOpacity(0.2),
+                                  // color: Colors.grey.withValues(alpha:0.2),
                                   child: imageList[index]
                                           .imageName!
                                           .contains('com.zakipay.teencard')
@@ -236,7 +236,7 @@ class _ChooseImageForUploadState extends State<ChooseImageForUpload> {
                                           decoration: BoxDecoration(
                                             // shape: BoxShape.circle,
                                             border: Border.all(
-                                                color: grey.withOpacity(0.5)),
+                                                color: grey.withValues(alpha:0.5)),
                                             shape: appConstants.fromLogo == true
                                                 ? BoxShape.circle
                                                 : BoxShape.rectangle,
@@ -252,7 +252,7 @@ class _ChooseImageForUploadState extends State<ChooseImageForUpload> {
                                           decoration: BoxDecoration(
                                               // shape: BoxShape.circle,
                                               border: Border.all(
-                                                  color: grey.withOpacity(0.5)),
+                                                  color: grey.withValues(alpha:0.5)),
                                               shape:
                                                   appConstants.fromLogo == true
                                                       ? BoxShape.circle
@@ -333,7 +333,7 @@ class _ChooseImageForUploadState extends State<ChooseImageForUpload> {
                   : Container(
                       height: 200,
                       decoration: BoxDecoration(
-                          border: Border.all(color: grey.withOpacity(0.5))),
+                          border: Border.all(color: grey.withValues(alpha:0.5))),
                       child: imageUrl == '1'
                           ? Image.asset(
                               imageBaseAddress + 'image_upload.png',

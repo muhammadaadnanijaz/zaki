@@ -484,7 +484,7 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
       bottomNavigationBar: widget.needBottomNavbar == false
           ? null
           : CustomBottomNavigationBar(index: 1),
-      // backgroundColor: grey.withOpacity(0.98),
+      // backgroundColor: grey.withValues(alpha:0.98),
       body: SafeArea(
         child: loading == true
             ? CustomLoadingScreen()
@@ -1315,7 +1315,7 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                               BoxDecoration(
                                                             // shape: BoxShape.circle,
                                                             color: Colors.grey
-                                                                .withOpacity(
+                                                                .withValues(alpha:
                                                                     0.005),
                                                             borderRadius:
                                                                 BorderRadius
@@ -1324,7 +1324,7 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                                             0.03),
                                                             border: Border.all(
                                                                 color: grey
-                                                                    .withOpacity(
+                                                                    .withValues(alpha:
                                                                         0.005)),
                                                           ),
                                                           child: imageList[index]
@@ -1337,7 +1337,7 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                                     // shape: BoxShape.circle,
                                                                     border: Border.all(
                                                                         color: grey
-                                                                            .withOpacity(0.5)),
+                                                                            .withValues(alpha:0.5)),
                                                                     borderRadius:
                                                                         BorderRadius.circular(width *
                                                                             0.03),
@@ -1358,7 +1358,7 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                                     // shape: BoxShape.circle,
                                                                     border: Border.all(
                                                                         color: grey
-                                                                            .withOpacity(0.5)),
+                                                                            .withValues(alpha:0.5)),
                                                                     borderRadius:
                                                                         BorderRadius.circular(width *
                                                                             0.03),
@@ -1382,7 +1382,7 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                         decoration: BoxDecoration(
                                           // shape: BoxShape.circle,
                                           border: Border.all(
-                                              color: grey.withOpacity(0.25)),
+                                              color: grey.withValues(alpha:0.25)),
                                           borderRadius: BorderRadius.circular(
                                               width * 0.03),
                                         ),
@@ -1772,7 +1772,7 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                       (int.parse(amountController.text) >
                                           500) ||
                                       appConstants.isLoading || selectedAllocation==-2)
-                                  ? grey.withOpacity(0.6)
+                                  ? grey.withValues(alpha:0.6)
                                   : green,
                               textColor: (amountController.text.isEmpty ||
                                       selectedKidId == '' || selectedAllocation==-2 ||
@@ -3039,9 +3039,9 @@ class ImageSelector extends StatelessWidget {
         width: width * 0.26,
         decoration: BoxDecoration(
           // shape: BoxShape.circle,
-          color: Colors.grey.withOpacity(0.005),
+          color: Colors.grey.withValues(alpha:0.005),
           borderRadius: BorderRadius.circular(width * 0.03),
-          border: Border.all(color: grey.withOpacity(0.3)),
+          border: Border.all(color: grey.withValues(alpha:0.3)),
         ),
         child: IconButton(
           onPressed: onTap,

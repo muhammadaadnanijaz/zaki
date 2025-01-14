@@ -11,9 +11,9 @@ import 'package:feedback/feedback.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
+// import 'package:flutter_app_badger/flutter_app_badger.dart';
 // import 'package:flutter_braintree/flutter_braintree.dart';
-import 'package:flutter_dynamic_icon/flutter_dynamic_icon.dart';
+// import 'package:flutter_dynamic_icon/flutter_dynamic_icon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -649,7 +649,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                               borderRadius:
                                                   BorderRadius.circular(14),
                                               border: Border.all(
-                                                  color: grey.withOpacity(0.4))
+                                                  color: grey.withValues(alpha:0.4))
                                               ),
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -1079,7 +1079,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                             BoxDecoration(
                                                                 border: Border.all(
                                                                     color: grey
-                                                                        .withOpacity(
+                                                                        .withValues(alpha:
                                                                             0.3)),
                                                                 gradient:
                                                                     LinearGradient(
@@ -1093,11 +1093,11 @@ class _HomeScreensState extends State<HomeScreens> {
                                                                     transparent,
                                                                     transparent,
                                                                     transparent,
-                                                                    black.withOpacity(
+                                                                    black.withValues(alpha:
                                                                         0.45),
-                                                                    black.withOpacity(
+                                                                    black.withValues(alpha:
                                                                         0.55),
-                                                                    black.withOpacity(
+                                                                    black.withValues(alpha:
                                                                         0.9),
                                                                   ],
                                                                 )),
@@ -1402,7 +1402,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                                         '${getCurrencySymbol(context, appConstants: appConstants)}',
                                                                         style: heading3TextStyle(
                                                                             width,
-                                                                            color: white.withOpacity(0.8)),
+                                                                            color: white.withValues(alpha:0.8)),
                                                                       ),
                                                                       FittedBox(
                                                                         child: Text(
@@ -1579,7 +1579,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                                   style: heading3TextStyle(
                                                                       width,
                                                                       color: grey
-                                                                          .withOpacity(
+                                                                          .withValues(alpha:
                                                                               0.8)),
                                                                   overflow:
                                                                       TextOverflow
@@ -1760,7 +1760,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                       style: heading3TextStyle(
                                                           width,
                                                           color:
-                                                              grey.withOpacity(
+                                                              grey.withValues(alpha:
                                                                   0.8)),
                                                       overflow:
                                                           TextOverflow.ellipsis,
@@ -1850,29 +1850,29 @@ class _HomeScreensState extends State<HomeScreens> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      bool support = await FlutterAppBadger
-                                          .isAppBadgeSupported();
-                                      if (support) {
-                                        logMethod(
-                                            title: 'Supported',
-                                            message:
-                                                'Batches supports $support');
-                                        FlutterAppBadger.updateBadgeCount(20);
-                                      } else {
-                                        logMethod(
-                                            title: 'Supported',
-                                            message: 'Not supports');
-                                      }
+                                      // bool support = await FlutterAppBadger
+                                      //     .isAppBadgeSupported();
+                                      // if (support) {
+                                      //   logMethod(
+                                      //       title: 'Supported',
+                                      //       message:
+                                      //           'Batches supports $support');
+                                      //   FlutterAppBadger.updateBadgeCount(20);
+                                      // } else {
+                                      //   logMethod(
+                                      //       title: 'Supported',
+                                      //       message: 'Not supports');
+                                      // }
                                       try {
-                                        await FlutterDynamicIcon
-                                            .setApplicationIconBadgeNumber(2);
-                                        logMethod(
-                                            title: 'Called',
-                                            message: 'Successfully');
-                                        logMethod(
-                                            title: 'Name',
-                                            message:
-                                                '${await FlutterDynamicIcon.getApplicationIconBadgeNumber()}');
+                                        // await FlutterDynamicIcon
+                                        //     .setApplicationIconBadgeNumber(2);
+                                        // logMethod(
+                                        //     title: 'Called',
+                                        //     message: 'Successfully');
+                                        // logMethod(
+                                        //     title: 'Name',
+                                        //     message:
+                                        //         '${await FlutterDynamicIcon.getApplicationIconBadgeNumber()}');
                                       } on PlatformException {
                                       } catch (e) {
                                         logMethod(
@@ -3567,7 +3567,7 @@ class CustomImageHolder extends StatelessWidget {
       child: Icon(
         imageUrl,
         size: 18,
-        color: color != null ? color : black.withOpacity(0.7),
+        color: color != null ? color : black.withValues(alpha:0.7),
       ),
     );
   }
@@ -3615,7 +3615,7 @@ class TopUpMethodTile extends StatelessWidget {
       decoration: BoxDecoration(
           color: transparent,
           borderRadius: BorderRadius.circular(width! * 0.03),
-          border: Border.all(color: grey.withOpacity(0.4))),
+          border: Border.all(color: grey.withValues(alpha:0.4))),
       child: ListTile(
         onTap: onTap,
         leading: Icon(icon, color: iconColor ?? green),

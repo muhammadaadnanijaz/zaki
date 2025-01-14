@@ -405,7 +405,7 @@
 //                             child: Container(
 //                               height: height * 0.13,
 //                               width: width * 0.25,
-//                               color: Colors.grey.withOpacity(0.2),
+//                               color: Colors.grey.withValues(alpha:0.2),
 //                               child: imageList[index]
 //                                       .imageName!
 //                                       .contains('com.zakipay.teencard')

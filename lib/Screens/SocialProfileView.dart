@@ -200,7 +200,7 @@ class _SocialProfileViewState extends State<SocialProfileView> {
                           height: height * 0.07,
                           decoration: BoxDecoration(
                               color: white,
-                              border: Border.all(color: grey.withOpacity(0.4)),
+                              border: Border.all(color: grey.withValues(alpha:0.4)),
                               borderRadius:
                                   BorderRadius.circular(width * 0.08)),
                           child: Padding(

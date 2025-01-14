@@ -76,7 +76,7 @@ String checkSubscriptionValueText({int? subscriptionValue, bool? kidsEnabledStat
 OutlineInputBorder circularOutLineBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(18),
       borderSide: BorderSide(
-        color: grey.withOpacity(0.4),
+        color: grey.withValues(alpha:0.4),
       ));
 
 String encryptPin(String pin) {
@@ -607,7 +607,7 @@ Future<Placemark?> getAddressFromCoordinates({String? latlung}) async{
     return null;
   }
   logMethod(title: 'User Deatial page lat_lang', message: latlung.toString());
-      List<String> latLngList = latlung!.split(',');
+      List<String> latLngList = latlung.split(',');
     double latitude = double.parse(latLngList[0]);
     double longitude = double.parse(latLngList[1]);
   try {
@@ -1026,7 +1026,7 @@ userImage(
   return Container(
     decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: grey.withOpacity(0.5))),
+        border: Border.all(color: grey.withValues(alpha:0.5))),
     child: (imageUrl == '' && userType == "Kid" && gender == 'Male')
         ? CircleAvatar(
             backgroundColor: white,
@@ -1120,7 +1120,7 @@ RoundedRectangleBorder shape() {
 
 BoxShadow customBoxShadow({Color? color}) {
   return BoxShadow(
-    color: color!.withOpacity(0.5),
+    color: color!.withValues(alpha:0.5),
     blurRadius: 8,
     spreadRadius: 1, //New
   );
@@ -1131,8 +1131,8 @@ LinearGradient unSelectedKidGreadient() {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      lightGrey.withOpacity(0.6),
-      lightGrey.withOpacity(0.6),
+      lightGrey.withValues(alpha:0.6),
+      lightGrey.withValues(alpha:0.6),
     ],
   );
 }

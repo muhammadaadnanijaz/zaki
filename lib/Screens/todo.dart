@@ -142,7 +142,7 @@ class _TodoTasksState extends State<TodoTasks> {
             if (appConstants.userModel.usaUserType ==
                 AppConstants.USER_TYPE_PARENT)
               Container(
-                color: orange.withOpacity(0.05),
+                color: orange.withValues(alpha:0.05),
                 width: width,
                 child: Padding(
                   padding: getCustomPadding(),
@@ -576,7 +576,7 @@ class _TodoTasksState extends State<TodoTasks> {
                       Container(
                         padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            color: lightGrey.withOpacity(0.3),
+                            color: lightGrey.withValues(alpha:0.3),
                             borderRadius: BorderRadius.circular(20)),
                         child: Row(
                           children: [
@@ -598,7 +598,7 @@ class _TodoTasksState extends State<TodoTasks> {
                                     Icons.list,
                                     size: 16,
                                     color: appConstants.isGirdView == false
-                                        ? lightGrey.withOpacity(0.3)
+                                        ? lightGrey.withValues(alpha:0.3)
                                         : white,
                                   ),
                                 ),
@@ -625,7 +625,7 @@ class _TodoTasksState extends State<TodoTasks> {
                                     Icons.grid_view,
                                     size: 16,
                                     color: appConstants.isGirdView == true
-                                        ? lightGrey.withOpacity(0.3)
+                                        ? lightGrey.withValues(alpha:0.3)
                                         : white,
                                   ),
                                 ),
@@ -739,7 +739,7 @@ class _TodoTasksState extends State<TodoTasks> {
                   //   children: [
                   //     Icon(
                   //       Icons.circle_outlined,
-                  //       color: grey.withOpacity(0.4),
+                  //       color: grey.withValues(alpha:0.4),
                   //     ),
                   //     Expanded(
                   //       child: Padding(
@@ -879,7 +879,7 @@ class _TodoTasksState extends State<TodoTasks> {
                       children: [
                         Icon(
                           Icons.circle_outlined,
-                          color: grey.withOpacity(0.4),
+                          color: grey.withValues(alpha:0.4),
                         ),
                         Expanded(
                           child: Padding(

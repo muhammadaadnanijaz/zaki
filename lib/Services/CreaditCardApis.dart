@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_amazonpaymentservices/flutter_amazonpaymentservices.dart';
+// import 'package:flutter_amazonpaymentservices/flutter_amazonpaymentservices.dart';
 import 'package:http/http.dart' as http;
 import 'package:zaki/Constants/HelperFunctions.dart';
 import 'package:zaki/Models/BalanceModel.dart';
@@ -599,7 +599,7 @@ Future<String?> tokenCreationPayfort({
     logMethod(title: 'UserToken Move Money and also amount ---->>>', message: 'Sender---->>>: $senderUserToken Receiver---->>>: $receiverUserToken amount---->>>: $amount and Tag---->>>: $tags');
   //  String? sourceToken =  await createFundingSource(name: name, userToken: senderUserToken);
   //  return'';
-  String? deviceId = await FlutterAmazonpaymentservices.getUDID;
+  // String? deviceId = await FlutterAmazonpaymentservices.getUDID;
   "PASSaccess_code=SILgpo7pWbmzuURp2qriamount=1000command=PURCHASEcurrency=USDcustomer_email=test@gmail.comlanguage=enmerchant_identifier=MxvOupuGmerchant_reference=Test010PASS";
    var data = await http.post(Uri.parse('${Payfortconstants.payfortAccessTokenUrl}'),
             // headers: ApiConstants.headers(),
@@ -609,7 +609,7 @@ Future<String?> tokenCreationPayfort({
                 "access_code" : "zx0IPmPy5jp1vAz8Kpg7",
                 "merchant_identifier" : "${Payfortconstants.MERCHANT_TOKEN}",
                 "language" : "en",
-                "device_id" : "$deviceId",
+                // "device_id" : "$deviceId",
                 "signature" : "7cad05f0212ed933c9a5d5dffa31661acf2c827a"
               }
               

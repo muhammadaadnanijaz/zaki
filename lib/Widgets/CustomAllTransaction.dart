@@ -232,7 +232,7 @@ class _AllActivitiesCustomTileState extends State<AllActivitiesCustomTile> {
               children: [
                 Text(
                   '${getCurrencySymbol(context, appConstants: appConstants)}',
-                  style: heading4TextSmall(width, color: grey.withOpacity(0.8)),
+                  style: heading4TextSmall(width, color: grey.withValues(alpha:0.8)),
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.min,

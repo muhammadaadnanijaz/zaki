@@ -143,7 +143,7 @@ class _EdittedProfileState extends State<EdittedProfile> {
                           ringGradient: null,
                           fillColor: resendButtonEnabled == true
                               ? crimsonColor
-                              : grey.withOpacity(0.5),
+                              : grey.withValues(alpha:0.5),
                           fillGradient: null,
                           backgroundColor: white,
                           backgroundGradient: null,

@@ -122,7 +122,7 @@ class _InlineScrollableXState extends State<InlineScrollableX> {
                       iconColor: green,
                       // trailing:Icon(
                       //         Icons.done,
-                      //         color: grey.withOpacity(0.6),
+                      //         color: grey.withValues(alpha:0.6),
                       //       ),
                       // initiallyExpanded: appConstants.userModel.subScriptionValue==2?false:true ,
                       title: Text(
@@ -670,7 +670,7 @@ class _InlineScrollableXState extends State<InlineScrollableX> {
                       iconColor: green,
                       // trailing:Icon(
                       //         Icons.done,
-                      //         color: grey.withOpacity(0.6),
+                      //         color: grey.withValues(alpha:0.6),
                       //       ),
                       // initiallyExpanded: appConstants.userModel.subScriptionValue==2?false:true ,
                       title: Text(
@@ -750,7 +750,7 @@ class _InlineScrollableXState extends State<InlineScrollableX> {
                       iconColor: green,
                       // trailing:Icon(
                       //         Icons.done,
-                      //         color: grey.withOpacity(0.6),
+                      //         color: grey.withValues(alpha:0.6),
                       //       ),
                       // initiallyExpanded: appConstants.userModel.subScriptionValue==2?false:true ,
                       title: Text(
@@ -813,7 +813,7 @@ class _InlineScrollableXState extends State<InlineScrollableX> {
                       iconColor: green,
                       // trailing:Icon(
                       //         Icons.done,
-                      //         color: grey.withOpacity(0.6),
+                      //         color: grey.withValues(alpha:0.6),
                       //       ),
                       // initiallyExpanded: appConstants.userModel.subScriptionValue==2?false:true ,
                       title: Text(
@@ -939,7 +939,7 @@ class _InlineScrollableXState extends State<InlineScrollableX> {
                       iconColor: green,
                       // trailing:Icon(
                       //         Icons.done,
-                      //         color: grey.withOpacity(0.6),
+                      //         color: grey.withValues(alpha:0.6),
                       //       ),
                       // initiallyExpanded: appConstants.userModel.subScriptionValue==2?false:true ,
                       title: Text(

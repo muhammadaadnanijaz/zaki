@@ -135,7 +135,7 @@ class _EmailVerficationState extends State<EmailVerfication> {
                         height: 60,
                         ringColor: resendButtonEnabled==true ? crimsonColor: Colors.green[300]!,
                         ringGradient: null,
-                        fillColor: resendButtonEnabled==true ? crimsonColor: grey.withOpacity(0.5),
+                        fillColor: resendButtonEnabled==true ? crimsonColor: grey.withValues(alpha:0.5),
                         fillGradient: null,
                         backgroundColor: white,
                         backgroundGradient: null,

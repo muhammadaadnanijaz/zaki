@@ -158,7 +158,7 @@ class _ContactListTileWidgetState extends State<ContactListTileWidget> {
             child: (widget.contacts.photo == null)
                 ? 
                 CircleAvatar(
-                  backgroundColor: grey.withOpacity(0.4),
+                  backgroundColor: grey.withValues(alpha:0.4),
                   child: Icon(
                     Icons.person,
                     color: white,

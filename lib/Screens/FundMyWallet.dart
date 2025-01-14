@@ -28,8 +28,8 @@ import '../Services/api.dart';
 // import '../Widgets/SSLCustomRow.dart';
 import '../Widgets/CustomLoadingScreen.dart';
 import '../Widgets/ZakiPrimaryButton.dart';
-import 'package:flutter_amazonpaymentservices/environment_type.dart';
-import 'package:flutter_amazonpaymentservices/flutter_amazonpaymentservices.dart';
+// import 'package:flutter_amazonpaymentservices/environment_type.dart';
+// import 'package:flutter_amazonpaymentservices/flutter_amazonpaymentservices.dart';
 
 
 class FundMyWallet extends StatefulWidget {
@@ -196,7 +196,7 @@ class _FundMyWalletState extends State<FundMyWallet> {
                                                   //  isCardChecked
                                                   //     ?
                                                   black
-                                              // : grey.withOpacity(0.8)
+                                              // : grey.withValues(alpha:0.8)
                                               ),
                                         ),
                                       ],
@@ -256,7 +256,7 @@ class _FundMyWalletState extends State<FundMyWallet> {
                                                   //  isCardChecked
                                                   //     ?
                                                   black
-                                              // : grey.withOpacity(0.8)
+                                              // : grey.withValues(alpha:0.8)
                                               ),
                                         ),
                                       ],
@@ -409,7 +409,7 @@ class _FundMyWalletState extends State<FundMyWallet> {
                                           //  isCardChecked
                                           //     ?
                                           black
-                                      // : grey.withOpacity(0.8)
+                                      // : grey.withValues(alpha:0.8)
                                       ),
                                 ),
                                 // Transform.scale(
@@ -1020,7 +1020,8 @@ class _FundMyWalletState extends State<FundMyWallet> {
                       }; 
 
                       try {
-                        var result = await FlutterAmazonpaymentservices.normalPay(requestParam, EnvironmentType.sandbox, isShowResponsePage: true);
+                        var result = '';
+                        // await FlutterAmazonpaymentservices.normalPay(requestParam, EnvironmentType.sandbox, isShowResponsePage: true);
                         logMethod(title: "Payment status", message: result.toString());
                       } on PlatformException catch (e) 
                       {

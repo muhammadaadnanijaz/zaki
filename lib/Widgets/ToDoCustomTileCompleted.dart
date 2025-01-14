@@ -26,7 +26,7 @@ class ToDoCustomTileCompleted extends StatefulWidget {
 }
 
 class _ToDoCustomTileCompletedState extends State<ToDoCustomTileCompleted> {
-  // Color color = grey.withOpacity(0.4);
+  // Color color = grey.withValues(alpha:0.4);
   bool isClicked = false;
   @override
   Widget build(BuildContext context) {

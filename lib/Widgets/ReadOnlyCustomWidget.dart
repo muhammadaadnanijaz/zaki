@@ -30,7 +30,7 @@ class ReadOnlyCustomWidget extends StatelessWidget {
               spacing_small,
               Text(
                 'You can\'t edit',
-                style: heading1TextStyle(context, width, color: grey.withOpacity(0.5)),
+                style: heading1TextStyle(context, width, color: grey.withValues(alpha:0.5)),
                 )
           ],
         ),

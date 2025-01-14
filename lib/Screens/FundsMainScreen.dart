@@ -44,7 +44,7 @@
 //             //         height: height * 0.06,
 //             //         decoration: BoxDecoration(
 //             //             color: transparent,
-//             //             border: Border.all(color: grey.withOpacity(0.4)),
+//             //             border: Border.all(color: grey.withValues(alpha:0.4)),
 //             //             borderRadius: BorderRadius.circular(width * 0.08)),
 //             //         child: Row(
 //             //           children: [

@@ -272,7 +272,7 @@ class _WhatsAppLoginScreenState extends State<WhatsAppLoginScreen> {
                                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: green.withOpacity(0.3)),
+                                        border: Border.all(color: green.withValues(alpha:0.3)),
                                         borderRadius: BorderRadius.circular(6)
                                       ),
                                       child: Padding(
@@ -301,7 +301,7 @@ class _WhatsAppLoginScreenState extends State<WhatsAppLoginScreen> {
                                 if (currentUserTouchId != null && canAuthenticate)
                                   Container(
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: green.withOpacity(0.3)),
+                                      border: Border.all(color: green.withValues(alpha:0.3)),
                                       borderRadius: BorderRadius.circular(6)
                                     ),
                                     child: Padding(

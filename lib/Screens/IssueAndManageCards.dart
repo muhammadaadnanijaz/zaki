@@ -157,7 +157,7 @@ import '../Constants/Styles.dart';
 //               Container(
 //                 decoration: BoxDecoration(
 //                   borderRadius: BorderRadius.circular(10),
-//                   color: green.withOpacity(0.15)
+//                   color: green.withValues(alpha:0.15)
 //                 ),
 //                 child: Padding(
 //                   padding: const EdgeInsets.all(12.0),
@@ -525,7 +525,7 @@ class CustomDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Divider(
-      color: black.withOpacity(0.5),
+      color: black.withValues(alpha:0.5),
     );
   }
 }

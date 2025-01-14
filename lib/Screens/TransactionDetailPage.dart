@@ -55,7 +55,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       Card(
                         shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
-                        side: BorderSide(color: grey.withOpacity(0.5))
+                        side: BorderSide(color: grey.withValues(alpha:0.5))
                         //set border radius more than 50% of height and width to make circle
                       ),
                       child: Padding(
@@ -135,7 +135,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                               Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(color: grey.withOpacity(0.5))
+                      side: BorderSide(color: grey.withValues(alpha:0.5))
                       //set border radius more than 50% of height and width to make circle
                     ),
                     child: Padding(

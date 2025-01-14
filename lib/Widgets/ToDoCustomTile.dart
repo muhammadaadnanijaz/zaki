@@ -45,7 +45,7 @@ class _ToDoCustomTileState extends State<ToDoCustomTile> {
   TextEditingController toDoTextContoller = TextEditingController();
   bool isTextFieldClicked = false;
   // bool? isExistTwice = false;
-  Color? color = grey.withOpacity(0.4);
+  Color? color = grey.withValues(alpha:0.4);
   @override
   void initState() {
     // isExist();
@@ -173,7 +173,7 @@ class _ToDoCustomTileState extends State<ToDoCustomTile> {
                       todoId: widget.snapshot.id);
                   logMethod(title: '2nd function', message: 'Called');
                   setState(() {
-                    color = grey.withOpacity(0.4);
+                    color = grey.withValues(alpha:0.4);
                   });
                 });
               },
@@ -252,7 +252,7 @@ class _ToDoCustomTileState extends State<ToDoCustomTile> {
                             : true,
                     date: widget.snapshot[AppConstants.DO_DUE_DATE].toDate());
               },
-              backgroundColor: lightGrey.withOpacity(0.3),
+              backgroundColor: lightGrey.withValues(alpha:0.3),
               foregroundColor: white,
               padding: EdgeInsets.zero,
               borderRadius: BorderRadius.only(
@@ -471,7 +471,7 @@ class _ToDoCustomTileState extends State<ToDoCustomTile> {
                         //             widget.snapshot[AppConstants.ToDo_WithReward] ==true
                         //                 ? Color(0XFFF9FFF9)
                         //                 : transparent,
-                        //         border: Border.all(color: black.withOpacity(0.1)),
+                        //         border: Border.all(color: black.withValues(alpha:0.1)),
                         //         borderRadius: BorderRadius.circular(width * 0.05),
                         //       )
                         //     :
@@ -704,7 +704,7 @@ class _ToDoCustomTileState extends State<ToDoCustomTile> {
                                             toDoStatus: 'Completed',
                                             todoId: widget.snapshot.id);
                                         setState(() {
-                                          color = grey.withOpacity(0.4);
+                                          color = grey.withValues(alpha:0.4);
                                         });
                                       });
                                       return;
@@ -765,7 +765,7 @@ class _ToDoCustomTileState extends State<ToDoCustomTile> {
                                           toDoStatus: 'Completed',
                                           todoId: widget.snapshot.id);
                                       setState(() {
-                                        color = grey.withOpacity(0.4);
+                                        color = grey.withValues(alpha:0.4);
                                       });
                                     });
                                   },
@@ -787,13 +787,13 @@ class _ToDoCustomTileState extends State<ToDoCustomTile> {
                                             appConstants
                                                     .userModel.usaUserType ==
                                                 'Kid')
-                                        ? green.withOpacity(0.4)
+                                        ? green.withValues(alpha:0.4)
                                         : widget.snapshot[AppConstants
                                                     .DO_Deleted_By] ==
                                                 "Kid"
-                                            ? grey.withOpacity(0.4)
+                                            ? grey.withValues(alpha:0.4)
                                             : color
-                                // grey.withOpacity(0.4),
+                                // grey.withValues(alpha:0.4),
                                 ),
                           ),
                           Expanded(
@@ -972,7 +972,7 @@ class _ToDoCustomTileState extends State<ToDoCustomTile> {
                               },
                               child: Icon(
                                 Icons.info_outline,
-                                color: grey.withOpacity(0.4),
+                                color: grey.withValues(alpha:0.4),
                               ))
                           // :
                           // ZakiCicularButton(
@@ -1013,7 +1013,7 @@ class _ToDoCustomTileState extends State<ToDoCustomTile> {
                   Padding(
                     padding: const EdgeInsets.only(left: 30.0),
                     child: Divider(
-                      color: grey.withOpacity(0.3),
+                      color: grey.withValues(alpha:0.3),
                     ),
                   )
                 ],
@@ -1321,7 +1321,7 @@ class _ToDoCustomTileState extends State<ToDoCustomTile> {
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Divider(color: lightGrey.withOpacity(0.4)),
+                            child: Divider(color: lightGrey.withValues(alpha:0.4)),
                           ),
                         (weekListDate == null ||
                                 selectedToDoTypeIndex == 1 ||
@@ -1806,7 +1806,7 @@ class _ToDoCustomTileState extends State<ToDoCustomTile> {
                               //             );
                               //         ApiServices().toDoCompltedTask(userId: widget.selectedUserId, dueDate: DateTime.now(), toDoStatus: 'Completed', todoId: widget.snapshot.id);
                               //     //     setState(() {
-                              //     //   color = grey.withOpacity(0.4);
+                              //     //   color = grey.withValues(alpha:0.4);
                               //     // });
                               //       });
                               //         // return;
@@ -1840,7 +1840,7 @@ class _ToDoCustomTileState extends State<ToDoCustomTile> {
                               //           );
                               //       // ApiServices().toDoCompltedTask(userId: widget.selectedUserId, dueDate: DateTime.now(), toDoStatus: 'Completed', todoId: widget.snapshot.id);
                               //     //   setState(() {
-                              //     //   color = grey.withOpacity(0.4);
+                              //     //   color = grey.withValues(alpha:0.4);
                               //     // });
                               //     });
 

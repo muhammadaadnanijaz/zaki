@@ -21,7 +21,7 @@ class TopUpMethodTile extends StatelessWidget {
       decoration: BoxDecoration(
           color: transparent,
           borderRadius: BorderRadius.circular(width! * 0.03),
-          border: Border.all(color: grey.withOpacity(0.4))),
+          border: Border.all(color: grey.withValues(alpha:0.4))),
       child: ListTile(
         onTap: onTap,
         leading: Icon(icon, color: black),

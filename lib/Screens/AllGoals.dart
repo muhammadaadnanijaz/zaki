@@ -119,7 +119,7 @@ class _AllGoalsState extends State<AllGoals> {
                     ),
                   )),
               Container(
-                color: blue.withOpacity(0.15),
+                color: blue.withValues(alpha:0.15),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: width * 0.075,
@@ -129,7 +129,7 @@ class _AllGoalsState extends State<AllGoals> {
                     height: height * 0.06,
                     decoration: BoxDecoration(
                         color: white,
-                        border: Border.all(color: grey.withOpacity(0.4)),
+                        border: Border.all(color: grey.withValues(alpha:0.4)),
                         borderRadius: BorderRadius.circular(width * 0.08)),
                     child: Row(
                       children: [
@@ -351,7 +351,7 @@ class GoalsStatusButton extends StatelessWidget {
           color: backGroundColor == 0 ? blue : transparent,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-              color: backGroundColor == 0 ? blue : grey.withOpacity(0.4),
+              color: backGroundColor == 0 ? blue : grey.withValues(alpha:0.4),
               width: backGroundColor == 0 ? 1 : 2)),
       child: Padding(
         padding: const EdgeInsets.all(4.0),

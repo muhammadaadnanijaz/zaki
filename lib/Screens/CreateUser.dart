@@ -47,7 +47,7 @@ class _IssueDebitCardFieldsState extends State<CreateUser> {
   OutlineInputBorder circularOutLineBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(18),
       borderSide: BorderSide(
-        color: grey.withOpacity(0.4),
+        color: grey.withValues(alpha:0.4),
       ));
 
   @override
@@ -101,7 +101,7 @@ class _IssueDebitCardFieldsState extends State<CreateUser> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Card(
-                        // color: white.withOpacity(0.1),
+                        // color: white.withValues(alpha:0.1),
                         // elevation: 3,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -553,7 +553,7 @@ class _IssueDebitCardFieldsState extends State<CreateUser> {
                                             style: heading3TextStyle(width,
                                                 color: isCardChecked
                                                     ? black
-                                                    : grey.withOpacity(0.8)),
+                                                    : grey.withValues(alpha:0.8)),
                                           ),
                                           // Transform.scale(
                                           //   scale: 0.6,
@@ -1008,7 +1008,7 @@ class _IssueDebitCardFieldsState extends State<CreateUser> {
                     ),
                     spacing_medium,
                     Card(
-                        // color: white.withOpacity(0.1),
+                        // color: white.withValues(alpha:0.1),
                         // elevation: 3,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),

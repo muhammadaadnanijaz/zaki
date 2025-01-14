@@ -26,7 +26,7 @@ import 'Constants/AppConstants.dart';
 import 'Constants/CheckInternetConnections.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 // import 'Screens/CustomPermissions.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
+// import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'Services/SharedPrefMnager.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -313,15 +313,15 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) async {
-      bool support = await FlutterAppBadger.isAppBadgeSupported();
-      if (support) {
-        logMethod(title: 'Supported', message: 'Batches supports');
-      } else {
-        logMethod(title: 'Supported', message: 'Not supports');
-      }
+      // bool support = await FlutterAppBadger.isAppBadgeSupported();
+      // if (support) {
+      //   logMethod(title: 'Supported', message: 'Batches supports');
+      // } else {
+      //   logMethod(title: 'Supported', message: 'Not supports');
+      // }
       if (message != null) {
         String? currentUserId = await userPref.getCurrentUserId();
-        FlutterAppBadger.updateBadgeCount(1);
+        // FlutterAppBadger.updateBadgeCount(1);
         showNotification(
             error: 0,
             icon: Icons.notification_add,
@@ -348,7 +348,7 @@ class _MyAppState extends State<MyApp> {
             playSound: true,
           )),
           payload: jsonEncode(message.toMap()));
-      FlutterAppBadger.updateBadgeCount(1);
+      // FlutterAppBadger.updateBadgeCount(1);
       // FlutterBeep.playSysSound(41);
       String? currentUserId = await userPref.getCurrentUserId();
       await insertNotificationInToDb(message, currentUserId.toString());

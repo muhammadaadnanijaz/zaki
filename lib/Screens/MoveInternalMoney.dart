@@ -108,7 +108,7 @@ class _MoveInternalMoneyState extends State<MoveInternalMoney> {
                       ),
                     ),
                     Divider(
-                      color: black.withOpacity(0.35),
+                      color: black.withValues(alpha:0.35),
                     ),
                     spacing_medium,
                     Text(
@@ -139,7 +139,7 @@ class _MoveInternalMoneyState extends State<MoveInternalMoney> {
                       ),
                     ),
                     Divider(
-                      color: black.withOpacity(0.35),
+                      color: black.withValues(alpha:0.35),
                     ),
                     spacing_medium,
                     Text(
