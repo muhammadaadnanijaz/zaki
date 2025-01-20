@@ -16,7 +16,7 @@ workflows:
           flutter build appbundle --build-number=$PROJECT_BUILD_NUMBER
     artifacts:
       - build/**/outputs/**/*.aab
-      publishing:
+    publishing:
       google_play:
         credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT
         track: aplha
