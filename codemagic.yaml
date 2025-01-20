@@ -18,7 +18,7 @@ workflows:
       - build/**/outputs/**/*.aab
     publishing:
       google_play:
-        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
         track: aplha
 
   ios-build-only:
