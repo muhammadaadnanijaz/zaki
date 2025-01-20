@@ -849,11 +849,17 @@ DateTime getCardExpiry() {
 }
 
 Future<String?> getToken() async {
+  try {
+    // await Future.delayed(Duration(seconds: 1));
    String? token = await FirebaseMessaging.instance.getToken();
   // FirebaseMessaging messaging = FirebaseMessaging.instance;
   // String? token = await messaging.getToken();
   log(token!, name: 'token is genrated');
   return token;
+  } catch (e) {
+    return null;
+  }
+  
 }
   DateTime calculateNextDate(DateTime current, String repeat) {
     DateTime currentDate = DateTime.now();

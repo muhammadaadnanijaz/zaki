@@ -2,6 +2,7 @@
 // import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:feedback/feedback.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -300,7 +301,26 @@ class _MyAppState extends State<MyApp> {
         criticalAlert: true,
         provisional: false,
         sound: true);
+    if (Platform.isIOS) {
+    String? apnsToken = await messaging.getAPNSToken();
+    if (apnsToken != null) {
+      await messaging.subscribeToTopic(AppConstants.ZAKI_PAY_TOPIC);
+    } else {
+      await Future<void>.delayed(
+        const Duration(
+          seconds: 3,
+        ), 
+      );
+      apnsToken = await messaging.getAPNSToken();
+      if (apnsToken != null) {
+        await messaging.subscribeToTopic(AppConstants.ZAKI_PAY_TOPIC);
+      }
+    }
+  } else {
+    // await _firebaseMessaging.subscribeToTopic(personID);
     messaging.subscribeToTopic(AppConstants.ZAKI_PAY_TOPIC);
+  }
+    
   }
 
   void checkStateForNotification() async {
@@ -374,8 +394,12 @@ class _MyAppState extends State<MyApp> {
   }
 
   void getToken() async {
-    String? token = await messaging.getToken();
+    try {
+      String? token = await messaging.getToken();
     logMethod(title: 'Token====>>>>>>', message: token);
+    } catch (e) {
+      logMethod(title: 'Error', message: e.toString()); 
+    }
     // log(token!, name: 'token is genrated');
   }
 

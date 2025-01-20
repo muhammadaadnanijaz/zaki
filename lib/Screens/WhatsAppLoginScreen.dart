@@ -140,11 +140,15 @@ class _WhatsAppLoginScreenState extends State<WhatsAppLoginScreen> {
   @override
   void initState() {
      Future.delayed(Duration.zero, () async {
-      UserPreferences userPref = UserPreferences();
+      if(Platform.isAndroid){
+        UserPreferences userPref = UserPreferences();
       bool? userStatusSaved = await userPref.getUserPermssionStatusSave();
       if(userStatusSaved==false||userStatusSaved==null){
         _showDisclosureDialog(context);
-      }    
+      }   
+      }
+
+       
    });
     checkUserTouchId();
     super.initState();

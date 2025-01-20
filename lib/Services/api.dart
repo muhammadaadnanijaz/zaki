@@ -2823,6 +2823,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
     }
   }
   Future storingFirebaseToken({String? id}) async {
+    // await Future.delayed(Duration(seconds: 1));
     String? token = await getToken();
     await FirebaseFirestore.instance
         .collection(AppConstants.USER)
