@@ -14,8 +14,7 @@ workflows:
           flutter build appbundle --build-number=$PROJECT_BUILD_NUMBER
     artifacts:
       - build/**/outputs/**/*.aab
-  
-    ios-build-only:
+  ios-build-only:
     name: iOS Build Workflow
     instance_type: mac_mini_m1
     max_build_duration: 60
