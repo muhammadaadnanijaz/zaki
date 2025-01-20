@@ -4,6 +4,8 @@ workflows:
     instance_type: mac_mini_m1
     max_build_duration: 30
     environment:
+      groups:
+        - google_credentials
       flutter: stable
     scripts:
       - name: Install Flutter Dependencies
@@ -14,6 +16,11 @@ workflows:
           flutter build appbundle --build-number=$PROJECT_BUILD_NUMBER
     artifacts:
       - build/**/outputs/**/*.aab
+      publishing:
+      google_play:
+        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT
+        track: aplha
+
   ios-build-only:
     name: iOS Build Workflow
     instance_type: mac_mini_m1
