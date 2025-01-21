@@ -16,25 +16,26 @@ workflows:
     scripts:
       - name: Setup the keystore
         script: |
-          echo $KEYSTORE_FILE | base64 --decode > /Users/macbookair/uploads-keystore.jks
-          cat >> "$CM_BUILD_DIR/android/key.properties" << EOF
+          # Decode and save the keystore file
+          echo $KEYSTORE_FILE | base64 --decode > $CM_BUILD_DIR/android/app/uploads-keystore.jks
+
+          # Create the key.properties file
+          cat > $CM_BUILD_DIR/android/key.properties << EOF
           storePassword=$KEYSTORE_PASSWORD
-          keyPassword=$KEYSTORE_KEY_PASSWORD
-          keyAlias=upload
-          storeFile=/Users/macbookair/uploads-keystore.jks
+          keyPassword=$KEY_PASSWORD
+          keyAlias=$KEY_ALIAS
+          storeFile=$CM_BUILD_DIR/android/app/uploads-keystore.jks
           EOF
       - name: Build AAB
         script: |
-          cd $CM_BUILD_DIR
-          flutter packages pub get
+          flutter pub get
           flutter build appbundle --build-number=$PROJECT_BUILD_NUMBER
     artifacts:
       - build/**/outputs/**/*.aab
-
     publishing:
       google_play:
         credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-        track: alpha
+        track: internal
 
   android-build-only:
     name: Android Build Workflow
@@ -45,18 +46,21 @@ workflows:
         - google_credentials
       flutter: stable
     scripts:
-      - name: Install Flutter Dependencies
+      - name: Setup the keystore
         script: |
-          flutter pub get
+          echo $KEYSTORE_FILE | base64 --decode > $CM_BUILD_DIR/android/app/uploads-keystore.jks
+          cat > $CM_BUILD_DIR/android/key.properties << EOF
+          storePassword=$KEYSTORE_PASSWORD
+          keyPassword=$KEY_PASSWORD
+          keyAlias=$KEY_ALIAS
+          storeFile=$CM_BUILD_DIR/android/app/uploads-keystore.jks
+          EOF
       - name: Build App Bundle (AAB)
         script: |
+          flutter pub get
           flutter build appbundle --build-number=$PROJECT_BUILD_NUMBER
     artifacts:
       - build/**/outputs/**/*.aab
-    publishing:
-      google_play:
-        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-        track: aplha
 
   ios-build-only:
     name: iOS Build Workflow
@@ -67,10 +71,8 @@ workflows:
       xcode: latest
     scripts:
       - name: Install Flutter Dependencies
-        script: |
-          flutter pub get
+        script: flutter pub get
       - name: Build iOS App
-        script: |
-          flutter build ipa --release --build-number=$PROJECT_BUILD_NUMBER
+        script: flutter build ipa --release --build-number=$PROJECT_BUILD_NUMBER
     artifacts:
       - build/ios/ipa/*.ipa
