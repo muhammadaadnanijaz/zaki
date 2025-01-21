@@ -16,10 +16,22 @@ workflows:
           flutter build appbundle --build-number=$PROJECT_BUILD_NUMBER
     artifacts:
       - build/**/outputs/**/*.aab
+    scripts:
+      - name: Setup the keystore
+        script: |
+          echo $KEYSTORE_FILE | base64 --decode > /Users/macbookair/uploads-keystore.jks
+          cat >> "$CM_BUILD_DIR/android/key.properties" << EOF
+          storePassword=$KEYSTORE_PASSWORD
+          keyPassword=$KEYSTORE_KEY_PASSWORD
+          keyAlias=upload
+          storeFile=/Users/macbookair/uploads-keystore.jks
+          EOF
+
     publishing:
       google_play:
         credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-        track: aplha
+        track: internal
+        submit_as_draft: true
 
   ios-build-only:
     name: iOS Build Workflow
