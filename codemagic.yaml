@@ -17,6 +17,8 @@ workflows:
       - name: Setup the keystore
         script: |
           # Decode the keystore file from the environment variable
+          mkdir -p $CM_BUILD_DIR/android/app
+          
           echo $KEYSTORE_FILE | base64 --decode > $CM_BUILD_DIR/android/app/uploads-keystore.jks
 
           # Create the key.properties file
