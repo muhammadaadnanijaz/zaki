@@ -16,8 +16,15 @@ def flutterVersionName = (localProperties.getProperty('flutter.versionName') ?: 
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
+
+// ✅ Local or CI: dynamically load keystore
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} else {
+    keystoreProperties['storeFile'] = 'uploads-keystore.jks'
+    keystoreProperties['storePassword'] = System.getenv("ZAKI_KEYSTORE_PASSWORD")
+    keystoreProperties['keyAlias'] = System.getenv("ZAKI_KEY_ALIAS")
+    keystoreProperties['keyPassword'] = System.getenv("ZAKI_KEY_PASSWORD")
 }
 
 android {
@@ -28,17 +35,17 @@ android {
         applicationId "com.zakipay.teencard"
         minSdkVersion 24
         targetSdkVersion 36
-        versionCode 1
-        versionName "1.0"
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
         multiDexEnabled true
     }
 
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
             storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
         }
     }
 
@@ -55,15 +62,12 @@ android {
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-        // Needed by flutter_local_notifications and other libs using java.time, etc.
-        // coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
         jvmTarget = '17'
     }
 
-    // New lint block (replaces deprecated lintOptions)
     lint {
         abortOnError false
         checkReleaseBuilds false
@@ -80,31 +84,16 @@ flutter {
 }
 
 dependencies {
-    // Desugaring (v2.1.4 required by flutter_local_notifications)
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.4"
-    // implementation "org.jetbrains.kotlin:kotlin-stdlib:2.0.21"
-
-
-    // Your existing deps
     implementation 'io.card:android-sdk:5.+'
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
     implementation 'org.jetbrains:annotations:16.0.2'
-    // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    // implementation "org.jetbrains.kotlin:kotlin-stdlib:2.1.10"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:2.1.0"
     implementation "androidx.appcompat:appcompat:1.7.0"
     implementation "com.google.android.material:material:1.12.0"
-
-
-
-
-    // Firebase BOM (keep or bump as you wish)
     implementation platform('com.google.firebase:firebase-bom:32.1.1')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
-
-    // DO NOT include explicit kotlin-stdlib with a version here —
-    // the Kotlin plugin supplies the correct stdlib to avoid version conflicts.
 }
