@@ -1,0 +1,37 @@
+name: Deploy to Google Play
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on tag like v1.0.0
+
+jobs:
+  build:
+    name: Build and Deploy AAB
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.x'  # replace if you're using a different version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build release AAB
+        run: flutter build appbundle --release
+
+      - name: Decode Google Play Key
+        run: echo "${{ secrets.GOOGLE_PLAY_JSON_KEY }}" | base64 -d > /tmp/play_key.json
+
+      - name: Deploy with Fastlane
+        run: |
+          cd android
+          bundle install || gem install bundler && bundle install
+          fastlane deploy
+        env:
+          GOOGLE_PLAY_JSON_KEY: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
