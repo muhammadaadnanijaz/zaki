@@ -1,3 +1,4 @@
+# .github/workflows/deploy.yml
 name: Deploy to Google Play
 
 on:
@@ -22,14 +23,16 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.35.4'  # change this if you're using a different version
+          flutter-version: '3.35.4'  # adjust to your SDK
 
       - name: Install dependencies
         run: flutter pub get
 
+      # Decode your Android keystore for signing
       - name: Decode Keystore
         run: echo "${{ secrets.ZAKI_KEYSTORE_BASE64 }}" | base64 -d > android/app/uploads-keystore.jks
 
+      # Build the release bundle (signed via env consumed in build.gradle)
       - name: Build release AAB
         run: flutter build appbundle --release
         env:
@@ -37,10 +40,30 @@ jobs:
           ZAKI_KEY_ALIAS: ${{ secrets.ZAKI_KEY_ALIAS }}
           ZAKI_KEY_PASSWORD: ${{ secrets.ZAKI_KEY_PASSWORD }}
 
+      # Prepare Google Play JSON key file for fastlane supply
+      - name: Decode Google Play JSON Key
+        run: echo "${{ secrets.GOOGLE_PLAY_JSON_KEY }}" | base64 -d > /tmp/play_key.json
+
+      # Proper Ruby + Bundler setup (fixes "bundle not found" and perms)
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: android
+
+      # Install fastlane (via Gemfile created by fastlane init)
+      - name: Bundle install (android)
+        working-directory: android
+        run: bundle install --path vendor/bundle
+
+      # Run fastlane using bundler; only uploads the already-built AAB
       - name: Deploy with Fastlane
-        run: |
-          cd android
-          bundle install || gem install bundler && bundle install
-          fastlane deploy
+        working-directory: android
+        run: bundle exec fastlane deploy
         env:
+          # Fastlane will read this file path
           GOOGLE_PLAY_JSON_KEY: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
+          ZAKI_KEYSTORE_PASSWORD: ${{ secrets.ZAKI_KEYSTORE_PASSWORD }}
+          ZAKI_KEY_ALIAS: ${{ secrets.ZAKI_KEY_ALIAS }}
+          ZAKI_KEY_PASSWORD: ${{ secrets.ZAKI_KEY_PASSWORD }}
