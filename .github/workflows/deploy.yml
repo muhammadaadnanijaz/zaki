@@ -3,7 +3,7 @@ name: Deploy to Google Play
 on:
   push:
     branches:
-      - main  # Trigger on push to main branch
+      - main
 
 jobs:
   build:
@@ -13,19 +13,29 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Set up Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.35.4'  # Update if needed
+          flutter-version: '3.35.4'  # change this if you're using a different version
 
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Decode Keystore
+        run: echo "${{ secrets.ZAKI_KEYSTORE_BASE64 }}" | base64 -d > android/app/uploads-keystore.jks
+
       - name: Build release AAB
         run: flutter build appbundle --release
-
-      - name: Decode Google Play Key
-        run: echo "${{ secrets.GOOGLE_PLAY_JSON_KEY }}" | base64 -d > /tmp/play_key.json
+        env:
+          ZAKI_KEYSTORE_PASSWORD: ${{ secrets.ZAKI_KEYSTORE_PASSWORD }}
+          ZAKI_KEY_ALIAS: ${{ secrets.ZAKI_KEY_ALIAS }}
+          ZAKI_KEY_PASSWORD: ${{ secrets.ZAKI_KEY_PASSWORD }}
 
       - name: Deploy with Fastlane
         run: |
