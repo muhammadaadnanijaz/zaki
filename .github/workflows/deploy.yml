@@ -2,12 +2,11 @@ name: Deploy to Google Play
 
 on:
   push:
-    tags:
-      - 'v*'  # Triggers on tag like v1.0.0
+    branches:
+      - main  # Trigger on push to main branch
 
 jobs:
   build:
-    name: Build and Deploy AAB
     runs-on: ubuntu-latest
 
     steps:
@@ -17,7 +16,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.13.x'  # replace if you're using a different version
+          flutter-version: '3.13.x'  # Update if needed
 
       - name: Install dependencies
         run: flutter pub get
