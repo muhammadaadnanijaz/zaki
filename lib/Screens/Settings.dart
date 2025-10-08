@@ -1,8 +1,9 @@
-import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
+// import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/AppConstants.dart';
 import 'package:zaki/Constants/AuthMethods.dart';
@@ -21,14 +22,12 @@ import 'package:zaki/Screens/SpendingLimit.dart';
 import 'package:zaki/Screens/WhatsAppLoginScreen.dart';
 import 'package:zaki/Services/api.dart';
 import 'package:zaki/Widgets/FloatingActionButton.dart';
-// import 'package:zaki/Widgets/TermsView.dart';
 import '../Constants/Spacing.dart';
 import '../Services/SharedPrefMnager.dart';
 import '../Widgets/AppBars/AppBar.dart';
 import '../Widgets/CustomBottomNavigationBar.dart';
 import '../Widgets/ProfileListTileButton.dart';
 import 'AccountNickNameScreen.dart';
-import 'FundMyWallet.dart';
 import 'InviteMainScreen.dart';
 import 'IssueDebitCard.dart';
 import 'ManageContacts.dart';
@@ -44,11 +43,26 @@ class _SettingsMainScreenState extends State<SettingsMainScreen> {
   int selectedIndex = -1;
   double circularSpacing= 15;
   double verticallyPadding= 8;
+  String version = '';
+  String buildNumber = '';
   // Stream<QuerySnapshot>? userKids;
   @override
   void initState() {
     super.initState();
     checkPermissions();
+    checkVersion();
+  }
+  checkVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+// String appName = packageInfo.appName;
+// String packageName = packageInfo.packageName;
+String latestVersion = packageInfo.version;
+String latestBuildNumber = packageInfo.buildNumber;
+setState(() {
+  version = latestVersion;
+  buildNumber = latestBuildNumber;
+});
   }
 
   void checkPermissions() async {
@@ -155,25 +169,29 @@ class _SettingsMainScreenState extends State<SettingsMainScreen> {
                                 )));
                   },
                 ),
+                if(appConstants.isShareFeature)
+                Column(
+                  children: [
                 spacing_medium,
                 ProfileListTileButton( color: green,
                   width: width,
                   icon: Icons.share,
                   title: 'Share My Username',
                   onTap: () async {
-                    final ByteData bytes =
-                        await rootBundle.load(imageBaseAddress + 'share.png');
-                    await Share.file(
-                      'Share My Image',
-                      'esys.png',
-                      bytes.buffer.asUint8List(),
-                      'image/png',
-                      text:
-                          "${appConstants.userModel.usaUserName} ${AppConstants.ZAKI_PAY_PROMOTIONAL_TEXT}",
-                    );
+                    // final ByteData bytes =
+                    //     await rootBundle.load(imageBaseAddress + 'share.png');
+                    // await Share.file(
+                    //   'Share My Image',
+                    //   'esys.png',
+                    //   bytes.buffer.asUint8List(),
+                    //   'image/png',
+                    //   text:
+                    //       "${appConstants.userModel.usaUserName} ${AppConstants.ZAKI_PAY_PROMOTIONAL_TEXT}",
+                    // );
                     // Share.share('Download ZakiPay and Raise Smart Kids', subject: 'Download ZakiPay and Raise Smart Kids', );
                   },
-                ),
+                ),]
+                )
                       ],
                     ),
                   ),
@@ -363,7 +381,12 @@ class _SettingsMainScreenState extends State<SettingsMainScreen> {
                     padding:  EdgeInsets.symmetric(vertical: verticallyPadding),
                     child: Column(
                       children: [
-                        ProfileListTileButton( 
+                        appConstants.appMode!= true
+                                          ? SizedBox.shrink()
+                                          :
+                        Column(
+                          children: [
+                            ProfileListTileButton( 
                           color: crimsonColor,
                           width: width,
                           icon: Icons.payment,
@@ -380,6 +403,9 @@ class _SettingsMainScreenState extends State<SettingsMainScreen> {
                           },
                         ),
                         spacing_medium,
+                          ],
+                        ),
+                        
                 ProfileListTileButton( color: crimsonColor,
                   width: width,
                   icon: Icons.credit_score_rounded,
@@ -709,6 +735,13 @@ class _SettingsMainScreenState extends State<SettingsMainScreen> {
                       (_) => false,
                     );
                     // });
+                  },
+                ),
+                spacing_medium,
+                CustomTextButton(
+                  width: width * 0.8,
+                  title: '$version.$buildNumber',
+                  onPressed: () async{
                   },
                 ),
                 spacing_large

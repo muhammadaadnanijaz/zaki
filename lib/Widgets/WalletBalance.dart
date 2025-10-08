@@ -17,7 +17,7 @@ class WalletBalance extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     return StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection(AppConstants.USER)
+            .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
             .doc(
                 appConstants.userRegisteredId)
             .collection(

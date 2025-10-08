@@ -6,8 +6,8 @@ import 'package:ndialog/ndialog.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/AuthMethods.dart';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Spacing.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:zaki/Screens/HomeScreen.dart';
 import 'package:zaki/Services/CreaditCardApis.dart';
 import 'package:zaki/Services/api.dart';
@@ -128,7 +128,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                 children: [
                   appBarHeader_005( 
                       context: context,
-                      appBarTitle: 'Setup Wallet & Card',
+                      appBarTitle: (appConstants.appMode!= true) ? 'Setup Wallet': 'Setup Wallet & Card',
                       backArrow: false,
                       height: height,
                       width: width,
@@ -434,6 +434,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                       //   color: black,
                       //   height: 0.3,
                       // ),
+                      if(appConstants.appMode!= false)...[
                       spacing_medium,
                       Text(
                         'Gouvernment ID:',
@@ -449,8 +450,11 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                           ssnMaskFormatter
                         ],
                         validator: (String? state) {
+                          if(appConstants.appMode!= false){
+                            return null;
+                          }
                           // return null;
-                          if (state!.isEmpty) {
+                          else if (state!.isEmpty) {
                             return 'Enter Security Number';
                           } else if (state.length < 11) {
                             return 'Enter Full National ID / Iqama ID';
@@ -486,7 +490,10 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                         // obscureText: appConstants.passwordVissibleRegistration,
                         keyboardType: TextInputType.number,
                       ),
+                      ],
                       spacing_large,
+                      if(appConstants.appMode!= false)
+                      ...[
                       Text(
                         'Home Address:',
                         style: heading1TextStyle(context, width, color: green),
@@ -498,7 +505,10 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                         // readOnly:   true: false,
                         enabled: true,
                         validator: (String? name) {
-                          if (name!.isEmpty) {
+                          if(appConstants.appMode!= false){
+                            return null;
+                          }
+                          else if (name!.isEmpty) {
                             return 'Enter a Street Address';
                           } else {
                             return null;
@@ -557,7 +567,10 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                         // readOnly:   true: false,
                         enabled: true,
                         validator: (String? name) {
-                          if (name!.isEmpty) {
+                          if(appConstants.appMode!= false){
+                            return null;
+                          }
+                          else if (name!.isEmpty) {
                             return 'Enter a City Name';
                           } else {
                             return null;
@@ -645,9 +658,12 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         validator: (String? zipCode) {
+                          if(appConstants.appMode!= false){
+                            return null;
+                          }
                           // return null;
 
-                          if (zipCode!.isEmpty) {
+                          else if (zipCode!.isEmpty) {
                             return 'Enter ZipCode';
                           } else if (zipCode.length < 5) {
                             return 'Enter Full ZipCode';
@@ -671,6 +687,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                       ),
 
                       spacing_medium,
+                      ],
                       Row(
                         children: [
                           Text(
@@ -782,6 +799,9 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                               style: heading3TextStyle(width, color: grey),
                             ),
                       spacing_medium,
+                      appConstants.appMode!= true
+                          ? const SizedBox()
+                          :
                       Row(
                         children: [
                           Checkbox(
@@ -857,9 +877,9 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                                   (appConstants.registrationCheckBox == false ||
                                       firstNameController.text.isEmpty ||
                                       lastNameController.text.isEmpty ||
-                                      cityController.text.isEmpty ||
+                                      (appConstants.appMode!= false && (cityController.text.isEmpty ||
                                       stateController.text.length < 5 ||
-                                      ssnController.text.length < 4) ||
+                                      ssnController.text.length < 4))) ||
                                   firstNameController.text.isEmpty ||
                                   lastNameController.text.isEmpty ||
                                   appConstants.dateOfBirth == 'dd / mm / yyyy')
@@ -964,7 +984,9 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                                           isPinUser:
                                               signUpThrough!.index == 0 ? false : true,
                                           userStatus: false,
-                                          userFullyRegistred: false,);
+                                          userFullyRegistred: false,
+                                          subscriptionValue: appConstants.appMode!= true?3:0
+                                          );
                                   // newAddedUserId
                                   //A new User Added So Persolzation setting should be added
                                   //And user type Kid
@@ -1013,6 +1035,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                                   );
 
                                   String? userToken =
+                                  appConstants.appMode!= true? null:
                                       await creaditCardApi.createUserForCard(
                                           gender: 'M',
                                           city: cityController.text.trim(),

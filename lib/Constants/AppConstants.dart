@@ -5,12 +5,14 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:zaki/Models/FundMeWalletModel.dart';
 import 'package:zaki/Models/GoalModel.dart';
 import 'package:zaki/Models/NickNameModel.dart';
 import 'package:zaki/Models/PayRequestsModel.dart';
 import 'package:zaki/Models/TransactionModel.dart';
 import 'package:zaki/Models/UserModel.dart';
+import 'package:zaki/Services/mode_services.dart';
 
 import '../Models/PersonalizationSettingsModel.dart';
 import '../Models/TagItModel.dart';
@@ -19,9 +21,13 @@ import '../Models/TransactionDetailModel.dart';
 enum SingingCharacter { yes, no }
 
 class AppConstants extends ChangeNotifier {
+   static String TEMP_CODE = 'Temo_Code';
+   static String NEED_FIX_CODE = 'Need_fix_code';
+   
+
   static String TWITTER_API_KEY = '65W1v4z2PDyMDOuolNLNQ3v4X';
   static String TWITTER_SECRET_API_KEY = 'ZpmHXt9h4mNjDTlEJa1EjvjAVr74jI2nFVH5FILuXiaCDwVPYD';
-  static String BRAINTREE_TOCKENIZATION_KEY = 'sandbox_8hqqbbn8_ty4v4w7skfn9m4cz';
+  // static String BRAINTREE_TOCKENIZATION_KEY = 'sandbox_8hqqbbn8_ty4v4w7skfn9m4cz';
   static String BASE_URL_OF_TAG_IT_GOOGLE_SHEET =
       'https://script.google.com/macros/s/AKfycbwQoRyZ73FdCNxemUpemuTCVRBux7VvW6N4sdotl2La4HhMKTTQq_-LDmU5--e9JXxC/exec';
 
@@ -79,7 +85,10 @@ static String MOVE_MONEY_INTERNALLY = 'move_money_internally';
   //     'ya29.a0AeDClZDHnSpG_uJSMj2tBMaI6g6eut4bu4wC9gZv7HknKxwscfkjxO8V_-GvIHf1yp1S09Nrm-LwLrfJf00smIDoncsG-QYLyoK8-S3rDNo32j_bTJG4DXY2CYxbFDnoBCUPpRJfyk669mKfBI3C2sBOjh-iYiY0P4C75OrEaCgYKAUcSARMSFQHGX2Mi-qKxvrMu5aRo4GZHIafigg0175';
   static String USER = 'USER';
   static String TagitCollection = 'Tagit';
-  
+
+  String BANK_ID = INTIAL_BANK_ID;
+  // String COUNTRY_CODE = 'SA';
+  String COUNTRY_CODE = INTIAL_COUNTRY_CODE;
 
   static String device_list = 'device_list';
   static String USER_UserID = 'USER_UserID';
@@ -713,7 +722,8 @@ static String SpendL_company_id_300 = 'SpendL_company_id_300';
   bool lockSaving = true;
   bool lockCharity = true;
   bool disableToDo = false;
-  bool testMode = false;
+  // bool appMode = true;
+  bool appMode = ModeService.appMode;
   bool payFortTestingModeForFundMyWallet = false;
   bool payFortTestingModeForSubscription = false;
 
@@ -793,14 +803,45 @@ static String SpendL_company_id_300 = 'SpendL_company_id_300';
   int _attempts = 0;
 
   int get attempts => _attempts;
+  // Required Google SignIn, X, Facebook, Apple SignIn
+  bool isGoogleSignIn = googleSignIn;
+  bool isFacebookSignIn = facebookSignIn;
+  bool isAppleSignIn = appleSignIn;
+  bool isXSignIn = xSignIn;
+  bool isAiChat = aiChat;
+  bool isShareFeature= shareFeature;
 
   // void updateTagItList( List<ImageModelTagIt> newtagItList){
   //   tagItList=newtagItList;
   
   // notifyListeners();
   // }
+void isShareFeatureRequired(bool share) {
+    isShareFeature=share;
+    notifyListeners();
+  }
+  
+void isGoogleSignInRequired(bool isSignIn) {
+    isGoogleSignIn=isSignIn;
+    notifyListeners();
+  }
+void isFacebookSignInRequired(bool isSignIn) {
+    isFacebookSignIn=isSignIn;
+    notifyListeners();
+  }
+  void isAppleSignInRequired(bool isSignIn) {
+    isAppleSignIn=isSignIn;
+    notifyListeners();
+  }
+  void isXSignInRequired(bool isSignIn) {
+    isXSignIn=isSignIn;
+    notifyListeners();
+  }
 
-
+  void isAiChatRequired(bool isChat) {
+    isAiChat=isChat;
+    notifyListeners();
+  }
   void incrementAttempts(int attempt) {
     logMethod(title: 'Login Attempt', message: _attempts.toString());
     _attempts=attempt;
@@ -1232,7 +1273,7 @@ static String SpendL_company_id_300 = 'SpendL_company_id_300';
     notifyListeners();
   }
   updateTestMode(bool mode) {
-    testMode = mode;
+    appMode = mode;
     notifyListeners();
   }
   payfortTestingModeStatusForFundMyWallet(bool mode) {

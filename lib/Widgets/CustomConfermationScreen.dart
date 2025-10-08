@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/AppConstants.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:zaki/Screens/AddMembersWorkFlow.dart';
 import 'package:zaki/Screens/FundMyWallet.dart';
 import 'package:zaki/Screens/PayOrRequestScreen.dart';
@@ -16,6 +17,8 @@ import '../Screens/HomeScreen.dart';
 import 'AppBars/AppBar.dart';
 import 'TextHeader.dart';
 import 'ZakiPrimaryButton.dart';
+
+// lottie, provider,
 
 class CustomConfermationScreen extends StatefulWidget {
   final String? imageUrl;
@@ -152,7 +155,8 @@ class _CustomConfermationScreenState extends State<CustomConfermationScreen> {
                           // reverse: true,
                           fit: BoxFit.cover),
                       Image.asset(
-                          imageBaseAddress + 'mission_accomplished_body.png'),
+                        APPLICATION_SUCCESS_MISSION_ACCOMPLISHED_IMAGE,
+                          ),
                       CircleAvatar(
                         maxRadius: width * 0.22,
                         backgroundColor: transparent,
@@ -161,7 +165,7 @@ class _CustomConfermationScreenState extends State<CustomConfermationScreen> {
                             ? ClipOval(
                                 child: Image.asset(widget.imageUrl != null
                                     ? widget.imageUrl!
-                                    : imageBaseAddress + 'success.png'))
+                                    : APPLICATION_SUCCESS_BOY_IMAGE))
                             : ClipOval(
                                 child: Image.network(
                                 widget.imageUrl.toString(),

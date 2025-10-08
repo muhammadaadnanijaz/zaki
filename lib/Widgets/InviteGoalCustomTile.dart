@@ -2,7 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:zaki/Services/api.dart';
 import 'package:zaki/Widgets/CustomLoader.dart';
 import '../Constants/AppConstants.dart';
@@ -110,7 +111,7 @@ class _InviteGoalCustomTileState extends State<InviteGoalCustomTile> {
                 children: [
                   StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
-                          .collection(AppConstants.USER)
+                          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
                           .doc(appConstants.userRegisteredId)
                           .collection(AppConstants.Goal_InviteSentTo_UserID)
                           .where(AppConstants.Goal_InviteSent_User_ReceiverId,

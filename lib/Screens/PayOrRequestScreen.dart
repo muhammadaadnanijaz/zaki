@@ -13,6 +13,7 @@ import 'package:zaki/Constants/CheckInternetConnections.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
 import 'package:zaki/Constants/LocationGetting.dart';
 import 'package:zaki/Constants/NotificationTitle.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:zaki/Models/BalanceModel.dart';
 import 'package:zaki/Models/UserModel.dart';
 import 'package:zaki/Screens/HomeScreen.dart';
@@ -20,6 +21,8 @@ import 'package:zaki/Screens/InviteMainScreen.dart';
 import 'package:zaki/Screens/IssueAndManageCards.dart';
 import 'package:zaki/Screens/SearchFriends.dart';
 import 'package:zaki/Services/CreaditCardApis.dart';
+import 'package:zaki/Services/future_flags.dart';
+import 'package:zaki/Services/send_money_flow_controller.dart';
 import 'package:zaki/Widgets/CustomConfermationScreen.dart';
 import 'package:zaki/Widgets/CustomLoadingScreen.dart';
 // import 'package:zaki/Widgets/FloatingActionButton.dart';
@@ -93,11 +96,11 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
   List<String> userInvitedList = [];
 
   List<ImageModel> imageList = [
-    ImageModel(id: 0, imageName: imageBaseAddress + 'Pay+1.png'),
-    ImageModel(id: 1, imageName: imageBaseAddress + 'Pay+2.png'),
-    ImageModel(id: 2, imageName: imageBaseAddress + 'Pay+3.png'),
-    ImageModel(id: 3, imageName: imageBaseAddress + 'Pay+4.png'),
-    ImageModel(id: 4, imageName: imageBaseAddress + 'Pay+5.png'),
+    ImageModel(id: 0, imageName: sendOrRequestImagesBaseAddress + 'Pay+1.png'),
+    ImageModel(id: 1, imageName: sendOrRequestImagesBaseAddress + 'Pay+2.png'),
+    ImageModel(id: 2, imageName: sendOrRequestImagesBaseAddress + 'Pay+3.png'),
+    ImageModel(id: 3, imageName: sendOrRequestImagesBaseAddress + 'Pay+4.png'),
+    ImageModel(id: 4, imageName: sendOrRequestImagesBaseAddress + 'Pay+5.png'),
   ];
 
   void _onEmojiSelected(Emoji emoji) {
@@ -129,9 +132,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
 @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // add setCurrentScreeninstead of initState because might not always give you the
-    // expected results because initState() is called before the widget
-    // is fully initialized, so the screen might not be visible yet.
     setScreenName(name: AppConstants.PAY_OR_REQUEST);
   }
 
@@ -140,9 +140,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
     Future.delayed(const Duration(milliseconds: 200), () async {
       var appConstants = Provider.of<AppConstants>(context, listen: false);
       appConstants.updateLoading(false);
-      // bool screenNotOpen = await checkUserSubscriptionValue(appConstants, context);
-      // userKids = services.fetchUserKids(appConstants.userRegisteredId,
-      //     currentUserId: appConstants.userRegisteredId);
       bool screenNotOpen =
           await checkUserSubscriptionValue(appConstants, context);
       logMethod(title: 'Data from Pay+', message: screenNotOpen.toString());
@@ -165,14 +162,7 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                       false)
               ? 3
               : 1);
-      //       String imageUrl = '';
-      // String firstNmae = '';
-      // String lastName = '';
-      // String userName = '';
-      // String userId = '';
       if (widget.selectedUserModel != null) {
-        // String? userId = await services.getUserIdFromPhoneNumber(
-        //     number: widget.fromManageContactPhoneNumber);
         selectedKidId = widget.selectedUserModel!.usaUserId!;
         selectedUserModelFromFriend = widget.selectedUserModel;
         selectedKidName = widget.selectedUserModel!.usaUserName!;
@@ -182,16 +172,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
       }
       setState(() {});
     });
-    // amountController.addListener(() {
-    //   bool isButtonActive = amountController.text.isNotEmpty;
-    //   setState(() {
-    //     if (isButtonActive) {
-    //       length = 1;
-    //     } else {
-    //       length = 0;
-    //     }
-    //   });
-    // });
     super.initState();
   }
 
@@ -205,36 +185,10 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
     Map<String, dynamic>? data =
         await ApiServices().getKidSpendingLimit(parentId!, kidId!);
     if (data != null) {
-      // static List<ImageModelTagIt> tagItList = [
-      //   ImageModelTagIt(id: 0, icon: Icons.phone_iphone_sharp, title: ''),
-      //   ImageModelTagIt(id: 1, icon: FontAwesomeIcons.moneyBillTransfer, title: 'Allowance'),
-      //   ImageModelTagIt(id: 2, icon: FontAwesomeIcons.tv, title: ''),
-      //   ImageModelTagIt(id: 3, icon: FontAwesomeIcons.handHolding, title: ''),
-      //   ImageModelTagIt(id: 4, icon: FontAwesomeIcons.graduationCap, title: ''),
-      //   ImageModelTagIt(id: 5, icon: FontAwesomeIcons.burger, title: ''),
-      //   ImageModelTagIt(id: 6, icon: FontAwesomeIcons.gift, title: ''),
-      //   ImageModelTagIt(id: 7, icon: FontAwesomeIcons.bullseye, title: 'Goals'),
-      //   ImageModelTagIt(id: 8, icon: FontAwesomeIcons.basketShopping, title: ''),
-      //   ImageModelTagIt(id: 9, icon: FontAwesomeIcons.gasPump, title: ''),
-      //   ImageModelTagIt(id: 10, icon: FontAwesomeIcons.exchange,title: ''),
-      //   ImageModelTagIt(id: 11, icon: FontAwesomeIcons.video, title: ''),
-      //   ImageModelTagIt(id: 12, icon: Icons.receipt_long_rounded, title: ''),
-      //   ImageModelTagIt(id: 13, icon: FontAwesomeIcons.cartShopping, title: 'Shopping'),
-      //   ImageModelTagIt(id: 14, icon: FontAwesomeIcons.gamepad, title: 'Video Games'),
-      // ];
 
       ////////Check Max limit transaction
       if (int.parse(amountController.text) >
           data[AppConstants.SpendL_Transaction_Amount_Remain]) {
-        // customAleartDialog(
-        //     context: context,
-        //     title: 'Wow! Monthly Spend Limit Reached!',
-        //     width: 140,
-        //     titleButton1: 'Fund Wallet Now',
-        //     firstButtonOnPressed: () {},
-        //     secondButtonOnPressed: () {
-        //       Navigator.pop(context);
-        //     });
         showDialog(
             context: context,
             builder: (BuildContext dialougeContext) {
@@ -280,19 +234,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
         appConstants.updateLoading(false);
         return 'Monthly limit reached!';
       }
-      //       static String  = 'Apps';
-      // static String  = 'Charity';
-      // static String  = 'Education';
-      // static String  = 'Electronics';
-      // static String  = 'Fast Food';
-      // static String  = 'Gifts';
-      // static String  = 'Groceries';
-      // static String  = 'Gas Station';
-      // static String  = 'Movies';
-      // static String TAGID0010 = 'Other Stuff';
-      // static String  = 'Shopping';
-      // static String  = 'Video Games';
-      // static String  = 'Reward';
 
       if (AppConstants.tagItList[selectedAllocation].title ==
           AppConstants.TAGID0012) {
@@ -307,10 +248,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
           AppConstants.TAGID0009) {
         getSpendLimitName = AppConstants.SpendL_TAGID0009_Remain;
       }
-      // else if (AppConstants.tagItList[selectedAllocation].title ==
-      //     "Internal Transfer") {
-      //   getSpendLimitName = AppConstants.SpendL_Transaction_Amount_Remain;
-      // }
       else if (AppConstants.tagItList[selectedAllocation].title ==
           AppConstants.TAGID0008) {
         getSpendLimitName = AppConstants.SpendL_TAGID0008_Remain;
@@ -343,15 +280,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
               " and ${getSpendLimitName} value is: ${data[getSpendLimitName]}");
       if (int.parse(amountController.text) >
           data[AppConstants.SpendL_Transaction_Amount_Remain]) {
-        // customAleartDialog(
-        //     context: context,
-        //     title: "Wow! Monthly Spend Limit Reached!",
-        //     width: 140,
-        //     titleButton1: 'Fund Wallet Now',
-        //     firstButtonOnPressed: () {},
-        //     secondButtonOnPressed: () {
-        //       Navigator.pop(context);
-        //     });
         showDialog(
             context: context,
             builder: (BuildContext dialougeContext) {
@@ -398,16 +326,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
         return 'Monthly limit reached!';
       } else {
         if (int.parse(amountController.text) > data[getSpendLimitName]) {
-          // customAleartDialog(
-          //     context: context,
-          //     title:
-          //         "Wow! Monthly Spend Limit reached for ${AppConstants.tagItList[selectedAllocation].title}",
-          //     width: 140,
-          //     titleButton1: 'Fund Wallet Now',
-          //     firstButtonOnPressed: () {},
-          //     secondButtonOnPressed: () {
-          //       Navigator.pop(context);
-          //     });
           showDialog(
             context: context,
             builder: (BuildContext dialougeContext) {
@@ -477,14 +395,9 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      // floatingActionButton: Padding(
-      //   padding: EdgeInsets.only(bottom: height * 0.085),
-      //   child: CustomFloadtingActionButton(),
-      // ),
       bottomNavigationBar: widget.needBottomNavbar == false
           ? null
           : CustomBottomNavigationBar(index: 1),
-      // backgroundColor: grey.withValues(alpha:0.98),
       body: SafeArea(
         child: loading == true
             ? CustomLoadingScreen()
@@ -534,16 +447,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                       ),
                                       CustomTextField(
                                         amountController: amountController,
-                                        // error: error == null ? null : error,
-                                        // onChanged: (String value) {
-                                        //   if(error!=null)
-                                        //   setState(() {
-                                        //     error = null;
-                                        //     logMethod(
-                                        //         title: 'Error message onchange',
-                                        //         message: error.toString());
-                                        //   });
-                                        // },
                                       ),
                                       spacing_small,
                                       WalletBalance(appConstants: appConstants),
@@ -604,188 +507,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                     Axis.horizontal,
                                                 child: Row(
                                                   children: [
-//                                       userKids == null
-//                                           ? const SizedBox()
-//                                           : StreamBuilder<QuerySnapshot>(
-//                                               stream: userKids,
-//                                               builder: (BuildContext context,
-//                                                   AsyncSnapshot<QuerySnapshot>
-//                                                       snapshot) {
-//                                                 if (snapshot.hasError) {
-//                                                   return const Text(
-//                                                       'Ooops...Something went wrong :(');
-//                                                 }
-
-//                                                 if (snapshot.connectionState ==
-//                                                     ConnectionState.waiting) {
-//                                                   return const Text("");
-//                                                 }
-//                                                 if (snapshot.data!.size == 0) {
-//                                                   return SizedBox.shrink();
-//                                                 }
-// //snapshot.data!.docs[index] ['USER_first_name']
-//                                                 return ListView.builder(
-//                                                   itemCount: snapshot
-//                                                       .data!.docs.length,
-//                                                   physics:
-//                                                       const NeverScrollableScrollPhysics(),
-//                                                   shrinkWrap: true,
-//                                                   scrollDirection:
-//                                                       Axis.horizontal,
-//                                                   itemBuilder:
-//                                                       (BuildContext context,
-//                                                           int index) {
-//                                                     // print(snapshot.data!.docs[index] ['USER_first_name']);
-//                                                     return (snapshot.data!.docs[
-//                                                                         index][
-//                                                                     AppConstants
-//                                                                         .NewMember_isEnabled] ==
-//                                                                 false ||
-//                                                             (snapshot.data!.docs[
-//                                                                         index][
-//                                                                     AppConstants
-//                                                                         .USER_UserType] !=
-//                                                                 AppConstants
-//                                                                     .USER_TYPE_KID))
-//                                                         ? SizedBox.shrink()
-//                                                         : InkWell(
-//                                                             onTap: () async {
-//                                                               // appConstants.updateAllowanceSchedule(snapshot.data!.docs[index]['USER_allowance_schedule']);
-//                                                               // ApiServices services = ApiServices();
-//                                                               // // dynamic kidData =
-//                                                               // await services.fetchUserKidWithFuture(
-//                                                               //     snapshot.data!.docs[index].id);
-//                                                               // UserModel userModel;
-//                                                               print(
-//                                                                   "This document id: ${snapshot.data!.docs[index].id}");
-//                                                               setState(() {
-//                                                                 selectedIndexTopFriends =
-//                                                                     -1;
-//                                                                 selectedIndex =
-//                                                                     index;
-//                                                                 // selectedUserModelFromFriend
-//                                                                 selectedKidId =
-//                                                                     snapshot
-//                                                                         .data!
-//                                                                         .docs[
-//                                                                             index]
-//                                                                         .id;
-//                                                                 selectedUserModelFromFriend = UserModel(
-//                                                                     usaUserName: snapshot
-//                                                                             .data!
-//                                                                             .docs[index]
-//                                                                         [
-//                                                                         AppConstants
-//                                                                             .USER_user_name],
-//                                                                     usaLogo: snapshot
-//                                                                             .data!
-//                                                                             .docs[index]
-//                                                                         [
-//                                                                         AppConstants
-//                                                                             .USER_Logo],
-//                                                                     usaUserType:
-//                                                                         snapshot
-//                                                                             .data!
-//                                                                             .docs[index][AppConstants.USER_UserType],
-//                                                                     usaGender: snapshot.data!.docs[index][AppConstants.USER_gender],
-//                                                                     usaFirstName: snapshot.data!.docs[index][AppConstants.USER_first_name],
-//                                                                     usaLastName: snapshot.data!.docs[index][AppConstants.USER_last_name]);
-
-//                                                                 selectedKidName = snapshot
-//                                                                         .data!
-//                                                                         .docs[index]
-//                                                                     [
-//                                                                     AppConstants
-//                                                                         .USER_user_name];
-//                                                                 selectedKidImageUrl = snapshot
-//                                                                         .data!
-//                                                                         .docs[index]
-//                                                                     [
-//                                                                     AppConstants
-//                                                                         .USER_Logo];
-//                                                                 receiverGender = snapshot
-//                                                                         .data!
-//                                                                         .docs[index]
-//                                                                     [
-//                                                                     AppConstants
-//                                                                         .USER_gender];
-//                                                                 receiverUserType = snapshot
-//                                                                         .data!
-//                                                                         .docs[index]
-//                                                                     [
-//                                                                     AppConstants
-//                                                                         .USER_UserType];
-//                                                               });
-//                                                               // ApiServices().addMoneyToSelectedMainWallet(receivedUserId: selectedKidId, senderId: appConstants.userRegisteredId);
-//                                                               // });
-//                                                             },
-//                                                             child: Padding(
-//                                                               padding:
-//                                                                   const EdgeInsets
-//                                                                           .only(
-//                                                                       right:
-//                                                                           12.0),
-//                                                               child: Column(
-//                                                                 children: [
-//                                                                   Container(
-//                                                                     height: 70,
-//                                                                     width: 70,
-//                                                                     decoration: BoxDecoration(
-//                                                                         shape: BoxShape
-//                                                                             .circle,
-//                                                                         color:
-//                                                                             transparent,
-//                                                                         border: Border.all(
-//                                                                             width: selectedIndex == index
-//                                                                                 ? 2
-//                                                                                 : 0,
-//                                                                             color: selectedIndex == index
-//                                                                                 ? orange
-//                                                                                 : transparent)),
-//                                                                     child: Padding(
-//                                                                         padding: const EdgeInsets.all(0.0),
-//                                                                         child: userImage(
-//                                                                           imageUrl: snapshot
-//                                                                               .data!
-//                                                                               .docs[index][AppConstants.USER_Logo],
-//                                                                           userType: snapshot
-//                                                                               .data!
-//                                                                               .docs[index][AppConstants.USER_UserType],
-//                                                                           width:
-//                                                                               width,
-//                                                                           gender: snapshot
-//                                                                               .data!
-//                                                                               .docs[index][AppConstants.USER_gender],
-//                                                                         )),
-//                                                                   ),
-//                                                                   SizedBox(
-//                                                                     height: 5,
-//                                                                   ),
-//                                                                   SizedBox(
-//                                                                     // width: height * 0.065,
-//                                                                     child:
-//                                                                         Center(
-//                                                                       child: Text(
-//                                                                           '@ ' +
-//                                                                               snapshot.data!.docs[index][AppConstants
-//                                                                                   .USER_user_name],
-//                                                                           overflow: TextOverflow
-//                                                                               .fade,
-//                                                                           maxLines:
-//                                                                               1,
-//                                                                           style:
-//                                                                               heading4TextSmall(width)),
-//                                                                     ),
-//                                                                   )
-//                                                                 ],
-//                                                               ),
-//                                                             ),
-//                                                           );
-//                                                   },
-//                                                 );
-//                                               },
-//                                             ),
-
                                                     ////////User Friends
                                                     topFriends == null
                                                         ? const SizedBox()
@@ -802,13 +523,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                                 return const Text(
                                                                     'Ooops...Something went wrong :(');
                                                               }
-
-                                                              // if (snapshot
-                                                              //         .connectionState ==
-                                                              //     ConnectionState
-                                                              //         .waiting) {
-                                                              //   return const Text("");
-                                                              // }
                                                               if (!snapshot
                                                                   .hasData) {
                                                                 return const Center(
@@ -859,17 +573,8 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                                     (BuildContext
                                                                             context,
                                                                         int index) {
-                                                                  // print(snapshot.data!.docs[index] ['USER_first_name']);
                                                                   return InkWell(
                                                                               onTap: () async {
-                                                                                //
-                                                                                // appConstants.updateAllowanceSchedule(snapshot.data!.docs[index]['USER_allowance_schedule']);
-                                                                                // ApiServices services = ApiServices();
-                                                                                // // dynamic kidData =
-                                                                                // await services.fetchUserKidWithFuture(
-                                                                                //     snapshot.data!.docs[index].id);
-                                                                                // UserModel userModel;
-                                                                                // var newSnapShot = snapshots.data as DocumentSnapshot;
                                                                                 try {
                                                                                   appConstants.updateCurrentUserIdForBottomSheet(snapshot.data!.docs[index][AppConstants.USER_UserID]);
                                                                                   // logMethod(title: 'Clicked = ', message: '${snapshot.data!.docs[index][AppConstants.USER_UserID]} and id ${newSnapShot[AppConstants.USER_SubscriptionValue] ?? 'No data'}');
@@ -905,139 +610,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                                                 snapshot: snapshot.data!.docs[index],
                                                                               ),
                                                                             );
-                                                                  
-                                                                  // StreamBuilder(
-                                                                  //   stream:  ApiServices().fetchSingleUserWithStream(
-                                                                  //       id: snapshot
-                                                                  //           .data!
-                                                                  //           .docs[index][AppConstants.USER_UserID]),
-                                                                  //   builder: (BuildContext
-                                                                  //           context,
-                                                                  //       snapshots) {
-                                                                  //     if (snapshots
-                                                                  //         .hasError) {
-                                                                  //       return const Text(
-                                                                  //           'Ooops...Something went wrong :(');
-                                                                  //     }
-
-                                                                  //     // if (snapshots
-                                                                  //     //         .connectionState ==
-                                                                  //     //     ConnectionState
-                                                                  //     //         .waiting) {
-                                                                  //     //   return const Text("");
-                                                                  //     // }
-                                                                  //     // if (snapshots.data ==
-                                                                  //     //     0) {}
-                                                                  //     if (!snapshots
-                                                                  //         .hasData) {
-                                                                  //       return const Center(
-                                                                  //         child:
-                                                                  //             CustomLoader(),
-                                                                  //       );
-                                                                  //     }
-                                                                  //     var newSnapShot =
-                                                                  //         snapshots.data
-                                                                  //             as DocumentSnapshot;
-                                                                  //     // logMethod(title: 'USER ID', message: '${snapshot.data!.docs[index][AppConstants.USER_UserID]} and ${(newSnapShot[AppConstants.USER_SubscriptionValue])??}');
-                                                                  //     return (
-                                                                  //       // (newSnapShot[AppConstants.USER_Family_Id]??'') != appConstants.userModel.userFamilyId &&
-                                                                  //             (newSnapShot[AppConstants.USER_SubscriptionValue] < 2 || newSnapShot[AppConstants.USER_SubscriptionValue] == null))
-                                                                  //         ?
-                                                                  //         // (checkUserValue(appConstants: appConstants, parentId: newSnapShot[AppConstants.USER_Family_Id]??'', subscriptionValue:(newSnapShot[AppConstants.USER_SubscriptionValue]==0 || newSnapShot[AppConstants.USER_SubscriptionValue]==null)?0:newSnapShot[AppConstants.USER_SubscriptionValue]))?
-
-                                                                  //         SizedBox.shrink()
-                                                                  //         : 
-                                                                  //         InkWell(
-                                                                  //             onTap: () async {
-                                                                  //               //
-                                                                  //               // appConstants.updateAllowanceSchedule(snapshot.data!.docs[index]['USER_allowance_schedule']);
-                                                                  //               // ApiServices services = ApiServices();
-                                                                  //               // // dynamic kidData =
-                                                                  //               // await services.fetchUserKidWithFuture(
-                                                                  //               //     snapshot.data!.docs[index].id);
-                                                                  //               // UserModel userModel;
-                                                                  //               // var newSnapShot = snapshots.data as DocumentSnapshot;
-                                                                  //               try {
-                                                                  //                 appConstants.updateCurrentUserIdForBottomSheet(snapshot.data!.docs[index][AppConstants.USER_UserID]);
-                                                                  //                 logMethod(title: 'Clicked = ', message: '${snapshot.data!.docs[index][AppConstants.USER_UserID]} and id ${newSnapShot[AppConstants.USER_SubscriptionValue] ?? 'No data'}');
-                                                                  //                 //         if(newSnapShot[AppConstants.USER_SubscriptionValue]==0 || newSnapShot[AppConstants.USER_SubscriptionValue]==null){
-                                                                  //                 //         showModalBottomSheet(
-                                                                  //                 //           context: context,
-                                                                  //                 //           // constraints: BoxConstraints(maxHeight: 800, maxWidth: double.infinity, minHeight: 800, minWidth: double.infinity),
-                                                                  //                 //           isScrollControlled: true,
-                                                                  //                 //           useSafeArea: true,
-                                                                  //                 //           // enableDrag: false,
-                                                                  //                 //           showDragHandle: true,
-                                                                  //                 //           enableDrag: true,
-                                                                  //                 //           shape: RoundedRectangleBorder(
-                                                                  //                 //   borderRadius: BorderRadius.only(
-                                                                  //                 //     topLeft: Radius.circular(width * 0.09),
-                                                                  //                 //     topRight: Radius.circular(width * 0.09),
-                                                                  //                 //   ),
-                                                                  //                 // ),
-                                                                  //                 //           builder: (context) {
-                                                                  //                 //             return Container(
-                                                                  //                 //             height: height*0.8,
-                                                                  //                 //               child: CreateUser(height: height*0.8));
-                                                                  //                 //           },
-                                                                  //                 //         );
-                                                                  //                 //         return;
-                                                                  //                 //       }
-                                                                  //               } catch (e) {
-                                                                  //                 //         print(e.toString());
-                                                                  //                 //         appConstants.updateCurrentUserIdForBottomSheet(snapshot.data!.docs[index][AppConstants.USER_UserID]);
-                                                                  //                 //         showModalBottomSheet(
-                                                                  //                 //           context: context,
-                                                                  //                 //           // constraints: BoxConstraints(maxHeight: 800, maxWidth: double.infinity, minHeight: 800, minWidth: double.infinity),
-                                                                  //                 //           isScrollControlled: true,
-                                                                  //                 //           useSafeArea: true,
-                                                                  //                 //           // enableDrag: false,
-                                                                  //                 //           showDragHandle: true,
-                                                                  //                 //           enableDrag: true,
-                                                                  //                 //           shape: RoundedRectangleBorder(
-                                                                  //                 //   borderRadius: BorderRadius.only(
-                                                                  //                 //     topLeft: Radius.circular(width * 0.09),
-                                                                  //                 //     topRight: Radius.circular(width * 0.09),
-                                                                  //                 //   ),
-                                                                  //                 // ),
-                                                                  //                 //           builder: (context) {
-                                                                  //                 //             return Container(
-                                                                  //                 //             height: height*0.8,
-                                                                  //                 //               child: CreateUser(height: height*0.8));
-                                                                  //                 //           },
-                                                                  //                 //         );
-                                                                  //                 //         return;
-                                                                  //               }
-                                                                  //               // return;
-
-                                                                  //               QueryDocumentSnapshot<Map<String, dynamic>>? userData = await services.getUserDataFromPhoneNumber(id: snapshot.data!.docs[index][AppConstants.USER_UserID]);
-                                                                  //               logMethod(title: 'Selected User Top Friend Id', message: userData!.id);
-                                                                  //               setState(() {
-                                                                  //                 selectedIndex = -1;
-                                                                  //                 selectedIndexTopFriends = index;
-                                                                  //                 // selectedUserModelFromFriend
-                                                                  //                 selectedKidId = userData.id;
-                                                                  //                 selectedUserModelFromFriend = UserModel(usaUserName: userData[AppConstants.USER_user_name] == '' ? userData[AppConstants.USER_first_name] : userData[AppConstants.USER_user_name], usaLogo: userData[AppConstants.USER_Logo], usaUserType: userData[AppConstants.USER_UserType], usaGender: userData[AppConstants.USER_gender], usaFirstName: userData[AppConstants.USER_first_name], usaLastName: userData[AppConstants.USER_last_name]);
-                                                                  //                 selectedKidName = userData[AppConstants.USER_user_name] ?? userData[AppConstants.USER_first_name];
-                                                                  //                 selectedKidImageUrl = userData[AppConstants.USER_Logo];
-                                                                  //                 receiverGender = '';
-                                                                  //                 receiverUserType = '';
-                                                                  //                 selectedKidBankToken = userData[AppConstants.USER_BankAccountID];
-                                                                  //               });
-
-                                                                  //               // ApiServices().addMoneyToSelectedMainWallet(receivedUserId: selectedKidId, senderId: appConstants.userRegisteredId);
-                                                                  //               // });
-                                                                  //             },
-                                                                  //             child: TopFriendsCustomWidget(
-                                                                  //               selectedIndexTopFriends: selectedIndexTopFriends,
-                                                                  //               width: width,
-                                                                  //               index: index,
-                                                                  //               snapshot: snapshot.data!.docs[index],
-                                                                  //             ),
-                                                                  //           );
-                                                                  //   },
-                                                                  // );
-                                                                
                                                                 },
                                                               );
                                                             })
@@ -1146,12 +718,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                               ],
                                             )
                                           :
-                                          // : (appConstants.userModel.usaUserType ==
-                                          //             AppConstants.USER_TYPE_KID ||
-                                          //         appConstants.userModel.usaUserType ==
-                                          //             AppConstants.USER_TYPE_ADULT)
-                                          //     ? const SizedBox.shrink()
-                                          //     :
                                           InkWell(
                                               onTap: () async {
                                                 UserModel? user =
@@ -1330,7 +896,7 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                           child: imageList[index]
                                                                   .imageName!
                                                                   .contains(
-                                                                      'com.zakipay.teencard')
+                                                                      'com.zakipay.bank_of_punjab')
                                                               ? Container(
                                                                   decoration:
                                                                       BoxDecoration(
@@ -1398,43 +964,15 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                     fit: BoxFit.contain,
                                                   )
                                                 : imageUrl.contains(
-                                                        'com.zakipay.teencard')
+                                                        'com.zakipay.bank_of_punjab')
                                                     ? Image.file(
                                                         File(imageUrl),
                                                         fit: BoxFit.contain,
-                                                        // height: 150,
-                                                        // width: double.infinity,
-                                                        // fit: BoxFit.fill,
                                                       )
                                                     : Image.asset(
                                                         imageUrl,
                                                         fit: BoxFit.contain,
                                                       ),
-                                            // Positioned(
-                                            //     right: 5,
-                                            //     top: 5,
-                                            //     child: IconButton(
-                                            //       icon: Icon(
-                                            //         Icons.camera_alt,
-                                            //         color: grey,
-                                            //       ),
-                                            //       onPressed: () async {
-                                            //         // Pick an image
-                                            //         final XFile? image =
-                                            //             await _picker.pickImage(
-                                            //                 maxWidth: 500,
-                                            //                 maxHeight: 600,
-                                            //                 imageQuality: 80,
-                                            //                 source: ImageSource.gallery);
-                                            //         if (image != null) {
-                                            //           setState(() {
-                                            //             imageList.add(ImageModel(
-                                            //                 id: 6, imageName: image.path));
-                                            //           });
-                                            //         }
-                                            //       },
-                                            //     )
-                                            //     )
                                           ],
                                         ),
                                       ),
@@ -1480,15 +1018,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                             borderSide: BorderSide(
                                                 width: 1, color: green),
                                           ),
-                                          // suffix: Text(
-                                          //   '${messageController.text.length} / 400 words',
-                                          //   style: heading4TextSmall(width),
-                                          //   ),
-                                          // suffixText: ,
-                                          // suffixStyle: heading4TextSmall(width)
-                                          // labelText: 'Enter Email',
-
-                                          // labelStyle: textStyleHeading2WithTheme(context,width*0.8, whiteColor: 0),
                                         ),
                                       ),
                                       spacing_medium,
@@ -1591,40 +1120,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                               onBackspacePressed:
                                                   _onBackspacePressed,
                                               config: Config(
-
-                                                  // columns: 7,
-                                                  // // Issue: https://github.com/flutter/flutter/issues/28894
-                                                  // emojiSizeMax: 32 *
-                                                  //     (Platform.isIOS
-                                                  //         ? 1.30
-                                                  //         : 1.0),
-                                                  // verticalSpacing: 0,
-                                                  // horizontalSpacing: 0,
-                                                  // initCategory: Category.RECENT,
-                                                  // bgColor:
-                                                  //     const Color(0xFFF2F2F2),
-                                                  // indicatorColor: Colors.blue,
-                                                  // iconColor: Colors.grey,
-                                                  // iconColorSelected:
-                                                  //     Colors.blue,
-                                                  // // progressIndicatorColor: Colors.blue,
-                                                  // backspaceColor: Colors.blue,
-                                                  // skinToneDialogBgColor:
-                                                  //     Colors.white,
-                                                  // skinToneIndicatorColor:
-                                                  //     Colors.grey,
-                                                  // enableSkinTones: true,
-                                                  // // showRecentsTab: true,
-                                                  // recentsLimit: 28,
-                                                  // // noRecentsText: 'No Recents',
-                                                  // // noRecentsStyle: const TextStyle(
-                                                  // //     fontSize: 20, color: Colors.black26),
-                                                  // tabIndicatorAnimDuration:
-                                                  //     kTabScrollDuration,
-                                                  // categoryIcons:
-                                                  //     const CategoryIcons(),
-                                                  // buttonMode:
-                                                  //     ButtonMode.MATERIAL
                                                       )),
                                         ),
                                       ),
@@ -1780,19 +1275,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                   ? white
                                   : green,
                               onPressed:
-                              //  amountController.text.isEmpty
-                              //     ? null
-                              //     : internet.status ==
-                              //             AppConstants
-                              //                 .INTERNET_STATUS_NOT_CONNECTED
-                              //         ? null
-                              //         : (selectedKidId == '' || selectedAllocation==-2)
-                              //             ? null
-                              //             : ((int.parse(amountController.text) >
-                              //                         500) ||
-                              //                     appConstants.isLoading)
-                              //                 ? null
-                              //                 : 
                                          canPressButton(appConstants: appConstants, internetStatus: internet.status)==false?null: () async {
                                                 bool? checkAuth = await authenticateTransactionUsingBioOrPinCode(appConstants: appConstants, context: context);
                                                   if(checkAuth==false){
@@ -1813,10 +1295,13 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                   progressDialog.show();
 
                                                   if (imageUrl.contains(
-                                                      'com.zakipay.teencard')) {
+                                                      'com.zakipay.bank_of_punjab')) {
+                                                        // ZakiPay/Country code-bank code/sendreceive/User id/images/
+                                                              String fullPath = '${appConstants.userModel.usaCountry}/sendreceive/${appConstants.userRegisteredId}/images';
                                                     String? pathImage =
                                                         await services
                                                             .uploadImage(
+                                                              fullPath: fullPath,
                                                                 path: imageUrl
                                                                 , userId: appConstants.userRegisteredId
                                                                 
@@ -1976,16 +1461,8 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                           userId: selectedKidId,
                                                           title: '${NotificationText.REQUEST_NOTIFICATION_TITLE} ${appConstants.userModel.usaUserName}',
                                                           subTitle: ' ${NotificationText.REQUEST_NOTIFICATION_SUB_TITLE} ${getCurrencySymbol(context, appConstants: appConstants)} ${amountController.text}',
-                                                          // checkParent: true,
-                                                          // parentTitle: '${appConstants.userModel.usaUserName} sent ${getCurrencySymbol(context, appConstants: appConstants)} ${amountController.text}',
-                                                          // parentSubtitle: 'See Details in ZakiPay'
+                                                          
                                                         );
-                                                  // if(userToken!=null)
-                                                  // await services.sendNotification(
-                                                  //   title: AppConstants.REQUEST_NOTIFICATION_TITLE,
-                                                  //   body: AppConstants.,
-                                                  //   token: userToken
-                                                  // );
                                                   appConstants
                                                       .updateLoading(false);
                                                   Navigator.push(
@@ -2007,8 +1484,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                             const SizedBox(
                               width: 10,
                             ),
-                            // internet.status==''?
-                            // SizedBox():
                             Expanded(
                                 // flex: 5,
                                 child: ZakiPrimaryButton(
@@ -2031,13 +1506,11 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                   var uuid = Uuid();
                                                   String transactionId =
                                                       uuid.v1();
-                                                  // logMethod(
-                                                  //     title:
-                                                  //         'Transaction From UUid',
-                                                  //     message: transactionId);
-                                                  // return;
-                                                  if (appConstants.testMode !=
-                                                      false) {
+                                                  if 
+                                                  // (appConstants.testMode !=
+                                                  //     false) 
+                                                  (!FeatureFlags.has(context, 'feature.bankIntegration'))
+                                                      {
                                                     CreaditCardApi
                                                         creaditCardApi =
                                                         CreaditCardApi();
@@ -2114,19 +1587,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                                       .userTokenId,
                                                               receiverUserToken:
                                                                   selectedKidBankToken,
-                                                              // memo: createMemo(
-                                                              //   fromWallet:
-                                                              //       AppConstants
-                                                              //           .Spend_Wallet,
-                                                              //   toWallet:
-                                                              //       AppConstants
-                                                              //           .Spend_Wallet,
-                                                              //   // transactionMethod:AppConstants.Transaction_Method_Received,
-                                                              //   // tagItId: selectedAllocation.toString(),
-                                                              //   // tagItName: AppConstants.tagItList[selectedAllocation].title,
-                                                              //   // goalId: '',
-                                                              //   // transactionType: AppConstants.TAG_IT_Transaction_TYPE_SEND_OR_REQUEST
-                                                              // ),
                                                               tags: createMemo(
                                                                 fromWallet: AppConstants.Spend_Wallet,
                                                                 toWallet: AppConstants.Spend_Wallet,
@@ -2150,43 +1610,9 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                                   latLng: '${userLocation.latitude},${userLocation.longitude}'
                                                                 // transactionId: transaction
                                                               )
-                                                              // tags: createMemo(
-                                                              //     fromWallet: AppConstants
-                                                              //         .Spend_Wallet,
-                                                              //     toWallet: AppConstants
-                                                              //         .Spend_Wallet,
-                                                              //     transactionMethod:
-                                                              //         AppConstants
-                                                              //             .Transaction_Method_Received,
-                                                              //     tagItId: selectedAllocation
-                                                              //         .toString(),
-                                                              //     tagItName: AppConstants
-                                                              //         .tagItList[
-                                                              //             selectedAllocation]
-                                                              //         .title,
-                                                              //     goalId: '',
-                                                              //     transactionType:
-                                                              //         AppConstants
-                                                              //             .TAG_IT_Transaction_TYPE_SEND_OR_REQUEST,
-                                                              //     receiverId:
-                                                              //         selectedKidId,
-                                                              //     senderId:
-                                                              //         appConstants.userRegisteredId,
-                                                              //     transactionId: transactionId
-                                                              //     // transactionId: transaction
-                                                              //     )
                                                                   );
-                                                      // showNotification(
-                                                      //     error: 0,
-                                                      //     icon: Icons.balance,
-                                                      //     message: NotificationText
-                                                      //         .NOT_ENOUGH_BALANCE);
                                                     }
                                                   }
-                                                  // setState(() {
-                                                  //   loading = true;
-                                                  // });
-                                                  // return;
                                                   ApiServices services =
                                                       ApiServices();
 
@@ -2224,31 +1650,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                             .NOT_ENOUGH_BALANCE);
                                                     return;
                                                   }
-                                                  // dynamic cardExist =
-                                                  //     await services.checkCardExist(
-                                                  //         parentId: appConstants
-                                                  //             .userModel
-                                                  //             .userFamilyId!,
-                                                  //         id: appConstants
-                                                  //             .userRegisteredId);
-                                                  // if (cardExist == false) {
-                                                  // } else {
-                                                  //   if (appConstants.testMode !=
-                                                  //       false){ 
-                                                  //     // CreaditCardApi()
-                                                  //     //     .addAmountFromCardToBank(
-                                                  //     //         amount:
-                                                  //     //             amountController
-                                                  //     //                 .text
-                                                  //     //                 .trim(),
-                                                  //     //         name: appConstants
-                                                  //     //             .userName,
-                                                  //     //         userToken: cardExist[
-                                                  //     //             AppConstants
-                                                  //     //                 .ICard_User_Token]);
-                                                  //       }
-                                                  // }
-                                                  // return;
                                                   appConstants
                                                       .updateLoading(true);
 
@@ -2360,9 +1761,12 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                         .payRequestModel
                                                         .imageUrl!
                                                         .contains(
-                                                            'com.zakipay.teencard')) {
+                                                            'com.zakipay.bank_of_punjab')) {
+                                                              // ZakiPay/Country code-bank code/sendreceive/User id/images/
+                                                              String fullPath = '${appConstants.userModel.usaCountry}/sendreceive/${appConstants.userRegisteredId}/images';
                                                       String? pathImage =
                                                           await services.uploadImage(
+                                                            fullPath: fullPath,
                                                               path: appConstants
                                                                   .payRequestModel
                                                                   .imageUrl,
@@ -2460,45 +1864,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                         receiverId: appConstants.payRequestModel.toUserId,
                                                         senderId: appConstants.userRegisteredId,
                                                         transactionId: transactionId);
-                                                    // } else {
-                                                    //   await services.payPlusMoney(
-                                                    //     likesList: likes,
-                                                    //     selectedKidImageUrl: appConstants
-                                                    //         .payRequestModel.selectedKidImageUrl,
-                                                    //     selectedKidName: appConstants
-                                                    //         .payRequestModel.selectedKidName,
-                                                    //     senderImageUrl: appConstants
-                                                    //         .payRequestModel.senderImageUrl,
-                                                    //     requestType: AppConstants
-                                                    //         .TAG_IT_Transaction_TYPE_SEND_OR_REQUEST,
-                                                    //     privacy: appConstants.selectedPrivacyType,
-                                                    //     accountHolderName:
-                                                    //         '${appConstants.userModel.usaFirstName} ${appConstants.userModel.usaLastName}',
-                                                    //     message:
-                                                    //         appConstants.payRequestModel.message,
-                                                    //     accountType: '',
-                                                    //     tagItId : appConstants
-                                                    //         .payRequestModel.tagItId ,
-                                                    //     tagItName: appConstants
-                                                    //         .payRequestModel.tagItName,
-                                                    //     amount: amountController.text,
-                                                    //     imageUrl:
-                                                    //         appConstants.payRequestModel.imageUrl,
-                                                    //     toUserId:
-                                                    //         appConstants.payRequestModel.toUserId,
-                                                    //     currentUserId:
-                                                    //         appConstants.userRegisteredId,
-                                                    //   );
-                                                    // }
-                                                    // await services.addMoveMoney(message: appConstants.payRequestModel.message, accountHolderName: '${appConstants.userModel.usaFirstName}+${appConstants.userModel.usaLastName}', accountType: 'Spending', tagItId : appConstants.payRequestModel.tagItId .toString(), tagItName: appConstants.payRequestModel.tagItName, amount: amountController.text, imageUrl: appConstants.payRequestModel.imageUrl, parentId: appConstants.userModel.userFamilyId, senderId: appConstants.userRegisteredId, userId: appConstants.payRequestModel.toUserId, senderUserId: appConstants.userRegisteredId);
-                                                    // await services.addMoveMoney(message: appConstants.payRequestModel.message, accountHolderName: '${appConstants.userModel.usaFirstName}+${appConstants.userModel.usaLastName}', accountType: 'Spending', tagItId : appConstants.payRequestModel.tagItId , tagItName: appConstants.payRequestModel.tagItName, amount: amountController.text, imageUrl: appConstants.payRequestModel.imageUrl, parentId: appConstants.userModel.userFamilyId, senderId: '1234', userId: appConstants.payRequestModel.id, senderUserId: appConstants.userRegisteredId);
-                                                    // Navigator.push(
-                                                    //     context,
-                                                    //     MaterialPageRoute(
-                                                    //         builder: (context) =>
-                                                    //             const FriendsActivities()));
-                                                    // Future.delayed(
-                                                    //     const Duration(milliseconds: 1000), () {
                                                     setState(() {
                                                       loading = false;
                                                     });
@@ -2547,57 +1912,7 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                   if (limitReached ==
                                                       "Monthly limit reached!") {
                                                     progressDialog.dismiss();
-                                                    // showDialog(
-                                                    //   context: context,
-                                                    //   builder: (BuildContext dialougeContext) {
-                                                    //     var width = MediaQuery.of(context).size.width;
-                                                    //     return AlertDialog(
-                                                    //       shape: RoundedRectangleBorder(
-                                                    //           borderRadius: BorderRadius.all(Radius.circular(14.0))),
-                                                    //       content: TextValue2(
-                                                    //         title: 'Wow! Monthly Spend Limit Reached!',
-                                                    //       ),
-                                                    //       actions: [
-                                                    //         Row(
-                                                    //           mainAxisAlignment: MainAxisAlignment.end,
-                                                    //           children: [ZakiCicularButton(
-                                                    //                     title:'Fund Wallet Now',
-                                                    //                     width: width,
-                                                    //                     textStyle: heading4TextSmall(width, color: green),
-                                                    //                     onPressed: (){
-                                                    //                       Navigator.pop(dialougeContext);
-                                                    //                     },
-                                                    //                   ),
-                                                    //             const SizedBox(
-                                                    //               width: 10,
-                                                    //             ),ZakiCicularButton(
-                                                    //                     title:'      No      ',
-                                                    //                     width: width,
-                                                    //                     selected: 4,
-                                                    //                     backGroundColor: green,
-                                                    //                     border: false,
-                                                    //                     textStyle: heading4TextSmall(width, color: white),
-                                                    //                     onPressed: (){
-                                                    //                       Navigator.pop(dialougeContext);
-                                                    //                     },
-                                                    //                   ),
-                                                    //           ],
-                                                    //         ),
-                                                    //       ]
-                                                    //       // actions
-                                                    //   );
-                                                    //   }
-                                                    // );
-                                                    // customAleartDialog(
-                                                    //     context: context,
-                                                    //     title:
-                                                    //         'Wow! Monthly Spend Limit Reached!',
-                                                    //     width: width,
-                                                    //     titleButton1: 'Fund Wallet Now',
-                                                    //     firstButtonOnPressed: () {},
-                                                    //     secondButtonOnPressed: () {
-                                                    //       Navigator.pop(context);
-                                                    //     });
+                                                   
                                                     appConstants
                                                         .updateLoading(false);
                                                     return;
@@ -2635,9 +1950,12 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                           .payRequestModel
                                                           .imageUrl!
                                                           .contains(
-                                                              'com.zakipay.teencard')) {
+                                                              'com.zakipay.bank_of_punjab')) {
+                                                                // ZakiPay/Country code-bank code/sendreceive/User id/images/
+                                                              String fullPath = '${appConstants.userModel.usaCountry}/sendreceive/${appConstants.userRegisteredId}/images';
                                                         String? pathImage =
                                                             await services.uploadImage(
+                                                                fullPath: fullPath,
                                                                 path: appConstants
                                                                     .payRequestModel
                                                                     .imageUrl, userId: appConstants.userRegisteredId);
@@ -2658,37 +1976,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                                 .payRequestModel
                                                                 .imageUrl);
                                                       }
-
-                                                      //   await services.payPlusMoney(
-                                                      //     likesList: likes,
-                                                      //     selectedKidImageUrl: appConstants
-                                                      //         .payRequestModel
-                                                      //         .selectedKidImageUrl,
-                                                      //     selectedKidName: appConstants
-                                                      //         .payRequestModel.selectedKidName,
-                                                      //     senderImageUrl: appConstants
-                                                      //         .payRequestModel.senderImageUrl,
-                                                      //     requestType: 'Send',
-                                                      //     privacy:
-                                                      //         appConstants.selectedPrivacyType,
-                                                      //     accountHolderName:
-                                                      //         '${appConstants.userModel.usaFirstName} ${appConstants.userModel.usaLastName}',
-                                                      //     message: appConstants
-                                                      //         .payRequestModel.message,
-                                                      //     accountType: '',
-                                                      //     tagItId : appConstants
-                                                      //         .payRequestModel.tagItId ,
-                                                      //     tagItName: appConstants
-                                                      //         .payRequestModel.tagItName,
-                                                      //     amount: amountController.text,
-                                                      //     imageUrl: pathImage,
-                                                      //     toUserId: appConstants
-                                                      //         .payRequestModel.toUserId,
-                                                      //     currentUserId:
-                                                      //         appConstants.userRegisteredId,
-                                                      //   );
-                                                      // } else {
-                                                      // String? transactionId =
                                                       await services.payPlusMoney(
                                                           likesList: likes,
                                                           selectedKidImageUrl:
@@ -2764,17 +2051,6 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                                                           receiverId: appConstants.payRequestModel.toUserId,
                                                           senderId: appConstants.userRegisteredId,
                                                           transactionId: transactionId);
-
-                                                      // }
-                                                      // await services.addMoveMoney(message: appConstants.payRequestModel.message, accountHolderName: '${appConstants.userModel.usaFirstName}+${appConstants.userModel.usaLastName}', accountType: 'Spending', tagItId : appConstants.payRequestModel.tagItId .toString(), tagItName: appConstants.payRequestModel.tagItName, amount: amountController.text, imageUrl: appConstants.payRequestModel.imageUrl, parentId: appConstants.userModel.userFamilyId, senderId: appConstants.userRegisteredId, userId: appConstants.payRequestModel.toUserId, senderUserId: appConstants.userRegisteredId);
-                                                      // await services.addMoveMoney(message: appConstants.payRequestModel.message, accountHolderName: '${appConstants.userModel.usaFirstName}+${appConstants.userModel.usaLastName}', accountType: 'Spending', tagItId : appConstants.payRequestModel.tagItId , tagItName: appConstants.payRequestModel.tagItName, amount: amountController.text, imageUrl: appConstants.payRequestModel.imageUrl, parentId: appConstants.userModel.userFamilyId, senderId: '1234', userId: appConstants.payRequestModel.id, senderUserId: appConstants.userRegisteredId);
-                                                      // Navigator.push(
-                                                      //     context,
-                                                      //     MaterialPageRoute(
-                                                      //         builder: (context) =>
-                                                      //             const FriendsActivities()));
-                                                      // Future.delayed(
-                                                      //     const Duration(milliseconds: 1000), () {
                                                       setState(() {
                                                         loading = false;
                                                       });
@@ -2815,7 +2091,43 @@ class _PayOrRequestScreenState extends State<PayOrRequestScreen> {
                           ],
                         ),
                         // spacing_small,
-                        
+                        // ZakiPrimaryButton(
+                        //   title: 'Send',
+                        //   width: width,
+                        // onPressed: () async {
+                        //   AppConstants appConstantsProvider =
+                        //       Provider.of<AppConstants>(context, listen: false);
+                        //   final result = await SendMoneyFlowController.send(
+                        //     context: context,
+                        //     appConstants: appConstantsProvider,
+                        //     toUserId: selectedKidId,
+                        //     selectedKidName: selectedKidName,
+                        //     selectedKidImageUrl: selectedKidImageUrl,
+                        //     receiverGender: receiverGender,
+                        //     receiverUserType: receiverUserType,
+                        //     tagId: selectedAllocation,
+                        //     imagePath: imageUrl,
+                        //     message: messageController.text,
+                        //     amount: amountController.text.trim(),
+                        //   );
+
+                        //   if (result.success) {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (_) => CustomConfermationScreen(
+                        //           title: "Mission Accomplished!",
+                        //           subTitle: "$selectedKidName received ${getCurrencySymbol(context, appConstants: appConstants)} ${amountController.text}",
+                        //           imageUrl: selectedKidImageUrl,
+                        //         ),
+                        //       ),
+                        //     );
+                        //   } else {
+                        //     showNotification(error: 1, icon: Icons.error, message: result.error ?? 'Something went wrong');
+                        //   }
+                        // }
+                        // ),
+
                       ],
                     ),
                   ),

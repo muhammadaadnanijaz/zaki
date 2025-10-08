@@ -11,6 +11,8 @@ import 'package:zaki/Widgets/CustomLoader.dart';
 import '../Constants/HelperFunctions.dart';
 import '../Widgets/AppBars/AppBar.dart';
 
+// flutter_slidable, sqflite, path_provider, intl, flutter_local_notifications, flutter_native_timezone, flutter_launcher_icons
+
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
   @override

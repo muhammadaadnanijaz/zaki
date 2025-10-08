@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
+// import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
@@ -14,6 +14,7 @@ import 'package:zaki/Widgets/TextHeader.dart';
 import 'package:screenshot/screenshot.dart';
 import '../Constants/AppConstants.dart';
 import '../Widgets/UserInfoForGoals.dart';
+// screenshot, share, image_picker, path_provider, esys_flutter_share_plus, geocoding, provider, intl, flutter
 
 class TransactionDetail extends StatefulWidget {
   const TransactionDetail({Key? key}) : super(key: key);
@@ -68,6 +69,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
+                                if(appConstants.isShareFeature)
                                 IconButton(
                                   padding: EdgeInsets.zero,
                                   visualDensity: VisualDensity.compact,
@@ -84,9 +86,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
             setState(() {
                           _imageFile = image;
                       });
-                    await Share.file('Share My Image', 'image.png',
-                                _imageFile!, 'image/png',
-                                text:'${appConstants.userModel.usaFirstName} Shared an activity from ZakiPay. Download Zakipay and raise Money Smart Kids!');
+                    // await Share.file('Share My Image', 'image.png',
+                    //             _imageFile!, 'image/png',
+                    //             text:'${appConstants.userModel.usaFirstName} Shared an activity from ZakiPay. Download Zakipay and raise Money Smart Kids!');
                   }).catchError((onError) {
                       print(onError);
                   });
@@ -96,7 +98,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                             ),
                             SizedBox(width: width,),
                             Image.asset(
-                              imageBaseAddress+"header_zakipay_real.png",
+                              appLogosBaseAddress+"header_zakipay_real.png",
                               width: width*0.4,
                             ),
                             spacing_small,

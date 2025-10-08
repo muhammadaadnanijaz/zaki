@@ -3,9 +3,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/AuthMethods.dart';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
 import 'package:zaki/Constants/LocationGetting.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Spacing.dart';
 import 'package:zaki/Constants/Styles.dart';
 import 'package:zaki/Models/BalanceModel.dart';
@@ -175,6 +176,7 @@ class _MoveMoneyForGoalsState extends State<MoveMoneyForGoals> {
                                     message:
                                         'R: ${widget.receiverUserId} GS: ${widget.goalSetterUserId} and GID: ${widget.documentId} and ${appConstants.selectFromWalletRealName}');
                                 /////////Marqata Logic for checking Balance and pay user
+                                if(appConstants.appMode!=false)
                                 if (widget.receiverUserId != null) {
                                   CreaditCardApi creaditCardApi =
                                       CreaditCardApi();
@@ -188,7 +190,7 @@ class _MoveMoneyForGoalsState extends State<MoveMoneyForGoals> {
                                           .toString())) {
                                     setState(() {
                                       error =
-                                          'Not enough money :(  add funds to your wallet first';
+                                          'Not enough money :(  add funds to your Spend wallet first';
                                     });
                                     showNotification(
                                         error: 1,

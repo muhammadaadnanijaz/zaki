@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
 import 'package:zaki/Constants/IntialSetup.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Screens/PinCodeSetUp.dart';
 import 'package:zaki/Services/api.dart';
 import 'package:zaki/Widgets/TextHeader.dart';
@@ -13,6 +13,7 @@ import '../Constants/Spacing.dart';
 import '../Constants/Styles.dart';
 import '../Widgets/AppBars/AppBar.dart';
 import '../Widgets/CustomConfermationScreen.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 
 enum SignUpVia { number, pinCode }
 

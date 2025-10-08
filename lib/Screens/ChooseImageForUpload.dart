@@ -4,7 +4,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:provider/provider.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Widgets/TextHeader.dart';
 import 'package:zaki/Widgets/ZakiPrimaryButton.dart';
 import '../Constants/AppConstants.dart';
@@ -15,6 +15,7 @@ import '../Models/ImageModels.dart';
 import '../Services/api.dart';
 import '../Widgets/AppBars/AppBar.dart';
 import '../Widgets/CustomLoadingScreen.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 
 class ChooseImageForUpload extends StatefulWidget {
   const ChooseImageForUpload(
@@ -30,39 +31,39 @@ class ChooseImageForUpload extends StatefulWidget {
 class _ChooseImageForUploadState extends State<ChooseImageForUpload> {
   List<ImageModel> imageList = [];
   List<ImageModel> backgroundImageList = [
-    ImageModel(id: 0, imageName: imageBaseAddress + '1_background.png'),
-    ImageModel(id: 1, imageName: imageBaseAddress + '2_background.png'),
-    ImageModel(id: 2, imageName: imageBaseAddress + '3_background.jpg'),
-    ImageModel(id: 3, imageName: imageBaseAddress + '4_background.png'),
-    ImageModel(id: 4, imageName: imageBaseAddress + '5_background.png'),
-    ImageModel(id: 5, imageName: imageBaseAddress + '6_background.png'),
-    ImageModel(id: 6, imageName: imageBaseAddress + '7_background.png'),
-    ImageModel(id: 7, imageName: imageBaseAddress + '8_background.png'),
-    ImageModel(id: 8, imageName: imageBaseAddress + '9_background.png'),
-    ImageModel(id: 9, imageName: imageBaseAddress + '10_background.png'),
-    ImageModel(id: 10, imageName: imageBaseAddress + '11_background.png'),
-    ImageModel(id: 11, imageName: imageBaseAddress + '12_background.png'),
-    ImageModel(id: 12, imageName: imageBaseAddress + '13_background.png'),
-    ImageModel(id: 13, imageName: imageBaseAddress + '14_background.png'),
-    ImageModel(id: 14, imageName: imageBaseAddress + '15_background.png'),
+    ImageModel(id: 0, imageName: userBackgroundImagesBaseAddress + '1_background.png'),
+    ImageModel(id: 1, imageName: userBackgroundImagesBaseAddress + '2_background.png'),
+    ImageModel(id: 2, imageName: userBackgroundImagesBaseAddress + '3_background.jpg'),
+    ImageModel(id: 3, imageName: userBackgroundImagesBaseAddress + '4_background.png'),
+    ImageModel(id: 4, imageName: userBackgroundImagesBaseAddress + '5_background.png'),
+    ImageModel(id: 5, imageName: userBackgroundImagesBaseAddress + '6_background.png'),
+    ImageModel(id: 6, imageName: userBackgroundImagesBaseAddress + '7_background.png'),
+    ImageModel(id: 7, imageName: userBackgroundImagesBaseAddress + '8_background.png'),
+    ImageModel(id: 8, imageName: userBackgroundImagesBaseAddress + '9_background.png'),
+    ImageModel(id: 9, imageName: userBackgroundImagesBaseAddress + '10_background.png'),
+    ImageModel(id: 10, imageName: userBackgroundImagesBaseAddress + '11_background.png'),
+    ImageModel(id: 11, imageName: userBackgroundImagesBaseAddress + '12_background.png'),
+    ImageModel(id: 12, imageName: userBackgroundImagesBaseAddress + '13_background.png'),
+    ImageModel(id: 13, imageName: userBackgroundImagesBaseAddress + '14_background.png'),
+    ImageModel(id: 14, imageName: userBackgroundImagesBaseAddress + '15_background.png'),
   ];
   List<ImageModel> logoList = [
-    ImageModel(id: 0, imageName: imageBaseAddress + 'Logo_Boy1.png'),
-    ImageModel(id: 1, imageName: imageBaseAddress + 'Logo_Boy2.png'),
-    ImageModel(id: 2, imageName: imageBaseAddress + 'Logo_DadorSingle.png'),
-    ImageModel(id: 3, imageName: imageBaseAddress + 'Logo_Mom.png'),
-    ImageModel(id: 4, imageName: imageBaseAddress + 'Logo_Girl1.png'),
-    ImageModel(id: 5, imageName: imageBaseAddress + 'Logo_Girl2.png'),
-    ImageModel(id: 6, imageName: imageBaseAddress + 'Logo_1.png'),
-    ImageModel(id: 7, imageName: imageBaseAddress + 'Logo_2.png'),
-    ImageModel(id: 8, imageName: imageBaseAddress + 'Logo_3.png'),
-    ImageModel(id: 9, imageName: imageBaseAddress + 'Logo_4.png'),
-    ImageModel(id: 10, imageName: imageBaseAddress + 'Logo_5.png'),
-    ImageModel(id: 11, imageName: imageBaseAddress + 'Logo_6.png'),
-    ImageModel(id: 12, imageName: imageBaseAddress + 'Logo_7.png'),
-    ImageModel(id: 13, imageName: imageBaseAddress + 'Logo_8.png'),
-    ImageModel(id: 14, imageName: imageBaseAddress + 'Logo_9.png'),
-    ImageModel(id: 15, imageName: imageBaseAddress + 'Logo_10.png'),
+    ImageModel(id: 0, imageName: userLogoBaseAddress + 'Logo_Boy1.png'),
+    ImageModel(id: 1, imageName: userLogoBaseAddress + 'Logo_Boy2.png'),
+    ImageModel(id: 2, imageName: userLogoBaseAddress + 'Logo_DadorSingle.png'),
+    ImageModel(id: 3, imageName: userLogoBaseAddress + 'Logo_Mom.png'),
+    ImageModel(id: 4, imageName: userLogoBaseAddress + 'Logo_Girl1.png'),
+    ImageModel(id: 5, imageName: userLogoBaseAddress + 'Logo_Girl2.png'),
+    ImageModel(id: 6, imageName: userLogoBaseAddress + 'Logo_1.png'),
+    ImageModel(id: 7, imageName: userLogoBaseAddress + 'Logo_2.png'),
+    ImageModel(id: 8, imageName: userLogoBaseAddress + 'Logo_3.png'),
+    ImageModel(id: 9, imageName: userLogoBaseAddress + 'Logo_4.png'),
+    ImageModel(id: 10, imageName: userLogoBaseAddress + 'Logo_5.png'),
+    ImageModel(id: 11, imageName: userLogoBaseAddress + 'Logo_6.png'),
+    ImageModel(id: 12, imageName: userLogoBaseAddress + 'Logo_7.png'),
+    ImageModel(id: 13, imageName: userLogoBaseAddress + 'Logo_8.png'),
+    ImageModel(id: 14, imageName: userLogoBaseAddress + 'Logo_9.png'),
+    ImageModel(id: 15, imageName: userLogoBaseAddress + 'Logo_10.png'),
 
     // ImageModel(id: 5, imageName: imageBaseAddress + 'Logo_Genral.png'),
   ];
@@ -393,8 +394,9 @@ class _ChooseImageForUploadState extends State<ChooseImageForUpload> {
                     progressDialog.dismiss();
                     return;
                   }
+                  String userImagesPath = '${appConstants.userModel.usaCountry}/profileimages/users/${appConstants.userRegisteredId}/images';
                   String? path =
-                      await ApiServices().uploadImage(path: imageUrl, userId: appConstants.userRegisteredId);
+                      await ApiServices().uploadImage(fullPath: userImagesPath, userId: appConstants.userRegisteredId);
                   if (path != null) {
                     showNotification(
                         error: 0, icon: Icons.check, message: path);

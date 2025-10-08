@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
 import 'package:zaki/Constants/Styles.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:zaki/Screens/LoginWithPinCode.dart';
 import 'package:zaki/Screens/WhatsAppLoginScreen.dart';
 import 'package:zaki/Screens/WhoLogin.dart';
@@ -46,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   loadUserVideo() {
     _controller = VideoPlayerController.asset(
-      imageBaseAddress + 'intro_video.mp4',
+      APPLICATION_INTRO_VIDEO,
       // 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
       // videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true)
     )..initialize().then((_) {
@@ -66,7 +67,9 @@ class _SplashScreenState extends State<SplashScreen> {
     super.dispose();
   }
   closeVideo(){
+    // _controller.pause();
     _controller.pause();
+    _controller.dispose();
     // _controller.dispose();
   }
 
@@ -105,7 +108,7 @@ class _SplashScreenState extends State<SplashScreen> {
             !appConstants.userModel.usaIsenable!) {
           if (appConstants.userModel.isUserPinUser != null &&
               appConstants.userModel.isUserPinUser!) {
-            // closeVideo();
+            closeVideo();
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -166,6 +169,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     // (route) => false,
                     );
           } else{
+            closeVideo();
             Navigator.push(
             context,
             MaterialPageRoute(
@@ -239,6 +243,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 alignment: Alignment.bottomCenter,
                 child: InkWell(
                   onTap: () {
+                    closeVideo();
                     UserPreferences userPref = UserPreferences();
                     userPref.clearLoggedInUser();
                     Navigator.push(

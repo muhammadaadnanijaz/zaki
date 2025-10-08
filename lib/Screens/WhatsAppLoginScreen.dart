@@ -16,12 +16,13 @@ import 'package:provider/provider.dart';
 import 'package:zaki/Constants/AuthMethods.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
 import 'package:zaki/Constants/LocationGetting.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Styles.dart';
 import 'package:zaki/Screens/LoginWithPinCode.dart';
 import 'package:zaki/Screens/WhatsAppSignUpScreen.dart';
 import 'package:zaki/Services/api.dart';
 import 'package:zaki/Widgets/TextHeader.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:zaki/Widgets/ZakiCircularButton.dart';
 import 'package:zaki/Widgets/ZakiPrimaryButton.dart';
 import '../Constants/AppConstants.dart';
@@ -30,6 +31,7 @@ import '../Services/SharedPrefMnager.dart';
 import '../Widgets/CustomLoadingScreen.dart';
 import 'HomeScreen.dart';
 import 'VerificationCodeWhatsapp.dart';
+// firebase_core, cloud_firestore, firebase_auth, google_sign_in, flutter_facebook_auth, flutter_twitter_login, flutter_secure_storage, local_auth, geolocator, geocoding, ndialog, provider, country_code_picker, font_awesome_flutter, flutter, flutter_local_notifications, flutter_local_notifications_platform_interface, flutter_secure_storage_platform_interface, flutter_twitter, flutter_twitter_login_platform_interface, flutter_twitter_web, flutter_web_auth, google_sign_in_platform_interface, google_sign_in_web, local_auth_platform_interface, ndialog, provider, shared_preferences
 
 class WhatsAppLoginScreen extends StatefulWidget {
   final bool? fromForgetPassword;
@@ -257,7 +259,7 @@ class _WhatsAppLoginScreenState extends State<WhatsAppLoginScreen> {
                     ),
                     Center(
                         child: Image.asset(
-                            imageBaseAddress + 'zakipay_logo_signUp.png')),
+                            appLogosBaseAddress + 'zakipay_logo_signUp.png')),
                     spacing_small,
                     (widget.fromForgetPassword != true)
                     
@@ -386,6 +388,7 @@ class _WhatsAppLoginScreenState extends State<WhatsAppLoginScreen> {
                     Column(
                       children: [
                         spacing_medium,
+                        if(appConstants.isGoogleSignIn)
                         if(Platform.isAndroid)
                         LoginTypesButton(
                           width: width,
@@ -394,7 +397,7 @@ class _WhatsAppLoginScreenState extends State<WhatsAppLoginScreen> {
                           icon: FontAwesomeIcons.google,
                           onPressed: () async{
                             UserCredential? info = await ApiServices()
-                                .signInWithGoogle(googleSignIn);
+                                .signInWithGoogle(googleSignIns);
                             if (info != null) {
 
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -443,6 +446,7 @@ class _WhatsAppLoginScreenState extends State<WhatsAppLoginScreen> {
                             }
                           },
                           ),
+                          if(appConstants.isAppleSignIn)
                           if(Platform.isIOS)
                           Column(
                             children: [
@@ -460,6 +464,7 @@ class _WhatsAppLoginScreenState extends State<WhatsAppLoginScreen> {
                             ],
                           ),
                           spacing_medium,
+                          if(appConstants.isFacebookSignIn)
                           LoginTypesButton(
                           width: width,
                           title: 'Continue with Facebook',
@@ -515,6 +520,7 @@ class _WhatsAppLoginScreenState extends State<WhatsAppLoginScreen> {
                           },
                           ),
                           spacing_medium,
+                          if(appConstants.isXSignIn)
                           LoginTypesButton(
                           width: width,
                           title: 'Continue with X',

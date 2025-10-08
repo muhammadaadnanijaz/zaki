@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'AppConstants.dart';
 
 
-String imageBaseAddress = 'assets/images/';
+String imageBaseAddress = INTIAL_imageBaseAddress;
+String appLogosBaseAddress = INTIAL_appLogosBaseAddress;
+String userLogoBaseAddress = INTIAL_userLogoBaseAddress;
+String userBackgroundImagesBaseAddress = INTIAL_userBackgroundImagesBaseAddress;
+String sendOrRequestImagesBaseAddress = INTIAL_sendOrRequestImagesBaseAddress;
+String cardImagesBaseAddress = INTIAL_cardImagesBaseAddress;
 
 ///White theme
 Color white = Colors.white;
@@ -33,9 +38,11 @@ Color crimsonColor = const Color(0XFFC9013B);
 
 TextStyle textStyleHeading1WithTheme(BuildContext context, double width, {int? whiteColor, int? isUnderline, bool? bold}) {
  var appConstants = Provider.of<AppConstants>(context, listen: false);
-  return GoogleFonts.lato(
-      textStyle: TextStyle(
-          color: (appConstants.themeId==0 && whiteColor==0)? black: whiteColor== 2? green : whiteColor== 6? orange :  (appConstants.themeId==0 && whiteColor==3)? purple: (appConstants.themeId==0 && whiteColor==4)? blue : (appConstants.themeId==0 && whiteColor==5)? grey : (appConstants.themeId==0 && whiteColor==7)? red : (appConstants.themeId==0 && whiteColor==8) ? orange : (appConstants.themeId==0 && whiteColor==9) ? crimsonColor: (appConstants.themeId==0 && whiteColor==10)? lightBlue: white ,
+  return appFont(
+    TextStyle(
+          color: 
+          // red,
+          (appConstants.themeId==0 && whiteColor==0)? black: whiteColor== 2? green : whiteColor== 6? orange :  (appConstants.themeId==0 && whiteColor==3)? purple: (appConstants.themeId==0 && whiteColor==4)? blue : (appConstants.themeId==0 && whiteColor==5)? grey : (appConstants.themeId==0 && whiteColor==7)? red : (appConstants.themeId==0 && whiteColor==8) ? orange : (appConstants.themeId==0 && whiteColor==9) ? crimsonColor: (appConstants.themeId==0 && whiteColor==10)? lightBlue: white ,
           // fontSize: bold==false? 21: 22,
           fontSize: width * 0.07,
           fontWeight: bold==false? FontWeight.w600 : FontWeight.w900,
@@ -46,8 +53,7 @@ TextStyle textStyleHeading1WithTheme(BuildContext context, double width, {int? w
 }
 TextStyle textStyleGoals(BuildContext context, double width, {int? whiteColor, int? isUnderline }) {
  var appConstants = Provider.of<AppConstants>(context, listen: false);
-  return GoogleFonts.lato(
-      textStyle: TextStyle(
+  return appFont(TextStyle(
           color: (appConstants.themeId==0 && whiteColor==0)? black: whiteColor== 2? green : whiteColor== 6? orange :  (appConstants.themeId==0 && whiteColor==3)? purple: (appConstants.themeId==0 && whiteColor==4)? blue : (appConstants.themeId==0 && whiteColor==5)? grey : (appConstants.themeId==0 && whiteColor==7)? red : (appConstants.themeId==0 && whiteColor==8) ? orange : (appConstants.themeId==0 && whiteColor==9) ? crimsonColor: (appConstants.themeId==0 && whiteColor==10)? lightBlue: white ,
           fontSize: 16,
           //fontSize: width * 0.07,
@@ -59,9 +65,8 @@ TextStyle textStyleGoals(BuildContext context, double width, {int? whiteColor, i
 }
 TextStyle textStyleHeading2WithTheme(BuildContext context, double width, {int? whiteColor, double? font}) {
   var appConstants = Provider.of<AppConstants>(context, listen: false);
-  return GoogleFonts.lato(
-    
-      textStyle: TextStyle(
+  return appFont(
+    TextStyle(
     color: appConstants.themeId==0? whiteColor == 1
         ? white
         : whiteColor == 2 ? grey
@@ -82,9 +87,7 @@ TextStyle textStyleHeading2WithTheme(BuildContext context, double width, {int? w
 
 TextStyle textStyleButtonTextMain(BuildContext context, double width, {int? whiteColor, Color? color }) {
   // var appConstants = Provider.of<AppConstants>(context, listen: false);
-  return GoogleFonts.lato(
-    
-      textStyle: TextStyle(
+  return appFont( TextStyle(
         shadows: [
                 Shadow(
                   color: whiteColor == 1
@@ -107,8 +110,7 @@ TextStyle textStyleButtonTextMain(BuildContext context, double width, {int? whit
   ));
 }
 TextStyle textStyleHeading2(BuildContext context,double width, {int? whiteColor, double? font, Color? color, bool? isLineThrough}) {
-  return GoogleFonts.lato(
-      textStyle: TextStyle(
+  return appFont(TextStyle(
     color: color!=null? color: whiteColor == 1
         ? white
         : whiteColor == 2
@@ -127,8 +129,7 @@ TextStyle textStyleHeading2(BuildContext context,double width, {int? whiteColor,
 }
 
 TextStyle textStyleHeading1(context,double width, {int? whiteColor, int? isUnderline }) {
-  return GoogleFonts.lato(
-      textStyle: TextStyle(
+  return appFont(TextStyle(
           color: whiteColor == 1 ? white : whiteColor == 2? grey : black,
           fontSize: 20,
           //fontSize: width * 0.054,
@@ -142,9 +143,8 @@ TextStyle textStyleHeading1(context,double width, {int? whiteColor, int? isUnder
 
 TextStyle appBarTextStyle(BuildContext context, double width, {Color? color}) {
   // var appConstants = Provider.of<AppConstants>(context, listen: false);
-  return GoogleFonts.lato(
-      textStyle: TextStyle(
-    color: color!=null? color: black,
+  return appFont(TextStyle(
+    color: color!=null? color: appBarTextColor,
     // fontSize: 22,
     fontSize: width * 0.062,
     fontWeight: FontWeight.w600,
@@ -153,9 +153,10 @@ TextStyle appBarTextStyle(BuildContext context, double width, {Color? color}) {
 
 TextStyle heading1TextStyle(BuildContext context, double width,{ Color? color, double? font}) {
   // var appConstants = Provider.of<AppConstants>(context, listen: false);
-  return GoogleFonts.lato(
-      textStyle: TextStyle(
-    color: color!=null ? color : darkGrey,
+  return appFont(TextStyle(
+    color: 
+    color!=null ? color : 
+    heading1Color,
     // fontSize: font!=null? font: 16,
     fontSize: font!=null? font: width*0.045,
     fontWeight: FontWeight.w700,
@@ -164,9 +165,8 @@ TextStyle heading1TextStyle(BuildContext context, double width,{ Color? color, d
 
 TextStyle heading2TextStyle(BuildContext context, double width, {Color? color, double? font}) {
   // var appConstants = Provider.of<AppConstants>(context, listen: false);
-  return GoogleFonts.lato(
-      textStyle: TextStyle(
-    color: color!=null? color: green,
+  return appFont(TextStyle(
+    color: color!=null? color: heading2Color,
     // fontSize: font!=null? font : 15,
     fontSize: font!=null? font : width*0.0413,
     fontWeight: FontWeight.w400,
@@ -175,9 +175,8 @@ TextStyle heading2TextStyle(BuildContext context, double width, {Color? color, d
 
 TextStyle heading3TextStyle(double width, {Color? color, double? font, bool? underLine, bool? bold}) {
   // var appConstants = Provider.of<AppConstants>(context, listen: false);
-  return GoogleFonts.lato(
-      textStyle: TextStyle(
-    color: color!=null? color: darkGrey,
+  return appFont(TextStyle(
+    color: color!=null? color: heading3Color,
     // fontSize: font!=null? font : 15,
     fontSize: font!=null? font : width*0.0413,
     fontWeight: bold!=null? FontWeight.bold: FontWeight.w400,
@@ -192,9 +191,8 @@ TextStyle heading3TextStyle(double width, {Color? color, double? font, bool? und
 
 TextStyle heading4TextSmall(double width, {Color? color, bool? underline}) {
   // var appConstants = Provider.of<AppConstants>(context, listen: false);
-  return GoogleFonts.lato(
-      textStyle: TextStyle(
-    color: color!=null? color: lightGrey,
+  return appFont(TextStyle(
+    color: color!=null? color: heading4Color,
     // fontSize: 12,
     fontSize: width*0.035,
     fontWeight: FontWeight.normal,
@@ -203,9 +201,10 @@ TextStyle heading4TextSmall(double width, {Color? color, bool? underline}) {
 }
 TextStyle heading5TextSmall(double width, {double? font, bool? bold, Color? color}) {
   // var appConstants = Provider.of<AppConstants>(context, listen: false);
-  return GoogleFonts.lato(
-      textStyle: TextStyle(
-    color: color?? black,
+  
+  return appFont(
+    TextStyle(
+    color: color?? heading5Color,
     // fontSize: font!=null?font: 10,
     fontSize: width*0.03,
     fontWeight: bold==false? null: FontWeight.bold,

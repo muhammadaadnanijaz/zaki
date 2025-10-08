@@ -6,7 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
+// import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 import 'package:feedback/feedback.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +25,7 @@ import 'package:zaki/Models/UserModel.dart';
 import 'package:zaki/Payment/AndroidIosPayment.dart';
 // import 'package:zaki/Payment/AndroidIosPayment.dart';
 import 'package:zaki/Screens/AddMembersWorkFlow.dart';
+import 'package:zaki/Screens/Chatui.dart';
 import 'package:zaki/Screens/PreviousPin.dart';
 import 'package:zaki/Screens/Socialize.dart';
 import 'package:zaki/Screens/AllTransactions.dart';
@@ -36,6 +37,7 @@ import 'package:zaki/Screens/ManageContacts.dart';
 import 'package:zaki/Screens/MoveInternalMoney.dart';
 import 'package:zaki/Screens/NewGoal.dart';
 import 'package:zaki/Screens/Settings.dart';
+import 'package:zaki/Screens/TrackSpendScreen.dart';
 import 'package:zaki/Screens/UpdateAllowance.dart';
 import 'package:zaki/Screens/todo.dart';
 // import 'package:zaki/Services/CreaditCardApis.dart';
@@ -65,7 +67,7 @@ import 'SpendingLimit.dart';
 import 'InviteMainScreen.dart';
 import 'dart:async';
 
-
+// firebase_core, cloud_firestore, share_plus, feedback,
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -282,6 +284,9 @@ class _HomeScreensState extends State<HomeScreens> {
             TextButton(
               child: Text('Cancel'),
               onPressed: () {
+                DateTime dateTime = DateTime.now();
+                DateTime newDateTime = dateTime.add(Duration(days: 60));
+                ApiServices().updatePincodeSetupDateTime(Provider.of<AppConstants>(context, listen: false).userRegisteredId, newDateTime);
                 Navigator.of(context).pop();
               },
             ),
@@ -376,22 +381,48 @@ class _HomeScreensState extends State<HomeScreens> {
       },
       child: Scaffold(
 
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
+        floatingActionButton: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if(appConstants.isAiChat)
+             FloatingActionButton(
+              onPressed: () async {
+                // Navigator.push(context, MaterialPageRoute( builder: (context) => const ChatScreen(),));
+                // return;
+                // logMethod(title: 'User id', message: appConstants.userRegisteredId);
+                // print('User id: ${appConstants.userRegisteredId}');
+                BetterFeedback.of(context).show((UserFeedback feedback) {
+                  sendEmail(feedback.screenshot, feedback.text); 
             
-            logMethod(title: 'User id', message: appConstants.userRegisteredId);
-            print('User id: ${appConstants.userRegisteredId}');
-            BetterFeedback.of(context).show((UserFeedback feedback) {
-              sendEmail(feedback.screenshot, feedback.text); 
-
-              // Do something with the feedback
-            });
-            throw Exception();
-            },
-          // highlightElevation: 5,
-          backgroundColor: transparent,
-          elevation: 20,
-          child: Image.asset(imageBaseAddress + "zakipay_logo.png"),
+                  // Do something with the feedback
+                });
+                throw Exception();
+                },
+              // highlightElevation: 5,
+              backgroundColor: green,
+              elevation: 10,
+              mini: true,
+              child: Icon(FontAwesomeIcons.headset, color: white,)
+            ),
+            FloatingActionButton(
+              onPressed: () async {
+                // Navigator.push(context, MaterialPageRoute( builder: (context) => const ChatScreen(),));
+                // return;
+                logMethod(title: 'User id', message: appConstants.userRegisteredId);
+                print('User id: ${appConstants.userRegisteredId}');
+                BetterFeedback.of(context).show((UserFeedback feedback) {
+                  sendEmail(feedback.screenshot, feedback.text); 
+            
+                  // Do something with the feedback
+                });
+                // throw Exception();
+                },
+              // highlightElevation: 5,
+              backgroundColor: transparent,
+              elevation: 20,
+              child: Image.asset(imageBaseAddress + "zakipay_logo.png"),
+            ),
+          ],
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -480,7 +511,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                     Icon(Icons.error),
                                           )
                                         : Image.asset(
-                                            imageBaseAddress +
+                                            userBackgroundImagesBaseAddress +
                                                 '1_background.png',
                                             width: width,
                                             height: height * 0.18,
@@ -616,7 +647,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                   horizontal: width * 0.05,
                                 ),
                                 child: InkWell(
-                                  onTap: () async {
+                                  onTap: !(appConstants.isShareFeature) ? null:() async {
                                     showNotification(
                                         error: 0,
                                         icon: Icons.screen_share_outlined,
@@ -624,16 +655,16 @@ class _HomeScreensState extends State<HomeScreens> {
                                     logMethod(
                                         title: 'Share Button tabed',
                                         message: 'Tabbed Success');
-                                    final ByteData bytes = await rootBundle
-                                        .load(imageBaseAddress + 'share.png');
-                                    await Share.file(
-                                      'Share My Image',
-                                      'ZakiPay_Share.png',
-                                      bytes.buffer.asUint8List(),
-                                      'image/png',
-                                      text:
-                                          "${appConstants.userModel.usaFirstName} ${AppConstants.ZAKI_PAY_PROMOTIONAL_TEXT} ${AppConstants.ZAKI_PAY_APP_LINK}",
-                                    );
+                                    // final ByteData bytes = await rootBundle
+                                    //     .load(imageBaseAddress + 'share.png');
+                                    // await Share.file(
+                                    //   'Share My Image',
+                                    //   'ZakiPay_Share.png',
+                                    //   bytes.buffer.asUint8List(),
+                                    //   'image/png',
+                                    //   text:
+                                    //       "${appConstants.userModel.usaFirstName} ${AppConstants.ZAKI_PAY_PROMOTIONAL_TEXT} ${AppConstants.ZAKI_PAY_APP_LINK}",
+                                    // );
                                     // Share.share('Download ZakiPay and Raise Smart Kids', subject: 'Download ZakiPay and Raise Smart Kids', );
                                   },
                                   child: Container(
@@ -667,6 +698,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                     // maxLines: 1,
                                                   ),
                                                 ),
+                                                if(appConstants.isShareFeature)
                                                 IconButton(
                                                   splashColor: green,
                                                   padding: EdgeInsets.zero,
@@ -683,19 +715,19 @@ class _HomeScreensState extends State<HomeScreens> {
                                                             'Share Button tabed',
                                                         message:
                                                             'Tabbed Success');
-                                                    final ByteData bytes =
-                                                        await rootBundle.load(
-                                                            imageBaseAddress +
-                                                                'share.png');
-                                                    await Share.file(
-                                                      'Share My Image',
-                                                      'ZakiPay_Share.png',
-                                                      bytes.buffer
-                                                          .asUint8List(),
-                                                      'image/png',
-                                                      text:
-                                                          "${appConstants.userModel.usaFirstName} ${AppConstants.ZAKI_PAY_PROMOTIONAL_TEXT} ${AppConstants.ZAKI_PAY_APP_LINK}",
-                                                    );
+                                                    // final ByteData bytes =
+                                                    //     await rootBundle.load(
+                                                    //         imageBaseAddress +
+                                                    //             'share.png');
+                                                    // await Share.file(
+                                                    //   'Share My Image',
+                                                    //   'ZakiPay_Share.png',
+                                                    //   bytes.buffer
+                                                    //       .asUint8List(),
+                                                    //   'image/png',
+                                                    //   text:
+                                                    //       "${appConstants.userModel.usaFirstName} ${AppConstants.ZAKI_PAY_PROMOTIONAL_TEXT} ${AppConstants.ZAKI_PAY_APP_LINK}",
+                                                    // );
                                                     // Share.share('Download ZakiPay and Raise Smart Kids', subject: 'Download ZakiPay and Raise Smart Kids', );
                                                   },
                                                   alignment:
@@ -848,7 +880,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                         .toString());
                                                 if (screenNotOpens == false) {
                                                   ///////If secondary user
-                                                  if (appConstants.userModel
+                                                  if ((appConstants.userModel
                                                               .userFamilyId !=
                                                           appConstants.userModel
                                                               .usaUserId &&
@@ -858,7 +890,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                       snapshot.data!.docs[index]
                                                               [AppConstants
                                                                   .USER_SubscriptionValue] <=
-                                                          2) {
+                                                          2) && appConstants.appMode!= false) {
                                                     showModalBottomSheet(
                                                       context: context,
                                                       // constraints: BoxConstraints(maxHeight: 800, maxWidth: double.infinity, minHeight: 800, minWidth: double.infinity),
@@ -890,10 +922,10 @@ class _HomeScreensState extends State<HomeScreens> {
                                                     return;
                                                   }
 
-                                                  if (snapshot.data!.docs[index]
+                                                  if ((snapshot.data!.docs[index]
                                                           [AppConstants
                                                               .USER_SubscriptionValue] <=
-                                                      2) {
+                                                      2) && appConstants.appMode!= false) {
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
@@ -906,14 +938,15 @@ class _HomeScreensState extends State<HomeScreens> {
                                                       title: 'From My family',
                                                       message: snapshot.data!
                                                           .docs[index].id);
-                                                  if (snapshot.data!.docs[index]
+                                                  if ((snapshot.data!.docs[index]
                                                               [AppConstants
                                                                   .NewMember_kid_isEnabled] ==
                                                           true &&
                                                       snapshot.data!.docs[index]
                                                               [AppConstants
                                                                   .NewMember_isEnabled] ==
-                                                          false) {
+                                                          false) && appConstants.appMode!= false) {
+                                                    //if kid is not enabled
                                                     showDialog(
                                                       context: context,
                                                       builder: (BuildContext
@@ -1122,7 +1155,9 @@ class _HomeScreensState extends State<HomeScreens> {
                                                                             .docs[index][AppConstants.NewMember_isEnabled]) ==
                                                                     '')
                                                                 ? SizedBox()
-                                                                : Container(
+                                                                : appConstants.appMode!= true?
+                                                                SizedBox():
+                                                                Container(
                                                                     decoration:
                                                                         BoxDecoration(
                                                                       color:
@@ -1246,6 +1281,7 @@ class _HomeScreensState extends State<HomeScreens> {
                               )
                             : Row(
                                 children: [
+                                  // AppConstants.TEMP_CODE;
                                   Expanded(
                                     flex: 4,
                                     child: Padding(
@@ -1333,6 +1369,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                     StreamBuilder(
                                                         stream: FirebaseFirestore
                                                             .instance
+                                                            .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
                                                             .collection(
                                                                 AppConstants
                                                                     .USER)
@@ -1431,6 +1468,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                       ),
                                     ),
                                   ),
+                                  // AppConstants.TEMP_CODE;
                                   Expanded(
                                     flex: 3,
                                     child: Padding(
@@ -1545,6 +1583,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                       child: StreamBuilder(
                                                           stream: FirebaseFirestore
                                                               .instance
+                                                              .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
                                                               .collection(
                                                                   AppConstants
                                                                       .USER)
@@ -1591,6 +1630,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                                 StreamBuilder(
                                                                     stream: FirebaseFirestore
                                                                         .instance
+                                                                        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
                                                                         .collection(AppConstants
                                                                             .USER)
                                                                         .doc(appConstants
@@ -1623,6 +1663,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                                         ),
                                                                       );
                                                                     }),
+                                                             
                                                               ],
                                                             );
                                                           }),
@@ -1647,6 +1688,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                       ),
                                     ),
                                   ),
+                                  // AppConstants.TEMP_CODE;
                                   Expanded(
                                     flex: 3,
                                     child: Padding(
@@ -1773,6 +1815,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                                       child: StreamBuilder(
                                                           stream: FirebaseFirestore
                                                               .instance
+                                                              .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
                                                               .collection(
                                                                   AppConstants
                                                                       .USER)
@@ -2219,6 +2262,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                       color: white,
                                       icon: Icons.list_alt,
                                     ),
+                                    // AppConstants.TEMP_CODE;
                                     Text(
                                       'Money Activities',
                                       style: textStyleHeading1WithTheme(
@@ -2298,6 +2342,23 @@ class _HomeScreensState extends State<HomeScreens> {
                                           },
                                         ),
                                       ),
+                                      appConstants.appMode!= false
+                                          ? Expanded(
+                                        child: FundsMainButton(
+                                          height: height,
+                                          width: width,
+                                          color: transparent,
+                                          title: 'Track Spend',
+                                          onTap: () async{
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const TrackSpendScreen()));
+                                          },
+                                        ),
+                                      )
+                                          :
                                       Expanded(
                                         child: FundsMainButton(
                                           height: height,
@@ -2425,6 +2486,24 @@ class _HomeScreensState extends State<HomeScreens> {
                                           },
                                         ),
                                       ),
+                                      appConstants.appMode!= true
+                                          ? 
+                                          Expanded(
+                                        child: FundsMainButton(
+                                          height: height,
+                                          width: width,
+                                          color: transparent,
+                                          title: 'Track Spend',
+                                          onTap: () async{
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const TrackSpendScreen()));
+                                          },
+                                        ),
+                                      )
+                                          :
                                       Expanded(
                                         child: FundsMainButton(
                                           height: height,
@@ -3121,7 +3200,7 @@ class _HomeScreensState extends State<HomeScreens> {
                                 },
                                 width: width,
                                 icon: FontAwesomeIcons.creditCard,
-                                title: 'Debit/Credit Card'),
+                                title:  appConstants.appMode== false? 'Virtual Money': 'Debit/Credit Card'),
                             spacing_medium,
                             TopUpMethodTile(
                                 onTap: () async {
@@ -3484,7 +3563,7 @@ class CustomKidWalletBalance extends StatelessWidget {
     var appConstants = Provider.of<AppConstants>(context, listen: true);
     return StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection(AppConstants.USER)
+            .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
             .doc(userId)
             .collection(AppConstants.USER_WALLETS)
             .doc(AppConstants.Spend_Wallet)
@@ -3496,7 +3575,7 @@ class CustomKidWalletBalance extends StatelessWidget {
           }
           return StreamBuilder(
               stream: FirebaseFirestore.instance
-                  .collection(AppConstants.USER)
+                  .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
                   .doc(userId)
                   .collection(AppConstants.USER_WALLETS)
                   .doc(AppConstants.Savings_Wallet)
@@ -3507,7 +3586,7 @@ class CustomKidWalletBalance extends StatelessWidget {
                 }
                 return StreamBuilder(
                     stream: FirebaseFirestore.instance
-                        .collection(AppConstants.USER)
+                        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
                         .doc(userId)
                         .collection(AppConstants.USER_WALLETS)
                         .doc(AppConstants.All_Goals_Wallet)

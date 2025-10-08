@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/AppConstants.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Spacing.dart';
 import 'package:zaki/Constants/Styles.dart';
 import 'package:zaki/Screens/RestPinCode.dart';
@@ -16,6 +16,7 @@ import 'package:zaki/Widgets/TextHeader.dart';
 import '../Constants/HelperFunctions.dart';
 import '../Widgets/AppBars/AppBar.dart';
 import '../Widgets/SSLCustom.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 
 class PreviousPinCode extends StatefulWidget {
   const PreviousPinCode({

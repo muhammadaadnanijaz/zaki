@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/Spacing.dart';
 import 'package:zaki/Screens/SocialProfileView.dart';
@@ -177,28 +177,29 @@ class _CustomFeedCardState extends State<CustomFeedCard> {
                     //   width: width,
                     //   icon: Icons.facebook_outlined,
                     //   ),
+                    if(appConstants.isShareFeature)
                     InkWell(
                       onTap: () async {
                         // showNotification(error: 0, icon: Icons.image, message: widget.snapshot![AppConstants.Social_image_url]);
                         try {
                           if (widget.snapshot![AppConstants.Social_image_url]
                               .contains('assets/images/')) {
-                            final ByteData bytes = await rootBundle
-                                .load(widget.snapshot![AppConstants.Social_image_url]);
-                            await Share.file('Share My Image', 'image.png',
-                                bytes.buffer.asUint8List(), 'image/png',
-                                text:
-                                    '${appConstants.userModel.usaFirstName} ${AppConstants.ZAKI_PAY_SOCILIZE_SHARE_FIRST_TEXT} \n${AppConstants.ZAKI_PAY_SOCILIZE_SHARE_LAST_TEXT}\n ${AppConstants.ZAKI_PAY_APP_LINK}');
+                            // final ByteData bytes = await rootBundle
+                            //     .load(widget.snapshot![AppConstants.Social_image_url]);
+                            // await Share.file('Share My Image', 'image.png',
+                            //     bytes.buffer.asUint8List(), 'image/png',
+                            //     text:
+                            //         '${appConstants.userModel.usaFirstName} ${AppConstants.ZAKI_PAY_SOCILIZE_SHARE_FIRST_TEXT} \n${AppConstants.ZAKI_PAY_SOCILIZE_SHARE_LAST_TEXT}\n ${AppConstants.ZAKI_PAY_APP_LINK}');
                           } else {
                             var request = await HttpClient().getUrl(Uri.parse(
                                 widget.snapshot![AppConstants.Social_image_url]));
                             var response = await request.close();
-                            Uint8List bytes =
-                                await consolidateHttpClientResponseBytes(response);
-                            await Share.file(
-                                'Share My Image', 'amlog.jpg', bytes, 'image/jpg',
-                                text:
-                                    '${AppConstants.ZAKI_PAY_SHARED_TEXT} ${widget.snapshot![AppConstants.Social_Message_Text]} \n ${AppConstants.ZAKI_PAY_SHARED_LINK}');
+                            // Uint8List bytes =
+                            //     await consolidateHttpClientResponseBytes(response);
+                            // await Share.file(
+                            //     'Share My Image', 'amlog.jpg', bytes, 'image/jpg',
+                            //     text:
+                            //         '${AppConstants.ZAKI_PAY_SHARED_TEXT} ${widget.snapshot![AppConstants.Social_Message_Text]} \n ${AppConstants.ZAKI_PAY_SHARED_LINK}');
                           }
                         } catch (e) {
                           logMethod(title: 'Exception is:', message: e.toString());
@@ -326,7 +327,7 @@ class UserSection extends StatelessWidget {
     var appConstants = Provider.of<AppConstants>(context, listen: true);
     // var height = MediaQuery.of(context).size.height;
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection(AppConstants.USER).doc(userId).snapshots(),
+      stream: FirebaseFirestore.instance.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER).doc(userId).snapshots(),
       // initialData: initialData,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(!snapshot.hasData){

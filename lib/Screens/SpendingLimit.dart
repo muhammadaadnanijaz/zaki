@@ -7,14 +7,14 @@ import 'package:ndialog/ndialog.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/AuthMethods.dart';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Spacing.dart';
 import 'package:zaki/Screens/IssueAndManageCards.dart';
 import 'package:zaki/Widgets/AppBars/AppBar.dart';
 import 'package:zaki/Widgets/CustomLoadingScreen.dart';
 import 'package:zaki/Widgets/ReadOnlyCustomWidget.dart';
 import 'package:zaki/Widgets/TextHeader.dart';
-
+import 'package:zaki/Constants/Whitelable.dart';
 import '../Constants/AppConstants.dart';
 import '../Constants/HelperFunctions.dart';
 import '../Constants/Styles.dart';
@@ -971,7 +971,7 @@ class NoCardFound extends StatelessWidget {
     return Column(
       children: [
         // spacing_medium,
-        Image.asset(imageBaseAddress + 'ZakiPayNoDebitCard.png'),
+        Image.asset(cardImagesBaseAddress + 'ZakiPayNoDebitCard.png'),
         spacing_medium,
         ZakiPrimaryButton(
           title: 'Issue a Debit Card',

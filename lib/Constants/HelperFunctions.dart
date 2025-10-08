@@ -24,6 +24,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:zaki/Constants/LocationGetting.dart';
 import 'package:zaki/Constants/Styles.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:zaki/Models/ExtractMemoModel.dart';
 import 'package:zaki/Screens/AddMembersWorkFlow.dart';
 import 'package:pointycastle/export.dart';
@@ -35,6 +36,8 @@ import '../Widgets/CustomLoadingScreen.dart';
 import '../Widgets/TextHeader.dart';
 import '../Widgets/ZakiCircularButton.dart';
 import 'AppConstants.dart';
+
+// geocoding, geolocator, location, location_permissions, flutter_local_notifications, flutter_local_notifications_platform_interface, flutter_local_notifications_web
 
 var maskFormatter = new MaskTextInputFormatter(
     mask: '###-###-####',
@@ -510,8 +513,10 @@ getFormatedNumber({double? number}) {
 }
 
 void setScreenName({String? name}){
-  // ignore: deprecated_member_use
-  FirebaseAnalytics.instance.setCurrentScreen(screenName: name);
+  FirebaseAnalytics.instance.logEvent(
+    name: 'screen_view',
+    parameters: {'screen_name': name.toString()},
+  );
 }
 
 calculateAge({DateTime? birthDate}) {
@@ -745,9 +750,9 @@ checkUserValue(
 Future<bool> checkUserSubscriptionValue(
     AppConstants appConstants, BuildContext context,
     {int? subScriptionValue, bool? seconderyShowing}) async {
-  // if(appConstants.testMode!= true){
-  //   return false;
-  // }
+  if(appConstants.appMode!= true){
+    return false;
+  }
   // else{
   var height = MediaQuery.of(context).size.height;
   var width = MediaQuery.of(context).size.width;
@@ -947,36 +952,36 @@ getKidImage(
   //     title: 'User Image for kids',
   //     message: 'Usertype: $userType, gender: $gender');
   return (imageUrl == '' && userType == "Kid" && gender == '')
-      ? imageBaseAddress + "ZakiPay.png"
+      ? APPLICATION_LOGO
       : (imageUrl == '' && userType == "Kid" && gender == 'Male')
-          ? imageBaseAddress + "Logo_Boy1.png"
+          ? userLogoBaseAddress + "Logo_Boy1.png"
           : (imageUrl == '' && userType == "Kid" && gender == 'Female')
-              ? imageBaseAddress + "Logo_Girl1.png"
+              ? userLogoBaseAddress + "Logo_Girl1.png"
               : (imageUrl == '' && userType == "Parent" && gender == 'Male')
-                  ? imageBaseAddress + "Logo_DadorSingle.png"
+                  ? userLogoBaseAddress + "Logo_DadorSingle.png"
                   /////
                   : (imageUrl == '' &&
                           userType == "Single" &&
                           gender == 'Female')
-                      ? imageBaseAddress + "Logo_Girl1.png"
+                      ? userLogoBaseAddress + "Logo_Girl1.png"
                       : (imageUrl == '' &&
                               userType == "Single" &&
                               gender == 'Male')
-                          ? imageBaseAddress + "Logo_DadorSingle.png"
+                          ? userLogoBaseAddress + "Logo_DadorSingle.png"
 
                           ///
                           : (imageUrl == '' &&
                                   userType == "Single" &&
                                   gender == 'Rather not specify')
-                              ? imageBaseAddress + "Logo_DadorSingle.png"
+                              ? userLogoBaseAddress + "Logo_DadorSingle.png"
                               : (imageUrl == '' &&
                                       userType == "Kid" &&
                                       gender == 'Rather not specify')
-                                  ? imageBaseAddress + "Logo_Boy2.png"
+                                  ? userLogoBaseAddress + "Logo_Boy2.png"
                                   : (imageUrl == '' &&
                                           userType == "Parent" &&
                                           gender == 'Female')
-                                      ? imageBaseAddress + "Logo_Mom.png"
+                                      ? userLogoBaseAddress + "Logo_Mom.png"
                                       : imageUrl;
   // (imageUrl == '' && userType=="Kid" && (gender=='Male'|| gender=='Rather not specify'))?
   // appConstants!.userModel.usaLogo = imageBaseAddress+"Logo_Boy1.png":
@@ -1001,28 +1006,28 @@ userImage(
     (imageUrl == '' &&
             userType == "Kid" &&
             (gender == 'Male' || gender == 'Rather not specify'))
-        ? appConstants.userModel.usaLogo = imageBaseAddress + "Logo_Boy1.png"
+        ? appConstants.userModel.usaLogo = userLogoBaseAddress + "Logo_Boy1.png"
         : (imageUrl == '' && userType == "Kid" && gender == 'Female')
             ? appConstants.userModel.usaLogo =
-                imageBaseAddress + "Logo_Girl1.png"
+                userLogoBaseAddress + "Logo_Girl1.png"
             : (imageUrl == '' && userType == "Parent" && gender == 'Male')
                 ? appConstants.userModel.usaLogo =
-                    imageBaseAddress + "Logo_DadorSingle.png"
+                    userLogoBaseAddress + "Logo_DadorSingle.png"
                 : (imageUrl == '' &&
                         userType == AppConstants.USER_TYPE_SINGLE &&
                         gender == 'Male')
                     ? appConstants.userModel.usaLogo =
-                        imageBaseAddress + "Logo_DadorSingle.png"
+                        userLogoBaseAddress + "Logo_DadorSingle.png"
                     : (imageUrl == '' &&
                             userType == "Single" &&
                             gender == 'Rather not specify')
                         ? appConstants.userModel.usaLogo =
-                            imageBaseAddress + "Logo_DadorSingle.png"
+                            userLogoBaseAddress + "Logo_DadorSingle.png"
                         : (imageUrl == '' &&
                                 userType == "Parent" &&
                                 gender == 'Female')
                             ? appConstants.userModel.usaLogo =
-                                imageBaseAddress + "Logo_Mom.png"
+                                userLogoBaseAddress + "Logo_Mom.png"
                             : '';
     // logMethod(
     //     title: 'User Image',
@@ -1037,14 +1042,14 @@ userImage(
         ? CircleAvatar(
             backgroundColor: white,
             radius: width! * 0.11,
-            backgroundImage: AssetImage(imageBaseAddress + "Logo_Boy1.png"),
+            backgroundImage: AssetImage(userLogoBaseAddress + "Logo_Boy1.png"),
           )
         : (imageUrl == '' && userType == "Kid" && gender == 'Female')
             ? CircleAvatar(
                 backgroundColor: white,
                 radius: width! * 0.11,
                 backgroundImage:
-                    AssetImage(imageBaseAddress + "Logo_Girl1.png"),
+                    AssetImage(userLogoBaseAddress + "Logo_Girl1.png"),
               )
             : (imageUrl == '' &&
                     (userType == "Kid") &&
@@ -1053,7 +1058,7 @@ userImage(
                     backgroundColor: white,
                     radius: width! * 0.11,
                     backgroundImage:
-                        AssetImage(imageBaseAddress + "Logo_DadorSingle.png"),
+                        AssetImage(userLogoBaseAddress + "Logo_DadorSingle.png"),
                   )
                 : (imageUrl == '' &&
                         (userType == AppConstants.USER_TYPE_SINGLE) &&
@@ -1062,7 +1067,7 @@ userImage(
                         backgroundColor: white,
                         radius: width! * 0.11,
                         backgroundImage: AssetImage(
-                            imageBaseAddress + "Logo_DadorSingle.png"),
+                            userLogoBaseAddress + "Logo_DadorSingle.png"),
                       )
                     : (imageUrl == '' &&
                             userType == "Single" &&
@@ -1071,7 +1076,7 @@ userImage(
                             backgroundColor: white,
                             radius: width! * 0.11,
                             backgroundImage: AssetImage(
-                                imageBaseAddress + "Logo_DadorSingle.png"),
+                                userLogoBaseAddress + "Logo_DadorSingle.png"),
                           )
                         : (imageUrl == '' &&
                                 userType == "Parent" &&
@@ -1080,7 +1085,7 @@ userImage(
                                 backgroundColor: white,
                                 radius: width! * 0.11,
                                 backgroundImage: AssetImage(
-                                    imageBaseAddress + "Logo_Mom.png"),
+                                    userLogoBaseAddress + "Logo_Mom.png"),
                               )
                             : (imageUrl == '' &&
                                     userType == "Parent" &&
@@ -1089,7 +1094,7 @@ userImage(
                                     backgroundColor: white,
                                     radius: width! * 0.11,
                                     backgroundImage: AssetImage(
-                                        imageBaseAddress +
+                                        userLogoBaseAddress +
                                             "Logo_DadorSingle.png"),
                                   )
                                 : imageUrl!.contains('assets/images/')

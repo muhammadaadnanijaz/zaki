@@ -16,7 +16,7 @@ import 'package:zaki/Services/api.dart';
 import 'package:zaki/Widgets/TermsAndConditionsSmall.dart';
 import 'package:zaki/Widgets/TextHeader.dart';
 import 'package:zaki/Widgets/ZakiPrimaryButton.dart';
-import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+// import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
 class MemberShipPlan extends StatefulWidget {
   const MemberShipPlan({Key? key}) : super(key: key);

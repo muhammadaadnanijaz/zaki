@@ -342,7 +342,7 @@ class AppBarImageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     return Image.asset(
-      imageBaseAddress + "header_zakipay.png",
+      appLogosBaseAddress + "header_zakipay.png",
       height: height * 0.027,
     );
   }

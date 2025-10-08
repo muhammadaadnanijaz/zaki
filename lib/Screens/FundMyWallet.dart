@@ -1,5 +1,5 @@
 // import 'package:flutter/cupertino.dart';
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,11 +8,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:provider/provider.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 // import 'package:zaki/Constants/AuthMethods.dart';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
 import 'package:zaki/Constants/LocationGetting.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
-import 'package:zaki/Payment/AndroidIosPayment.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Payment/AndroidIosPayment.dart';
 import 'package:zaki/Payment/PayFortConstants.dart';
 import 'package:zaki/Services/CreaditCardApis.dart';
 import 'package:zaki/Widgets/AppBars/AppBar.dart';
@@ -354,6 +355,7 @@ class _FundMyWalletState extends State<FundMyWallet> {
                           ),
                         ),
                       ),
+                  if(appConstants.appMode!= false)...[
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12.0, vertical: 8),
@@ -787,9 +789,11 @@ class _FundMyWalletState extends State<FundMyWallet> {
                           ),
                         ],
                       ),
+                  ],
 
                       // spacing_medium,
                       // SSLCustomRow(),
+                      // (appConstants.appMode!= false)
                       spacing_large,
                       ZakiPrimaryButton(
                           title: 'Fund Now',
@@ -797,17 +801,18 @@ class _FundMyWalletState extends State<FundMyWallet> {
                           onPressed: (internet.status ==
                                       AppConstants
                                           .INTERNET_STATUS_NOT_CONNECTED ||
-                                  cardNumberController.text.length < 19 ||
                                   amountController.text.isEmpty ||
                                   int.tryParse(amountController.text.trim())! >
                                       1000 ||
+                                  appConstants.appMode== true && 
+                                  (cardNumberController.text.length < 19 ||
                                   cardHolderNameController.text.isEmpty ||
                                   expireDateController.text.isEmpty ||
                                   int.parse(expireDateController.text
                                           .split('/')[0]) >
                                       12 ||
                                   zipCodeController.text.length < 5 ||
-                                  securityCodeController.text.length < 3)
+                                  securityCodeController.text.length < 3))
                               // formGlobalKey.currentState?.validate() ?? true
                               ? null
                               : () async {
@@ -918,6 +923,8 @@ class _FundMyWalletState extends State<FundMyWallet> {
                                   await service.getUserData(
                                       context: context,
                                       userId: appConstants.userRegisteredId);
+                                  
+                                  if(appConstants.appMode!= false){
                                   await CreaditCardApi().addAmountFromCardToBank(
                                       amount: amountController.text.trim(),
                                       name: appConstants.userModel.usaFirstName,
@@ -942,6 +949,7 @@ class _FundMyWalletState extends State<FundMyWallet> {
                                           ));
 
                                   /// This is precessing fee That will be added to ZAKI PAY Account
+                                  
                                   await CreaditCardApi().addAmountFromCardToBank(
                                       amount: processingFee.toString(),
                                       name: appConstants.userModel.usaFirstName,
@@ -964,6 +972,7 @@ class _FundMyWalletState extends State<FundMyWallet> {
                                           transactionId: 'fee',
                                           latLng: '${userLocation.latitude},${userLocation.longitude}'
                                           ));
+                                  }
 
                                   // await CreaditCardApi().moveMoney(
                                   //   amount: processingFee.toString(),

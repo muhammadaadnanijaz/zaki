@@ -114,48 +114,48 @@ class _IssueDebitCardState extends State<SecretDebitCard> {
                               padding: getCustomPadding(),
                               child: Column(
                                 children: [
-                                  ListTile(
-                                                          title: TextValue2(
-                                                            title: 'Turn ON/OFF payfort for Fund My Wallet Screen?',
-                                                          ),
-                                                          trailing: Switch.adaptive(
-                                                            value: appConstants.payFortTestingModeForFundMyWallet,
-                                                            activeColor: primaryButtonColor,
-                                                            onChanged: (value) async {
-                                                              appConstants.payfortTestingModeStatusForFundMyWallet(value);
-                                                            },
-                                                          ),
-                                                        ),
-                                  ListTile(
-                                                          title: TextValue2(
-                                                            title: 'Turn ON/OFF payfort for Subscription Screen?',
-                                                          ),
-                                                          trailing: Switch.adaptive(
-                                                            value: appConstants.payFortTestingModeForSubscription,
-                                                            activeColor: primaryButtonColor,
-                                                            onChanged: (value) async {
-                                                              appConstants.payfortTestingModeStatusForSubscription(value);
-                                                            },
-                                                          ),
-                                                        ),
-                        ListTile(
-                        title: TextValue2(
-                          title: "Turn ON/OFF Google or Apple Pay",
-                        ),
-                        trailing: Switch.adaptive(
-                          value: appConstants.allowApplePayAndGooglePay,
-                          activeColor: primaryButtonColor,
-                          onChanged: (value) async {
-                            appConstants.allowApplePayAndGooglePayMode(value);
-                          },
-                        ),
-                      ),
+                      //             ListTile(
+                      //                                     title: TextValue2(
+                      //                                       title: 'Turn ON/OFF payfort for Fund My Wallet Screen?',
+                      //                                     ),
+                      //                                     trailing: Switch.adaptive(
+                      //                                       value: appConstants.payFortTestingModeForFundMyWallet,
+                      //                                       activeColor: primaryButtonColor,
+                      //                                       onChanged: (value) async {
+                      //                                         appConstants.payfortTestingModeStatusForFundMyWallet(value);
+                      //                                       },
+                      //                                     ),
+                      //                                   ),
+                      //             ListTile(
+                      //                                     title: TextValue2(
+                      //                                       title: 'Turn ON/OFF payfort for Subscription Screen?',
+                      //                                     ),
+                      //                                     trailing: Switch.adaptive(
+                      //                                       value: appConstants.payFortTestingModeForSubscription,
+                      //                                       activeColor: primaryButtonColor,
+                      //                                       onChanged: (value) async {
+                      //                                         appConstants.payfortTestingModeStatusForSubscription(value);
+                      //                                       },
+                      //                                     ),
+                      //                                   ),
+                      //   ListTile(
+                      //   title: TextValue2(
+                      //     title: "Turn ON/OFF Google or Apple Pay",
+                      //   ),
+                      //   trailing: Switch.adaptive(
+                      //     value: appConstants.allowApplePayAndGooglePay,
+                      //     activeColor: primaryButtonColor,
+                      //     onChanged: (value) async {
+                      //       appConstants.allowApplePayAndGooglePayMode(value);
+                      //     },
+                      //   ),
+                      // ),
                       ListTile(
                         title: TextValue2(
-                          title: 'Turn Bank API on for testing',
+                          title: 'Turn FULL Mode ON/OFF',
                         ),
                         trailing: Switch.adaptive(
-                          value: appConstants.testMode,
+                          value: appConstants.appMode,
                           activeColor: primaryButtonColor,
                           onChanged: (value) async {
                             appConstants.updateTestMode(value);

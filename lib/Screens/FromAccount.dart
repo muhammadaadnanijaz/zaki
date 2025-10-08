@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Widgets/TextHeader.dart';
-
+import 'package:zaki/Constants/Whitelable.dart';
 import '../Constants/AppConstants.dart';
 import '../Constants/HelperFunctions.dart';
 import '../Constants/Spacing.dart';
@@ -56,7 +56,7 @@ class _FromAccountState extends State<FromAccount> {
                 children: [
                   StreamBuilder(
                       stream: FirebaseFirestore.instance
-                          .collection(AppConstants.USER)
+                          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
                           .doc(appConstants.userRegisteredId)
                           .collection(AppConstants.USER_WALLETS)
                           .doc(AppConstants.Spend_Wallet)
@@ -151,7 +151,7 @@ class _FromAccountState extends State<FromAccount> {
                 children: [
                   StreamBuilder(
                       stream: FirebaseFirestore.instance
-                          .collection(AppConstants.USER)
+                          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
                           .doc(appConstants.userRegisteredId)
                           .collection(AppConstants.USER_WALLETS)
                           .doc(AppConstants.Savings_Wallet)
@@ -292,7 +292,7 @@ class _FromAccountState extends State<FromAccount> {
                         );
                         // return StreamBuilder(
                         //     stream: FirebaseFirestore.instance
-                        //         .collection(AppConstants.USER)
+                        //         .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
                         //         .doc(appConstants.userRegisteredId)
                         //         .collection(AppConstants.USER_WALLETS)
                         //         .doc(AppConstants.All_Goals_Wallet)
@@ -319,7 +319,7 @@ class _FromAccountState extends State<FromAccount> {
                 children: [
                   StreamBuilder(
                       stream: FirebaseFirestore.instance
-                          .collection(AppConstants.USER)
+                          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
                           .doc(appConstants.userRegisteredId)
                           .collection(AppConstants.USER_WALLETS)
                           .doc(AppConstants.Donations_Wallet)

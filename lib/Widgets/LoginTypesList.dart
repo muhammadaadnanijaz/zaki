@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:ndialog/ndialog.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/AppConstants.dart';
 import 'package:zaki/Constants/AuthMethods.dart';
@@ -54,6 +55,7 @@ class _LoginTypesListState extends State<LoginTypesList> {
                                     style: heading4TextSmall(width, color: grey),
                                     ),
                                     spacing_medium,
+                                    if(appConstants.isGoogleSignIn)
                                 LoginTypesButton(
                                   width: width,
                                   title: 'Continue with Google',
@@ -61,7 +63,7 @@ class _LoginTypesListState extends State<LoginTypesList> {
                                   icon: FontAwesomeIcons.google,
                                   onPressed: () async{
                                     UserCredential? info = await ApiServices()
-                                        .signInWithGoogle(googleSignIn);
+                                        .signInWithGoogle(googleSignIns);
                                     if (info != null) {
                                       bool? isEmailExist =
                                             await ApiServices().checkEmailExist(email: info.user!.email);
@@ -99,6 +101,7 @@ class _LoginTypesListState extends State<LoginTypesList> {
                                     }
                                   },
                                   ),
+                                  if(appConstants.isAppleSignIn)
                                   if(Platform.isIOS)
                                   Column(
                                     children: [
@@ -118,6 +121,7 @@ class _LoginTypesListState extends State<LoginTypesList> {
                                     ],
                                   ),
                                   spacing_medium,
+                                  if(appConstants.isFacebookSignIn)
                                   LoginTypesButton(
                                   width: width,
                                   title: 'Continue with Facebook',
@@ -193,6 +197,7 @@ class _LoginTypesListState extends State<LoginTypesList> {
                                   },
                                   ),
                                   spacing_medium,
+                                  if(appConstants.isXSignIn)
                                   LoginTypesButton(
                                   width: width,
                                   title: 'Continue with X',

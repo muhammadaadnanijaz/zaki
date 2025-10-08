@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
 import 'package:zaki/Screens/WhatsAppLoginScreen.dart';
 import 'package:zaki/Widgets/CustomLoader.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 // import 'package:country_code_picker/country_code_picker.dart';
@@ -13,7 +14,7 @@ import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:us_states/us_states.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Screens/EmailVerification.dart';
 import 'package:zaki/Services/api.dart';
 import 'package:zaki/Widgets/TextHeader.dart';
@@ -483,7 +484,7 @@ class _EdittedProfileState extends State<EdittedProfile> {
                                                     Icon(Icons.error),
                                           )
                                         : Image.asset(
-                                            imageBaseAddress +
+                                            userBackgroundImagesBaseAddress +
                                                 '1_background.png',
                                             width: width,
                                             height: height * 0.18,

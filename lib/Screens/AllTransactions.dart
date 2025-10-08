@@ -35,6 +35,7 @@ import '../Widgets/CustomBottomNavigationBar.dart';
 import '../Widgets/UnSelectedKidsWidget.dart';
 
 import 'package:zaki/Widgets/CustomLoader.dart';
+// shimmer, infinite_scrolling
 
 class AllTransaction extends StatefulWidget {
   const AllTransaction({Key? key}) : super(key: key);
@@ -120,6 +121,7 @@ class _AllTransactionState extends State<AllTransaction> {
 
     Future.delayed(Duration.zero, () async {
       var appConstants = Provider.of<AppConstants>(context, listen: false);
+      AppConstants.TEMP_CODE;
       allDateName = [
         WalletModel(
           isChecked: false,
@@ -214,10 +216,12 @@ class _AllTransactionState extends State<AllTransaction> {
         setState(() {
           isLoading = true;
         });
+        AppConstants.TEMP_CODE;
         await getUserTransaction(appConstants.userRegisteredId);
         // _pagingController.addPageRequestListener((pageKey) async{
       // _fetchPage();
       appConstants.updateStartIndex(0);
+      AppConstants.TEMP_CODE;
       await cardTransactionsFromApi(
         appConstants: appConstants,
             actingUserToken: appConstants.userModel.userTokenId,
@@ -310,7 +314,7 @@ class _AllTransactionState extends State<AllTransaction> {
       int? limit,
       }) async {
     // CardTransation? cardTransaction =
-    // if (appConstants!.testMode != false)
+    // if (appConstants!.appMode != false)
     transactionLists = CreaditCardApi().cardTransaction(
         userToken: userToken,
         actingUserToken: actingUserToken,
@@ -400,7 +404,9 @@ class _AllTransactionState extends State<AllTransaction> {
           walletName: walletName,
           startDate: startDate,
           endDate: endDate,
-          selectedUserId: selectedUserIdForFav);
+          selectedUserId: selectedUserIdForFav,
+          // limit: limit
+          );
       // requestedMoneyActivities = ApiServices()
       //     .getRequestedMoney(id, collectionName: AppConstants.Transaction);
       // requestedMoneyActivities = ApiServices().getRequestedMoney(id, collectionName: 'Requested');
@@ -638,11 +644,13 @@ class _AllTransactionState extends State<AllTransaction> {
                                                           // print(snapshot.data!.docs[index] ['USER_first_name']);
                                                           return InkWell(
                                                             onTap: () async {
-                                                              selectedIndex = index;
+                                                              
+                                                              setState(() {
+                                                                selectedIndex = index;
                                                               selectedUserIdForFav = snapshot
                                                                   .data!.docs[index].id;
                                                               logMethod(title: 'Selected User From Filter', message: snapshot.data!.docs[index][AppConstants.USER_UserID]);
-                                                              setState(() {});
+                                                              });
                                                             },
                                                             child: 
                                                             Container(
@@ -661,7 +669,7 @@ class _AllTransactionState extends State<AllTransaction> {
                                                               //             width * 0.4)),
                                                               child: 
                                                               StreamBuilder<DocumentSnapshot>(
-                                                                    stream: FirebaseFirestore.instance.collection(AppConstants.USER)
+                                                                    stream: FirebaseFirestore.instance.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
                                                                     .doc(snapshot.data!.docs[index][AppConstants.USER_UserID])
                                                                     .snapshots(),
                                                                     builder: (context, snapshots) {
@@ -1710,37 +1718,45 @@ class _AllTransactionState extends State<AllTransaction> {
                                       title: 'View',
                                       width: width * 0.4,
                                       onPressed: () async {
-                                        AppConstants.tagItList.forEach((element) {
-                                          if(element.publicTag_it!=false)
-                                          if(element.isSelected==true)
-                                          logMethod(
-                                            title: 'Tag -It checked Name',
-                                            message:
-                                                "${element.title}");
-                                        });
-                                        allWalletName.forEach((element) {
-                                          if(element.isChecked==true)
-                                          logMethod(
-                                            title: 'Wallet checked Name',
-                                            message:
-                                                "${element.title}");
-                                        });
+                                        // AppConstants.tagItList.forEach((element) {
+                                        //   if(element.publicTag_it!=false)
+                                        //   if(element.isSelected==true)
+                                        //   logMethod(
+                                        //     title: 'Tag -It checked Name',
+                                        //     message:
+                                        //         "${element.title}");
+                                        // });
+                                        // allWalletName.forEach((element) {
+                                        //   if(element.isChecked==true)
+                                        //   logMethod(
+                                        //     title: 'Wallet checked Name',
+                                        //     message:
+                                        //         "${element.title}");
+                                        // });
                            
-                                        AppConstants.tagItList.forEach((element) {
-                                          // AppConstants.tagItList[index].enabled
-                                          if(element.publicTag_it==false)
-                                          if(element.isSelected==true)
-                                          logMethod(
-                                            title: 'Activity Type Name',
-                                            message:
-                                                "${element.title}");
-                                        });
+                                        // AppConstants.tagItList.forEach((element) {
+                                        //   // AppConstants.tagItList[index].enabled
+                                        //   if(element.publicTag_it==false)
+                                        //   if(element.isSelected==true)
+                                        //   logMethod(
+                                        //     title: 'Activity Type Name',
+                                        //     message:
+                                        //         "${element.title}");
+                                        // });
                                         logMethod(
                                             title: 'All Values',
-                                            message:
-                                                "Apply Filter: $filterApply selecte Wallet: $walletName, selectedUserId: $selectedUserId, tagit: $queryList, startDate: ${startDate}, endDate: ${endDate}");
+                                            message: "Apply Filter: $filterApply selecte Wallet: $walletName, selectedUserId: $selectedUserIdForFav, tagit: $queryList, startDate: ${startDate}, endDate: ${endDate}");
                                         setState(() {
                                           filterApply = true;
+                                          allTransactions = ApiServices().fetchTransactions(
+                                              transactionTagitCategory: queryList,
+                                              userId: appConstants.userRegisteredId,
+                                              maxPrice: maxPrice,
+                                              minPrice: minPrice,
+                                              walletName: walletName,
+                                              startDate: startDate,
+                                              endDate: endDate,
+                                              selectedUserId: selectedUserIdForFav);
                                         });
                                         Navigator.pop(context, "Closed");
                                       },
@@ -1985,6 +2001,7 @@ class _AllTransactionState extends State<AllTransaction> {
                                                           // selectedKidId = snapshot.data!.docs[index].id;
                                                         });
                                                       appConstants.updateStartIndex(0);
+                                                      AppConstants.TEMP_CODE;
                                                       cardTransactionsFromApi(
                                                         appConstants: appConstants,
                                                             actingUserToken: snapshot.data!.docs[index][AppConstants.USER_BankAccountID],
@@ -2012,6 +2029,7 @@ class _AllTransactionState extends State<AllTransaction> {
                                                         //             .USER_BankAccountID],
                                                         //     appConstants:
                                                         //         appConstants);
+                                                        AppConstants.TEMP_CODE;
                                                         await userCardInfo(
                                                             selectedUserId
                                                                 .toString(),
@@ -2475,7 +2493,7 @@ class _AllTransactionState extends State<AllTransaction> {
             //                     ),
             // spacing_small,
 
-            // if (appConstants.testMode != false)
+            // if (appConstants.appMode != false)
             
             //// New Logic start
             // if(fullTransactions!=null)
@@ -2931,8 +2949,8 @@ class _AllTransactionState extends State<AllTransaction> {
 //                 // query: allTransactions,
 //                 // query: FirebaseFirestore.instance.collection('${AppConstants.USER}/${appConstants.userRegisteredId}/${AppConstants.Transaction}').orderBy(AppConstants.created_at, descending: true),
 //                 query: query!,
-//                 // query: FirebaseFirestore.instance.collection(AppConstants.USER).doc(userId).collection(AppConstants.Transaction),
-//                   // query: FirebaseFirestore.instance.collection(AppConstants.USER).orderBy(AppConstants.USER_created_at),
+//                 // query: FirebaseFirestore.instance.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER).doc(userId).collection(AppConstants.Transaction),
+//                   // query: FirebaseFirestore.instance.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER).orderBy(AppConstants.USER_created_at),
 //                   isLive: true,
 //                   limit: 20,
 //                   shrinkWrap: true,
@@ -3000,8 +3018,10 @@ class _AllTransactionState extends State<AllTransaction> {
                               //         'Selected Wallet Filter Name Collections',
                               //     message: appConstants.selectedWallatFilter);
                               // print(snapshot.data!.docs[index] ['USER_first_name']);
-                              return AllActivitiesCustomTile(
+                              return 
+                              AllActivitiesCustomTile(
                                 data: snapshot.data![index],
+                                selectedUserId: selectedUserId,
                                 onTap: () {
                                   // selectAnAlocationBottomSheet(
                                   //     context: context,

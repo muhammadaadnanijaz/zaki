@@ -18,6 +18,8 @@ import 'package:zaki/Widgets/ZakiPrimaryButton.dart';
 import '../Constants/AppConstants.dart';
 import '../Constants/Spacing.dart';
 
+// firebase_core, cloud_firestore, firebase_auth, google_sign_in, flutter_facebook_auth
+
 class WhatsAppSignUpScreen extends StatefulWidget {
   const WhatsAppSignUpScreen({Key? key}) : super(key: key);
 
@@ -102,7 +104,7 @@ class _WhatsAppSignUpScreenState extends State<WhatsAppSignUpScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     spacing_X_large,
-                    Center(child: Image.asset(imageBaseAddress+'zakipay_logo_signUp.png')),
+                    Center(child: Image.asset(appLogosBaseAddress+'zakipay_logo_signUp.png')),
                     spacing_X_large,
                     Text('FREE Sign Up:', style: appBarTextStyle(context, width, color: green),),
                     // spacing_medium,

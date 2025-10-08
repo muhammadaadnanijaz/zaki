@@ -30,7 +30,7 @@ class UserInfoForGoals extends StatelessWidget {
     var appConstants = Provider.of<AppConstants>(context, listen: true);
     return StreamBuilder<DocumentSnapshot>(
       stream: FirebaseFirestore.instance
-          .collection(AppConstants.USER)
+          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
           .doc(userId)
           .snapshots(),
       // .collection(AppConstants.GOAL_Invited_List)

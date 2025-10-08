@@ -9,7 +9,7 @@ import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/AppConstants.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Styles.dart';
 import 'package:zaki/Screens/HomeScreen.dart';
 import 'package:zaki/Screens/WhatsAppLoginScreen.dart';
@@ -17,7 +17,7 @@ import 'package:zaki/Services/api.dart';
 // import 'package:zaki/Widgets/AppBars/AppBar.dart';
 import 'package:zaki/Widgets/TextHeader.dart';
 // import 'package:zaki/Widgets/ZakiPrimaryButton.dart';
-
+import 'package:zaki/Constants/Whitelable.dart';
 import '../Constants/Spacing.dart';
 import '../Services/SharedPrefMnager.dart';
 import '../Widgets/CustomLoadingScreen.dart';
@@ -41,6 +41,7 @@ class LoginWithPinCode extends StatefulWidget {
 }
 
 class _LoginWithPinCodeState extends State<LoginWithPinCode> {
+  
   DateTime? _lastQuitTime = DateTime.now();
   late SingingCharacter? pinLength = SingingCharacter.four;
   final LocalAuthentication auth = LocalAuthentication();
@@ -69,6 +70,7 @@ class _LoginWithPinCodeState extends State<LoginWithPinCode> {
     Future.delayed(Duration.zero, () async{
       var appConstants = Provider.of<AppConstants>(context, listen: false);
       appConstants.updateUserOnLoginWithPinCodeScreen(true);
+      AppConstants.TEMP_CODE;
       appConstants.updateIsLoginFirstTime(false);
       logMethod(
           title: 'ID OF LOGED IN USER====>>>>' ,
@@ -89,6 +91,7 @@ class _LoginWithPinCodeState extends State<LoginWithPinCode> {
         return;
       }
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      AppConstants.TEMP_CODE;
       setState(() {
         _remainingTime = appConstants.userModel.userBlockTime!.difference(DateTime.now());
         if (_remainingTime!.isNegative) {
@@ -203,7 +206,7 @@ class _LoginWithPinCodeState extends State<LoginWithPinCode> {
                     spacing_large,
                     Center(
                         child: Image.asset(
-                            imageBaseAddress + 'header_zakipay_real.png')),
+                            appLogosBaseAddress + 'header_zakipay_real.png')),
       
                   ],
                 ),

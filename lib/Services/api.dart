@@ -5,7 +5,7 @@ import 'dart:isolate';
 
 import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart' as authio;
-import 'package:googleapis/servicecontrol/v1.dart' as servicecontrol;
+// import 'package:googleapis/servicecontrol/v1.dart' as servicecontrol;
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,6 +23,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:zaki/Constants/AppConstants.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
 import 'package:zaki/Constants/NotificationTitle.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:zaki/Constants/envUserConstants.dart';
 import 'package:zaki/Models/Items.dart';
 import 'package:zaki/Models/NickNameModel.dart';
@@ -40,6 +41,7 @@ import '../Models/GoalModel.dart';
 import '../Models/PersonalizationSettingsModel.dart';
 import '../Models/UserModel.dart';
 
+// firebase_core, cloud_firestore, firebase_auth, google_sign_in, flutter_facebook_auth, uuid, firebase_messiging, local_auth, 
 class ApiServices {
   // ignore: unused_field
   AccessToken? _accessToken;
@@ -418,7 +420,8 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     required String? zipCode,
     bool? seeKids,
     String? firstLegalName,
-    String? lastLegalName
+    String? lastLegalName,
+    int? subscriptionValue
   }) async {
     logMethod(title: 'Parent Id------->>>>>>>>>', message: '$parentId');
     // return '';
@@ -452,7 +455,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     //   }
     // ];
 
-    CollectionReference users = firestore.collection(AppConstants.USER);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER);
     var response = await users.add({
       // AppConstants.USER_Main_Wallet: FieldValue.arrayUnion(mainWallet),
       // AppConstants.USER_Donate_wallet: FieldValue.arrayUnion(charityWallet),
@@ -506,10 +509,11 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       AppConstants.USER_email_verified_status: false,
       AppConstants.USER_State: '',
       AppConstants.SubscriptionExpired: false,
-      AppConstants.USER_SubscriptionValue:0
+      AppConstants.USER_SubscriptionValue:subscriptionValue??0
     });
 
     firestore
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(response.id)
         .collection(AppConstants.USER_WALLETS)
@@ -520,6 +524,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       AppConstants.wallet_balance: 0
     });
     firestore
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(response.id)
         .collection(AppConstants.USER_WALLETS)
@@ -530,6 +535,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       AppConstants.wallet_balance: 0
     });
     firestore
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(response.id)
         .collection(AppConstants.USER_WALLETS)
@@ -540,6 +546,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       AppConstants.wallet_balance: 0
     });
     firestore
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(response.id)
         .collection(AppConstants.USER_WALLETS)
@@ -555,6 +562,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     ///we are using current user id for that to create a check on it
     ///this is firebase id that is auto genrated so are assigning that id to that user
     firestore
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(response.id)
         .update({AppConstants.USER_UserID: response.id});
@@ -590,7 +598,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
         title: 'User Updated In Tell us about your self',
         message: 'TELL US ABOUT YOUR SELF');
     // return '';
-    CollectionReference users = firestore.collection(AppConstants.USER);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER);
     await users.doc(userId).update({
       AppConstants.USER_first_name: firstName,
       AppConstants.USER_last_name: lastName,
@@ -722,7 +730,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     //   }
     // ];
 
-    CollectionReference users = firestore.collection(AppConstants.USER);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER);
     await users
         // .collection('users')
         // .doc(parentId!=null? users.doc().id : FirebaseAuth.instance.currentUser!.uid).set({
@@ -781,6 +789,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       AppConstants.USER_PIN_CODE_SETUP_DATE_TIME: pincodeSetupDateTime
     }).then((value) => {
               firestore
+                  .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
                   .collection(AppConstants.USER)
                   .doc(currentUserid)
                   .collection(AppConstants.USER_WALLETS)
@@ -791,6 +800,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
                 AppConstants.wallet_balance: 0
               }),
               firestore
+                  .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
                   .collection(AppConstants.USER)
                   .doc(currentUserid)
                   .collection(AppConstants.USER_WALLETS)
@@ -801,6 +811,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
                 AppConstants.wallet_balance: 0
               }),
               firestore
+              .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
                   .collection(AppConstants.USER)
                   .doc(currentUserid)
                   .collection(AppConstants.USER_WALLETS)
@@ -811,6 +822,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
                 AppConstants.wallet_balance: 0
               }),
               firestore
+              .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
                   .collection(AppConstants.USER)
                   .doc(currentUserid)
                   .collection(AppConstants.USER_WALLETS)
@@ -830,7 +842,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
   }
 
   Future<String?> updateUserType({String? id}) async {
-    CollectionReference users = firestore.collection(AppConstants.USER);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER);
     users.doc(id).update({
       AppConstants.USER_UserType: 'Under 18',
     });
@@ -839,7 +851,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
 
   Future<String?> addParentPhoneNumber(
       {String? id, String? phoneNumber}) async {
-    CollectionReference users = firestore.collection(AppConstants.USER);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER);
     users.doc(id).update({
       AppConstants.USER_phone_number_parent: phoneNumber,
     });
@@ -848,7 +860,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
 
   Future<String?> updateUserParentId({String? id, String? parentId}) async {
     logMethod(title: "Parent Id:", message: parentId);
-    CollectionReference users = firestore.collection(AppConstants.USER);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER);
     users.doc(id).update({
       AppConstants.USER_parent_id: parentId,
     });
@@ -873,7 +885,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       required String parentBankAccountToken,
       required String kidBankAccountToken
       }) async {
-    CollectionReference users = firestore.collection(AppConstants.ALLOW);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.ALLOW);
     
     await users.doc(kidId).set({
       AppConstants.USER_parent_id: parentId,
@@ -907,7 +919,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     // Get a new write batch
     final batch = firestore.batch();
     goalList!.forEach((element) {
-      final shardRef = firestore.collection(AppConstants.GOAL).doc();
+      final shardRef = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.GOAL).doc();
       batch.set(shardRef, {
         AppConstants.GOAL_user_id: userId,
         AppConstants.GOAL_name: element.goalName,
@@ -953,6 +965,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     final batch = firestore.batch();
     todoList.forEach((element) {
       final shardRef = firestore
+          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.TO_DO)
           .doc(userId)
           .collection(AppConstants.TO_DO)
@@ -1002,7 +1015,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     var result = DateTime.now();
     var goalLastDate =
         DateTime(createdAt!.year, createdAt.month, createdAt.day, 23, 59, 59);
-    CollectionReference users = firestore.collection(AppConstants.GOAL);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.GOAL);
     await users.add({
       AppConstants.GOAL_user_id: userId,
       AppConstants.GOAL_name: goalName,
@@ -1041,6 +1054,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     } else {
       // else we need to add uid to the likes array
       FirebaseFirestore.instance
+      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.GOAL)
           .doc(goalId)
           .update({
@@ -1054,6 +1068,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       {bool? fromHomeScreen}) {
     if (fromHomeScreen == true) {
       return FirebaseFirestore.instance
+      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.GOAL)
           .where(AppConstants.GOAL_user_id, isEqualTo: userId)
           .where(AppConstants.GOAL_Status,
@@ -1062,6 +1077,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
           .limit(3);
     }
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.GOAL)
         .where(AppConstants.GOAL_user_id, isEqualTo: userId)
         .where(AppConstants.GOAL_Status,
@@ -1073,6 +1089,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       {bool? fromHomeScreen}) {
     if (fromHomeScreen == true) {
       return FirebaseFirestore.instance
+      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.GOAL)
           .where(AppConstants.GOAL_user_id, isEqualTo: userId)
           .where(AppConstants.GOAL_Status,
@@ -1082,6 +1099,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
           .snapshots();
     }
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.GOAL)
         .where(AppConstants.GOAL_user_id, isEqualTo: userId)
         .where(AppConstants.GOAL_Status,
@@ -1092,6 +1110,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
 
   Stream<QuerySnapshot> getCompletedOrExpiredGoals(String userId) {
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.GOAL)
         .where(AppConstants.GOAL_Status,
             isNotEqualTo: AppConstants.GOAL_Status_Active)
@@ -1101,6 +1120,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
   }
  Query getCompletedOrExpiredGoalsWithQuery(String userId) {
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.GOAL)
         .where(AppConstants.GOAL_Status,
             isNotEqualTo: AppConstants.GOAL_Status_Active)
@@ -1110,6 +1130,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
 
   Future updateGoalShareIndex({String? documentId, int? selectedIndex}) {
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.GOAL)
         .doc(documentId)
         .update({AppConstants.GOAL_selected_index: selectedIndex});
@@ -1124,6 +1145,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     String? contributor_wallet_name,
   }) {
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.GOAL)
         .doc(goalId)
         .collection(AppConstants.Contribution)
@@ -1139,6 +1161,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
 
   Stream<QuerySnapshot> getUserFriendsAndFamilyForGoals(String userId) {
     final Stream<QuerySnapshot> _categoriesStream = FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .collection(AppConstants.USER_contacts)
@@ -1149,7 +1172,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
 
   Future<String?> updateGoalinviteStatus(
       {String? userId, String? invitedId, bool? status}) async {
-    CollectionReference users = firestore.collection(AppConstants.USER);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER);
     await users
         .doc(userId)
         .collection(AppConstants.USER_contacts)
@@ -1164,6 +1187,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
 
   Stream<QuerySnapshot> getFriendsAndFamilyGoals(String userId) {
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .collection(AppConstants.Goal_InviteReceivedFrom_UserID)
@@ -1179,6 +1203,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       {String? goalId, String? userId, String? goalSenderId}) async {
     // logMethod(message: 'Doc and user id', title: '$goalId and $userId');
     FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .collection(AppConstants.Goal_InviteReceivedFrom_UserID)
@@ -1187,6 +1212,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
 
     //////Deleting From Sender Side
     FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(goalSenderId)
         .collection(AppConstants.Goal_InviteSentTo_UserID)
@@ -1252,6 +1278,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
   Future<String>? addMoneyToAnyWallet(
       {String? receivedUserId, String? senderId, String? amountSend}) async {
     FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(senderId)
         .collection(AppConstants.USER_WALLETS)
@@ -1261,6 +1288,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
           FieldValue.increment(-double.parse(amountSend!))
     });
     FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(receivedUserId)
         .collection(AppConstants.USER_WALLETS)
@@ -1276,6 +1304,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
   Future<List<dynamic>?> addMoneyToSelectedMainWallet(
       {String? receivedUserId, String? senderId, String? amountSend}) async {
     FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(senderId)
         .collection(AppConstants.USER_WALLETS)
@@ -1285,6 +1314,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
           FieldValue.increment(-double.parse(amountSend!))
     });
     FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(receivedUserId)
         .collection(AppConstants.USER_WALLETS)
@@ -1528,6 +1558,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       bool? requiredOnlyBalance}) async {
     DocumentSnapshot<Map<String, dynamic>> walletBalance =
         await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.USER)
             .doc(userId)
             .collection(AppConstants.USER_WALLETS)
@@ -1558,6 +1589,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       {String? userId, String? selectedWalletName, double? amount}) async {
     DocumentSnapshot<Map<String, dynamic>> walletBalance =
         await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.USER)
             .doc(userId)
             .collection(AppConstants.USER_WALLETS)
@@ -1592,6 +1624,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       return false;
     } else {
       FirebaseFirestore.instance
+      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.USER)
           .doc(userId)
           .collection(AppConstants.USER_WALLETS)
@@ -1599,6 +1632,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
           .update(
               {AppConstants.wallet_balance: FieldValue.increment(-amount!)});
       FirebaseFirestore.instance
+      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.USER)
           .doc(userId)
           .collection(AppConstants.USER_WALLETS)
@@ -1617,6 +1651,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     ////////////Receiver Money Getting From Server
     List<dynamic> selectedUserWallet = [];
     final value = await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(receivedUserId)
         .get();
@@ -1634,12 +1669,14 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       },
     ];
     await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(senderId)
         .update({
       walletName: FieldValue.delete(),
     });
     await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(senderId)
         .update({
@@ -1663,12 +1700,14 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
         },
       ];
       await FirebaseFirestore.instance
+      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.USER)
           .doc(senderId)
           .update({
         walletNameFrom: FieldValue.delete(),
       });
       await FirebaseFirestore.instance
+      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.USER)
           .doc(senderId)
           .update({
@@ -1697,6 +1736,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       required String? senderImageUrl}) async {
         
     CollectionReference users = firestore
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(toUserId)
         .collection(AppConstants.Requested);
@@ -1741,10 +1781,11 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     String? transactionId,
   }) async {
   
-  String commonId = ([senderId, receiverId]..sort()).join("_");
-    logMethod( title: 'Common Id is:', message: commonId);
+  List commonId = [senderId, receiverId];
+    logMethod( title: 'Common Id is:', message: commonId.toString());
     // return "";
     CollectionReference transaction = firestore
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         // .collection(AppConstants.USER)
         // .doc(currentUserId)
         .collection(AppConstants.Transaction);
@@ -1783,6 +1824,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
   }) async {
     // logMethod( title: 'Sender Image Url:', message: senderImageUrl);
     CollectionReference transaction = firestore
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(selectedUserId)
         .collection(AppConstants.Transaction);
@@ -1838,6 +1880,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     logMethod( title: 'transactionId after adding:', message: transactionId);
 
     CollectionReference users = firestore
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(currentUserId)
         .collection(AppConstants.Pay);
@@ -1863,25 +1906,27 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     });
 
     // // For Receiver currentUserId is now changing to toUserId beacuse for receiver we wanted to store his transaction
-    await addTransaction(
-        transactionMethod: AppConstants.Transaction_Method_Received,
-        tagItId: tagItId,
-        tagItName:tagItName,
-        selectedKidName: selectedKidName,
-        accountHolderName: accountHolderName,
-        amount: amount,
-        currentUserId: toUserId,
-        receiverId: toUserId,
-        requestType: AppConstants.TAG_IT_Transaction_TYPE_SEND_OR_REQUEST,
-        fromWallet: AppConstants.Spend_Wallet,
-        toWallet: AppConstants.Spend_Wallet,
-        senderId: currentUserId);
+    // Commenting this thing out beacuse we are using the different approach of common id list so we dont need receiver side. 
+    // await addTransaction(
+    //     transactionMethod: AppConstants.Transaction_Method_Received,
+    //     tagItId: tagItId,
+    //     tagItName:tagItName,
+    //     selectedKidName: selectedKidName,
+    //     accountHolderName: accountHolderName,
+    //     amount: amount,
+    //     currentUserId: toUserId,
+    //     receiverId: toUserId,
+    //     requestType: AppConstants.TAG_IT_Transaction_TYPE_SEND_OR_REQUEST,
+    //     fromWallet: AppConstants.Spend_Wallet,
+    //     toWallet: AppConstants.Spend_Wallet,
+    //     senderId: currentUserId);
     return '$transactionId';
   }
 
   Future<List<String>> getUserFriendsList(String id) async {
     List<String> list = [];
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id)
         .collection(AppConstants.USER_contacts)
@@ -1900,11 +1945,13 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     // logMethod(title: 'User id', message: parentId + currentUserId.toString());
     final Stream<QuerySnapshot> _categoriesStream = needMyFeeds == false
         ? FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.SOCIAL)
             .where(AppConstants.Social_Sender_user_id, isNotEqualTo: userId)
             // .where(AppConstants.USER_UserID, isNotEqualTo: id)
             .snapshots()
         : FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.SOCIAL)
             // .where(AppConstants.Social_Sender_user_id, isNotEqualTo: userId)
             // .where(AppConstants.USER_UserID, isNotEqualTo: id)
@@ -1916,6 +1963,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     
     // logMethod(title: 'User id', message: parentId + currentUserId.toString());
     final _sendedFeedStream = FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.SOCIAL)
         // .where(AppConstants.Social_Sender_user_id, isEqualTo: userId)
         // .where(AppConstants.Social_receiver_user_id, isEqualTo: userId)
@@ -1940,6 +1988,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     // logMethod(title: 'User id', message: parentId + currentUserId.toString());
     
     final _sendedFeedStream = await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.SOCIAL)
         // . 
         // or(
@@ -1971,6 +2020,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       {String? userId, String? transactionId}) {
     // logMethod(title: 'User id', message: parentId + currentUserId.toString());
     final Stream<QuerySnapshot> _categoriesStream = FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.SOCIAL)
         .where(AppConstants.Social_Sender_user_id, isEqualTo: userId)
         .where(AppConstants.Social_Transaction_id, isEqualTo: transactionId)
@@ -1984,6 +2034,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     // logMethod(title: 'User id', message: parentId + currentUserId.toString());
     QuerySnapshot<Map<String, dynamic>> userKids = await FirebaseFirestore
         .instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_Family_Id, isEqualTo: id)
         .where(AppConstants.USER_UserID, isNotEqualTo: id)
@@ -2032,7 +2083,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     //     senderId: senderId);
     // logMethod( title: 'transactionId :', message: transactionId);
 
-    CollectionReference social = firestore.collection(AppConstants.SOCIAL);
+    CollectionReference social = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.SOCIAL);
     // .doc(currentUserId)
     // .collection(AppConstants.Pay);'
 //         static String Social_Sender_user_id='Social_Sender_user_id';
@@ -2090,12 +2141,12 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
     try {
       if (likes!.contains(uid)) {
         // if the likes list contains the user uid, we need to remove it
-        firestore.collection(AppConstants.SOCIAL).doc(postId).update({
+        firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.SOCIAL).doc(postId).update({
           AppConstants.Social_Likes_UserId: FieldValue.arrayRemove([uid])
         });
       } else {
         // else we need to add uid to the likes array
-        firestore.collection(AppConstants.SOCIAL).doc(postId).update({
+        firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.SOCIAL).doc(postId).update({
           AppConstants.Social_Likes_UserId: FieldValue.arrayUnion([uid])
         });
       }
@@ -2144,6 +2195,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
       // }
       // else{
       firestore
+      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.USER)
           .doc(uid)
           .collection(AppConstants.USER_contacts)
@@ -2169,6 +2221,7 @@ Future<List<ImageModelTagIt>> fetchAllTags({AppConstants? appConstants }) async{
   Future<String?> deleteRequest(
       {String? status, String? documentId, String? userId}) async {
     CollectionReference users = firestore
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .collection(AppConstants.Requested);
@@ -2188,7 +2241,7 @@ Query giveQuery(
   String? selectedUserId,
   int? limit}){
   
-    Query query = FirebaseFirestore.instance.
+    Query query = FirebaseFirestore.instance.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).
     // collection(AppConstants.USER)
     // .doc(userId).
     collection(AppConstants.Transaction);
@@ -2262,10 +2315,12 @@ Stream<List<Item>> fetchTransactions({
   //           .orderBy(AppConstants.created_at, descending: true)
   //           .snapshots();
   Query query = FirebaseFirestore.instance.
+  collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).
   // collection(AppConstants.USER).
   // doc(userId).
   collection(AppConstants.Transaction)
-   .where(AppConstants.Transaction_Common_id, isGreaterThanOrEqualTo: userId)
+  //  .where(AppConstants.Transaction_Common_id, isGreaterThanOrEqualTo: userId)
+  .where(AppConstants.Transaction_Common_id, arrayContains: userId)
    .orderBy('created_at', descending: true);
  logMethod(title: "All Transactions", message: "$userId");
   query.snapshots().map((snapshot) {
@@ -2319,8 +2374,10 @@ Stream<List<Item>> fetchTransactions({
 
   // Selected User To get Transaction
   if(selectedUserId!=null){
-    logMethod(title: 'Transaction Selected User Id', message: "$selectedUserId");
-    query = query.where(AppConstants.Transaction_SenderUser_id, isEqualTo: selectedUserId.toString());
+    logMethod(title: 'Transaction Selected User Id In API', message: "$selectedUserId");
+    query = query.where(AppConstants.Transaction_ReceiverUser_id, isEqualTo: selectedUserId.toString());
+    // .where(AppConstants.Transaction_Common_id, arrayContains: userId)
+    // query = query.where(AppConstants.Transaction_Common_id, arrayContains: selectedUserId);
   }
 
 
@@ -2350,6 +2407,7 @@ Stream<List<Item>> fetchTransactions({
       {required String? collectionName, int? limit}) {
     final Stream<QuerySnapshot> _categoriesStream = limit != null
         ? FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.USER)
             .doc(userId)
             .collection(collectionName!)
@@ -2358,6 +2416,7 @@ Stream<List<Item>> fetchTransactions({
             // .where('RQT_SenderUser_id', isEqualTo: userId)
             .snapshots()
         : FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.USER)
             .doc(userId)
             .collection(collectionName!)
@@ -2374,6 +2433,7 @@ Stream<List<Item>> fetchTransactions({
   Stream<DocumentSnapshot<Map<String, dynamic>>> getUserWallet(String userId,
       {required String? walletName}) {
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .collection("USER_WALLETS")
@@ -2404,6 +2464,7 @@ Stream<List<Item>> fetchTransactions({
     // .where('name', '<=', queryText+ '\uf8ff')
     if (name.length > 1) {
       await FirebaseFirestore.instance
+      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection('RQT')
           // .where('RQT_acount_holder_name', isLessThanOrEqualTo: name)
           .where('RQT_acount_holder_name', isGreaterThanOrEqualTo: name)
@@ -2431,6 +2492,7 @@ Stream<List<Item>> fetchTransactions({
     // List<dynamic> senderUserWallet = [];
     // final senderValue =
     await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(senderId)
         .collection(AppConstants.USER_WALLETS)
@@ -2471,6 +2533,7 @@ Stream<List<Item>> fetchTransactions({
       String userId, context) {
     var appConstants = Provider.of<AppConstants>(context, listen: false);
     final Stream<QuerySnapshot> _categoriesStream = FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .collection(AppConstants.Requested)
@@ -2479,6 +2542,7 @@ Stream<List<Item>> fetchTransactions({
         // .where('sender_receiver_id', isLessThanOrEqualTo: userId + '\uf8ff')
         .snapshots();
     FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .collection(AppConstants.Requested)
@@ -2491,11 +2555,13 @@ Stream<List<Item>> fetchTransactions({
     return _categoriesStream;
   }
 
-  Future<String?> uploadImage({String? path,required String? userId}) async {
+  Future<String?> uploadImage({required String? fullPath, String? path,required String? userId}) async {
     // /root/creatives/users/allimages
+    // /Country code-bank code/profileimages/users/User id/images/
+    logMethod(title: 'Country Code', message: fullPath.toString());
     final ref = storage.FirebaseStorage.instance
         .ref()
-        .child('creatives/users/$userId/allimages')
+        .child(fullPath.toString())
         .child(DateTime.now().toIso8601String());
 
     final result = await ref.putFile(File(path!));
@@ -2506,6 +2572,7 @@ Stream<List<Item>> fetchTransactions({
   Future<String?> updateImagePath(
       {String? id, required String field, String? value}) async {
     await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id)
         .update({
@@ -2515,7 +2582,7 @@ Stream<List<Item>> fetchTransactions({
   }
 
   Future<String?> addAllowanceFromFunds({String? kidId, String? amount}) async {
-    CollectionReference users = firestore.collection(AppConstants.ALLOW);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.ALLOW);
     await users.doc(kidId).update({
       AppConstants.USER_Allow1_amount: amount,
       // "created_at":DateTime.now().add(const Duration(days: 1))
@@ -2524,14 +2591,14 @@ Stream<List<Item>> fetchTransactions({
   }
 
   Future<String?> deleteGoal({String? documentId}) async {
-    CollectionReference users = firestore.collection(AppConstants.GOAL);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.GOAL);
     await users.doc(documentId).delete();
     return 'delete Goal';
   }
 
   Future<String?> deleteYourSelfFromGoal(
       {String? goalId, String? deletedUserId}) async {
-    CollectionReference goals = firestore.collection(AppConstants.GOAL);
+    CollectionReference goals = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.GOAL);
     await goals
         .doc(goalId)
         .collection(AppConstants.GOAL_Invited_List)
@@ -2541,7 +2608,7 @@ Stream<List<Item>> fetchTransactions({
   }
 
   Future<String?> updateGoalStatus({String? goalId, String? status}) async {
-    CollectionReference users = firestore.collection(AppConstants.GOAL);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.GOAL);
     await users.doc(goalId).update({
       AppConstants.GOAL_Status: status,
     });
@@ -2557,7 +2624,7 @@ Stream<List<Item>> fetchTransactions({
       bool? status}) async {
     var goalLastDate =
         DateTime(createdAt!.year, createdAt.month, createdAt.day, 23, 59, 59);
-    CollectionReference users = firestore.collection(AppConstants.GOAL);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.GOAL);
     await users.doc(goalId).update({
       AppConstants.GOAL_user_id: userId,
       AppConstants.GOAL_name: goalName,
@@ -2576,6 +2643,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
     logMethod(title: "Family id", message: "Family id: ${parentId.toString()}");
     // Query Firestore to find users with the same USER_Family_Id but exclude parents
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection('USER')
         .where('USER_Family_Id', isEqualTo: familyId) // Matching USER_Family_Id
         // .where('USER_UserType', isNotEqualTo: 'Parent') // Exclude any users of type Parent
@@ -2592,7 +2660,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
 }
 
   Future<String?> updateAllowanceStatus({String? kidId, bool? status}) async {
-    CollectionReference users = firestore.collection(AppConstants.ALLOW);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.ALLOW);
     await users.doc(kidId).update({
       AppConstants.USER_allowance_status: status,
     });
@@ -2602,6 +2670,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
   Future<dynamic> fetchUserKidWithFuture(String parentId) async {
     logMethod(title: "Fetch User Allowance", message: parentId.toString());
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.ALLOW)
         .doc(parentId)
         .get();
@@ -2624,7 +2693,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
       String? gender,
       required bool pinUser,
       required String? zipCode}) async {
-    CollectionReference users = firestore.collection(AppConstants.USER);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER);
     // var response =
     await users
         // .collection('users')
@@ -2668,7 +2737,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
     bool? userFullyRegistred,
     required DateTime? pincodeSetupDateTime
   }) async {
-    CollectionReference users = firestore.collection(AppConstants.USER);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER);
     // var response =
     await users
         // .collection('users')
@@ -2706,7 +2775,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
       String? userState,
       String? anniversaryDate
       }) async {
-    CollectionReference users = firestore.collection(AppConstants.USER);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER);
     await users
         // .collection('users')
         // .doc(parentId!=null? users.doc().id : FirebaseAuth.instance.currentUser!.uid).set({
@@ -2730,7 +2799,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
 
   Future<String?> updateUserEmailStatus(
       {String? userId, bool? emailStatus, String? verifiedEmail}) async {
-    CollectionReference users = firestore.collection(AppConstants.USER);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER);
     await users
         // .collection('users')
         // .doc(parentId!=null? users.doc().id : FirebaseAuth.instance.currentUser!.uid).set({
@@ -2747,7 +2816,9 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
     logMethod(title: 'Number', message: number??"No");
     // var appConstants = Provider.of<AppConstants>(context!, listen: false);
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
-        .collection(AppConstants.USER)
+    // .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
+        // .collection(AppConstants.USER)
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
         .where(AppConstants.USER_phone_number, isEqualTo: number)
         .get();
     if (value.size != 0) {
@@ -2766,7 +2837,10 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
       {String? number, BuildContext? context}) async {
     print('Number is: $number');
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
-        .collection(AppConstants.USER)
+    // .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
+        // .collection(AppConstants.USER)
+        // firestore
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
         .where('USER_phone_number', isEqualTo: number)
         .get();
 
@@ -2788,6 +2862,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
       {String? email, BuildContext? context}) async {
     print('Number is: $email');
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_email, isEqualTo: email)
         .get();
@@ -2810,6 +2885,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
       {String? number}) async {
     print('Number is: $number');
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where('USER_phone_number', isEqualTo: number)
         .get();
@@ -2826,7 +2902,8 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
     // await Future.delayed(Duration(seconds: 1));
     String? token = await getToken();
     await FirebaseFirestore.instance
-        .collection(AppConstants.USER)
+        // .collection(AppConstants.USER)
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
         .doc(id)
         .update({AppConstants.USER_iNApp_NotifyToken: token});
   }
@@ -2834,13 +2911,15 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
   Future addUserBlockTime({String? id, DateTime? blockDatetTime}) async {
     logMethod(title: 'Blocked User', message: 'DateTime has been Stored for that blocked user: $blockDatetTime');
     await FirebaseFirestore.instance
-        .collection(AppConstants.USER)
+        // .collection(AppConstants.USER)
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
         .doc(id)
         .update({AppConstants.USER_Block_Time: blockDatetTime});
   }
   Future userLastTimeLoginDateTime({String? id}) async {
     await FirebaseFirestore.instance
-        .collection(AppConstants.USER)
+        // .collection(AppConstants.USER)
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
         .doc(id)
         .update(
           {
@@ -2854,7 +2933,8 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
     print('User id is: $userId');
     var appConstants = Provider.of<AppConstants>(context!, listen: false);
     FirebaseFirestore.instance
-        .collection(AppConstants.USER)
+        // .collection(AppConstants.USER)
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
         .doc(userId)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
@@ -2979,6 +3059,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
 
     print('User id is: $userId');
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .get();
@@ -3009,6 +3090,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
       {String? userId}) async {
     print('User id is: $userId');
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .get();
@@ -3027,6 +3109,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
       {String? parentId}) async {
     print('User id is: $parentId');
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(parentId)
         .get();
@@ -3045,6 +3128,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
   Future alreadyExistInFavorites(
       {String? userId, String? friendDocId, String? number}) async {
     FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .collection(AppConstants.USER_contacts)
@@ -3064,6 +3148,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
         title: 'Status of friend: $friendDocId and $userId',
         message: status.toString());
     FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .collection(AppConstants.USER_contacts)
@@ -3080,6 +3165,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
   Query selectedUserFavoriteFriendList(
       {String? id, bool? favoriteCondition}) {
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id)
         .collection(AppConstants.USER_contacts)
@@ -3096,6 +3182,7 @@ Future<bool> checkIfNoKids(String parentId, String familyId) async {
     bool? conditionStatus,
   }) {
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id)
         .collection(AppConstants.USER_contacts)
@@ -3113,6 +3200,7 @@ Query selectedUserAllFriendListWithQuery({
     bool? conditionStatus,
   }) {
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id)
         .collection(AppConstants.USER_contacts);
@@ -3129,6 +3217,7 @@ Query selectedUserAllFriendListWithQuery({
     String? goalId,
   }) {
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.GOAL)
         .doc(goalId)
         .collection(AppConstants.Contribution)
@@ -3142,6 +3231,7 @@ Query selectedUserAllFriendListWithQuery({
       String? userName,
       List? tokenList}) async {
     await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .collection(AppConstants.USER_contacts)
@@ -3158,6 +3248,7 @@ Query selectedUserAllFriendListWithQuery({
         if (element.data()[AppConstants.USER_UserID] != userId) {
             /////First check already invited to that goal or not
               FirebaseFirestore.instance
+              .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
               .collection(AppConstants.USER)
               .doc(userId)
               .collection(AppConstants.Goal_InviteSentTo_UserID)
@@ -3212,6 +3303,7 @@ Query selectedUserAllFriendListWithQuery({
   Future<String?> addInvitedGoalToUserCollection(
       {String? userId, String? goalId, String? invitedToUserId}) async {
     FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .collection(AppConstants.Goal_InviteSentTo_UserID)
@@ -3222,6 +3314,7 @@ Query selectedUserAllFriendListWithQuery({
     });
 
     FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(invitedToUserId)
         .collection(AppConstants.Goal_InviteReceivedFrom_UserID)
@@ -3236,6 +3329,7 @@ Query selectedUserAllFriendListWithQuery({
 // Stream<QuerySnapshot<Map<String, dynamic>>>
   invitedToGoal({String? userId, String? selectedUserId, String? goalId}) {
     return FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .collection(AppConstants.Goal_InviteSentTo_UserID)
@@ -3251,6 +3345,7 @@ Query selectedUserAllFriendListWithQuery({
     UserModel? model;
     DocumentSnapshot<Map<String, dynamic>> data = await FirebaseFirestore
         .instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(userId)
         .get();
@@ -3280,12 +3375,14 @@ Query selectedUserAllFriendListWithQuery({
     final Stream<QuerySnapshot> kids =
     subscriptionValue==false?
      FirebaseFirestore.instance
+     .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_Family_Id, isEqualTo: parentId)
         .where(AppConstants.USER_UserID, isNotEqualTo: currentUserId)
         .snapshots()
       :
       FirebaseFirestore.instance
+      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_Family_Id, isEqualTo: parentId)
         // .where(AppConstants.USER_UserID, isNotEqualTo: [currentUserId])
@@ -3300,6 +3397,7 @@ Query selectedUserAllFriendListWithQuery({
     logMethod(title: 'User id', message: parentId + currentUserId.toString());
     final QuerySnapshot<Map<String, dynamic>> kids = await FirebaseFirestore
         .instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_Family_Id, isEqualTo: parentId)
         .where(AppConstants.USER_UserID, isNotEqualTo: currentUserId)
@@ -3311,6 +3409,7 @@ Query selectedUserAllFriendListWithQuery({
     // logMethod(title: 'User id', message: parentId + currentUserId.toString());
     final QuerySnapshot<Map<String, dynamic>> kids = await FirebaseFirestore
         .instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_Family_Id, isEqualTo: parentId)
         .where(AppConstants.USER_UserType, isNotEqualTo: AppConstants.USER_TYPE_PARENT)
@@ -3324,6 +3423,7 @@ Query selectedUserAllFriendListWithQuery({
     var appConstants = Provider.of<AppConstants>(context, listen: false);
     // logMethod(title: 'User id', message:  parentId+currentUserId.toString());
     final Stream<QuerySnapshot> kids = FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id!)
         .collection(AppConstants.USER_contacts)
@@ -3332,6 +3432,7 @@ Query selectedUserAllFriendListWithQuery({
         // .where(AppConstants.USER_SubscriptionValue, isGreaterThanOrEqualTo: 2)
         .snapshots();
     FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id)
         .collection(AppConstants.USER_contacts)
@@ -3349,6 +3450,7 @@ Query selectedUserAllFriendListWithQuery({
     // var appConstants = Provider.of<AppConstants>(context, listen: false);
     // logMethod(title: 'User id', message:  parentId+currentUserId.toString());
     final Stream<DocumentSnapshot<Map<String, dynamic>>> kids = FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id!)
         // .collection(AppConstants.USER)
@@ -3366,6 +3468,7 @@ Query selectedUserAllFriendListWithQuery({
     //     .get();
     QuerySnapshot<Map<String, dynamic>> userKids = await FirebaseFirestore
         .instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_Family_Id, isEqualTo: parentId)
         .where(AppConstants.USER_UserID, isNotEqualTo: currentUserId)
@@ -3386,6 +3489,7 @@ Query selectedUserAllFriendListWithQuery({
     List<UserModel> usersList = [];
     // final Future<QuerySnapshot> _categoriesStream =
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_Family_Id, isEqualTo: parentId)
         .where(AppConstants.USER_UserID, isNotEqualTo: currentUserId)
@@ -3438,6 +3542,7 @@ Query selectedUserAllFriendListWithQuery({
 
     // final Future<QuerySnapshot> _categoriesStream =
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_Family_Id, isEqualTo: parentId)
         .where(AppConstants.USER_UserID, isNotEqualTo: currentUserId)
@@ -3478,6 +3583,7 @@ Query selectedUserAllFriendListWithQuery({
       {String? parentId, String? search}) async {
     QuerySnapshot<Map<String, dynamic>> userSearch = await FirebaseFirestore
         .instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_Family_Id, isEqualTo: parentId)
         .where(AppConstants.USER_user_name, isGreaterThanOrEqualTo: search)
@@ -3488,6 +3594,7 @@ Query selectedUserAllFriendListWithQuery({
   Future<List<String>> fetchUserKidsIds(String parentId) async {
     List<String> ids = [];
     QuerySnapshot data = await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_Family_Id, isEqualTo: parentId)
         .get();
@@ -3529,7 +3636,7 @@ Query selectedUserAllFriendListWithQuery({
       bool? lockCharity,
       required bool? disableToDo}) async {
     CollectionReference users =
-        firestore.collection(AppConstants.KidPersonalization);
+        firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.KidPersonalization);
     await users.doc(userId).set({
       AppConstants.KidP_user_id: userId,
       AppConstants.KidP_Parent_id: parentId,
@@ -3548,6 +3655,7 @@ Query selectedUserAllFriendListWithQuery({
   Future<Map<String, dynamic>?> getKidsPersonalizeExperience(String id) async {
     // List<String> ids = [];
     QuerySnapshot<Map<String, dynamic>> data = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.KidPersonalization)
         .where(AppConstants.KidP_user_id, isEqualTo: id)
         .get();
@@ -3581,6 +3689,7 @@ Query selectedUserAllFriendListWithQuery({
       String parentId, String id) async {
     DocumentSnapshot<Map<String, dynamic>> data = await FirebaseFirestore
         .instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.SpendLimits)
         // .doc(parentId)
         // .collection(AppConstants.SpendLimits)
@@ -3601,6 +3710,7 @@ Query selectedUserAllFriendListWithQuery({
   Future<String?> updateSpendingRemain(
       {String? parentId, String? id, String? fieldName, int? amount}) async {
     FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.SpendLimits)
         .doc(parentId)
         .collection(AppConstants.SpendLimits)
@@ -3630,7 +3740,7 @@ Query selectedUserAllFriendListWithQuery({
       String? cardToken,
       String? userToken}) async {
     CollectionReference users =
-        firestore.collection(AppConstants.ICard_Collection);
+        firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.ICard_Collection);
     await users
         .doc(parentId)
         .collection(AppConstants.ICard_Collection)
@@ -3664,6 +3774,7 @@ Query selectedUserAllFriendListWithQuery({
     logMethod(title: 'Parent id and User Id', message: "${parentId??'No id'} and $id");
     try {
       var doc = await FirebaseFirestore.instance
+          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.ICard_Collection)
           .doc(parentId==""?id:parentId)
           .collection(AppConstants.ICard_Collection)
@@ -3688,6 +3799,7 @@ Query selectedUserAllFriendListWithQuery({
       {String? cardId, required String parentId, String? imageUrl}) async {
     try {
       FirebaseFirestore.instance
+          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.ICard_Collection)
           .doc(parentId)
           .collection(AppConstants.ICard_Collection)
@@ -3700,7 +3812,7 @@ Query selectedUserAllFriendListWithQuery({
   }
 
   Future<String?> userInvited({String? userId, String? phoneNumber}) async {
-    CollectionReference users = firestore.collection(AppConstants.USER_Invites);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER_Invites);
     await users.doc().set({
       AppConstants.USER_contact_invitedphone: phoneNumber,
       AppConstants.USER_Invited_By_Id: userId,
@@ -3715,6 +3827,7 @@ Query selectedUserAllFriendListWithQuery({
     // print('Number is: $number');
     // var appConstants = Provider.of<AppConstants>(context!, listen: false);
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER_Invites)
         .where(AppConstants.USER_contact_invitedphone, isEqualTo: number)
         .get();
@@ -3745,6 +3858,7 @@ Query selectedUserAllFriendListWithQuery({
       bool? signedUpStatus}) async {
 //////////Added inside friendList of receiver
     FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(currentUserId)
 
@@ -3759,6 +3873,7 @@ Query selectedUserAllFriendListWithQuery({
     });
 ////////// Added inside friendList of current User
     FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(requestReceiverrId)
 
@@ -3777,6 +3892,7 @@ Query selectedUserAllFriendListWithQuery({
   Future<dynamic>? kidAddedIntoFriendListUpdatedStatus(
       {String? requestSenderId, String? currentUserId}) async {
     FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(requestSenderId)
         .collection(AppConstants.USER_contacts)
@@ -3788,6 +3904,7 @@ Query selectedUserAllFriendListWithQuery({
         ///////This is for Invited User InvitedList updated to show friends
         logMethod(title: 'User Invited index', message: value.docs.first.id);
         FirebaseFirestore.instance
+            .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.USER)
             .doc(requestSenderId)
 
@@ -3803,6 +3920,7 @@ Query selectedUserAllFriendListWithQuery({
     });
 // 
     FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(currentUserId)
         .collection(AppConstants.USER_contacts)
@@ -3814,6 +3932,7 @@ Query selectedUserAllFriendListWithQuery({
         ///////This is for Invited User InvitedList updated to show friends
         logMethod(title: 'User Invited index', message: value.docs.first.id);
         FirebaseFirestore.instance
+            .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.USER)
             .doc(currentUserId)
 
@@ -3838,6 +3957,7 @@ Query selectedUserAllFriendListWithQuery({
       String? requestSenderPhoneNumber,
       String? requestSenderName}) async {
     FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(requestSenderId)
         .collection(AppConstants.USER_contacts)
@@ -3849,6 +3969,7 @@ Query selectedUserAllFriendListWithQuery({
         ///////This is for Invited User InvitedList updated to show friends
         logMethod(title: 'User Invited index', message: value.docs.first.id);
         FirebaseFirestore.instance
+            .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.USER)
             .doc(requestSenderId)
 
@@ -3863,6 +3984,7 @@ Query selectedUserAllFriendListWithQuery({
 
         // Now we are adding this friend To new added user so they can show them self inside firned list
         FirebaseFirestore.instance
+            .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.USER)
             .doc(currentUserId)
 
@@ -3884,6 +4006,7 @@ Query selectedUserAllFriendListWithQuery({
         ////After adding into freind list now we are deleting user from table Invite
         if (idToBeDelete != '')
           FirebaseFirestore.instance
+              .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
               .collection(AppConstants.USER_Invites)
               .doc(idToBeDelete)
               .delete()
@@ -3896,6 +4019,7 @@ Query selectedUserAllFriendListWithQuery({
     ////////For Current User InvitedList Updated and that user is now friend of current User as well
 
     FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(currentUserId)
         .collection(AppConstants.USER_contacts)
@@ -3907,6 +4031,7 @@ Query selectedUserAllFriendListWithQuery({
         ///////This is for Invited User InvitedList updated to show friends
         logMethod(title: 'User Invited index', message: value.docs.first.id);
         FirebaseFirestore.instance
+            .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.USER)
             .doc(currentUserId)
             .collection(AppConstants.USER_contacts)
@@ -3993,6 +4118,7 @@ Query selectedUserAllFriendListWithQuery({
 
   Future<bool>? checkAlreadyFriend({required String id, required String number}) async {
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id)
         .collection(AppConstants.USER_contacts)
@@ -4010,6 +4136,7 @@ Query selectedUserAllFriendListWithQuery({
 
   Future<bool>? checkFriends({required String id, required String friendId}) async {
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id)
         .collection(AppConstants.USER_contacts)
@@ -4029,6 +4156,7 @@ Query selectedUserAllFriendListWithQuery({
       {String? id, String? number, bool? status}) async {
     DocumentSnapshot<Map<String, dynamic>> data = await FirebaseFirestore
         .instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id)
         .get();
@@ -4074,6 +4202,7 @@ Query selectedUserAllFriendListWithQuery({
           },
         );
         FirebaseFirestore.instance
+            .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.USER)
             .doc(id)
             .update({AppConstants.USER_contacts: userInvited});
@@ -4085,6 +4214,7 @@ Query selectedUserAllFriendListWithQuery({
       {String? parentId, String? id, bool? status}) async {
     try {
       FirebaseFirestore.instance
+          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.ICard_Collection)
           .doc(parentId)
           .collection(AppConstants.ICard_Collection)
@@ -4099,6 +4229,7 @@ Query selectedUserAllFriendListWithQuery({
       {String? parentId, String? id, bool? status}) async {
     try {
       FirebaseFirestore.instance
+          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.ICard_Collection)
           .doc(parentId)
           .collection(AppConstants.ICard_Collection)
@@ -4113,6 +4244,7 @@ Query selectedUserAllFriendListWithQuery({
       {String? parentId, String? id, bool? status}) async {
     try {
       FirebaseFirestore.instance
+          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.ICard_Collection)
           .doc(parentId)
           .collection(AppConstants.ICard_Collection)
@@ -4125,6 +4257,7 @@ Query selectedUserAllFriendListWithQuery({
 
   Stream<QuerySnapshot> fetchUserKidsCards({String? parentId}) {
     final Stream<QuerySnapshot> _categoriesStream = FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.ICard_Collection)
         .doc(parentId)
         .collection(AppConstants.ICard_Collection)
@@ -4152,7 +4285,7 @@ Query selectedUserAllFriendListWithQuery({
       String? dailyAmount
       }) async {
       logMethod(title: "Parent Id and Kid Id", message: "$parentId and $userId");
-    CollectionReference users = firestore.collection(AppConstants.SpendLimits);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.SpendLimits);
     await 
     users
         // .doc(parentId)
@@ -4223,7 +4356,7 @@ Query selectedUserAllFriendListWithQuery({
       String? SavingWallet_Name,
       String? DonationWallet_Name,
       String? TopFriends_Name}) async {
-    CollectionReference users = firestore.collection(AppConstants.Nick_Name);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.Nick_Name);
     await users.doc(kidId).set({
       AppConstants.Nick_Name_User_Id: kidId,
       AppConstants.SpendWallet_Name: SpendWallet_Name,
@@ -4240,6 +4373,7 @@ Query selectedUserAllFriendListWithQuery({
       {String? userId, BuildContext? context}) async {
     var appConstants = Provider.of<AppConstants>(context!, listen: false);
     DocumentSnapshot snapShot = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.Nick_Name)
         .doc(userId)
         .get();
@@ -4266,6 +4400,7 @@ Query selectedUserAllFriendListWithQuery({
       {String? userId, BuildContext? context}) async {
     // var appConstants = Provider.of<AppConstants>(context!, listen: false);
     DocumentSnapshot snapShot = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.Nick_Name)
         .doc(userId)
         .get();
@@ -4291,7 +4426,7 @@ Query selectedUserAllFriendListWithQuery({
       String? cardHolderName,
       String? expiryDate,
       bool? cardStatus}) async {
-    CollectionReference users = firestore.collection(AppConstants.FM_WALLET);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.FM_WALLET);
     await users.doc(id).set({
       AppConstants.FM_WALLET_userId: id,
       AppConstants.FM_WALLET_amount: amount,
@@ -4309,7 +4444,7 @@ Query selectedUserAllFriendListWithQuery({
       String? cardNumber,
       String? cardHolderName,
       DateTime? expiryDate}) async {
-    CollectionReference users = firestore.collection(AppConstants.FM_WALLET);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.FM_WALLET);
     await users.doc(id).update({
       AppConstants.FM_WALLET_card_number: cardNumber,
       AppConstants.FM_WALLET_cardHolderName: cardHolderName,
@@ -4319,7 +4454,7 @@ Query selectedUserAllFriendListWithQuery({
   }
 
   Future<String?> deleteCard({String? id}) async {
-    CollectionReference users = firestore.collection(AppConstants.FM_WALLET);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.FM_WALLET);
     await users.doc(id).delete();
     return 'delete';
   }
@@ -4329,7 +4464,7 @@ Query selectedUserAllFriendListWithQuery({
     double? totalAmount,
     double? feeAmount,
   }) async {
-    CollectionReference fee = firestore.collection(AppConstants.P_FEE);
+    CollectionReference fee = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.P_FEE);
     await fee.add({
       AppConstants.P_FEE_TOTAL_AMOUNT: totalAmount,
       AppConstants.P_FEE_AMOUNT: feeAmount,
@@ -4348,6 +4483,7 @@ Query selectedUserAllFriendListWithQuery({
       {String? userId, BuildContext? context}) async {
     var appConstants = Provider.of<AppConstants>(context!, listen: false);
     DocumentSnapshot snapShot = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.FM_WALLET)
         .doc(userId)
         .get();
@@ -4370,6 +4506,7 @@ logMethod(title: "User id", message: userId.toString());
     logMethod(title: 'Username:', message: userName);
     // QuerySnapshot<Map<String, dynamic>> value
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_user_name, isEqualTo: userName)
         .get();
@@ -4390,6 +4527,7 @@ logMethod(title: "User id", message: userId.toString());
     // logMethod(title: 'Username:', message: email);
     // QuerySnapshot<Map<String, dynamic>> value
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_email, isEqualTo: email)
         .get();
@@ -4412,6 +4550,7 @@ logMethod(title: "User id", message: userId.toString());
   Future<List<dynamic>> getDevicesArray(String id) async {
     List<dynamic> devicesList = [];
     final value = await FirebaseFirestore.instance
+    .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id)
         .get();
@@ -4424,14 +4563,14 @@ logMethod(title: "User id", message: userId.toString());
     String id,
     List? deviceId,
   ) async {
-    firestore.collection(AppConstants.USER).doc(id).update({
+    firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER).doc(id).update({
       AppConstants.device_list: FieldValue.arrayUnion(deviceId!),
     });
     return 'Successfull';
   }
 
   Future<String> updateUserTouchStatus(String id, bool value) async {
-    firestore.collection(AppConstants.USER).doc(id).update({
+    firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER).doc(id).update({
       AppConstants.USER_TouchID_isEnabled: value,
     });
     return 'Successfull';
@@ -4439,7 +4578,8 @@ logMethod(title: "User id", message: userId.toString());
   Future<String> addUserTokenBankApi(String userId, String userToken, {int? value, String? USER_Subscription_Method}) async {
     logMethod(title: 'User id and userToken', message: "$userId and $userToken");
     if(USER_Subscription_Method!=null){
-      firestore.collection(AppConstants.USER).doc(userId).update({
+      firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
+      .collection(AppConstants.USER).doc(userId).update({
       AppConstants.USER_BankAccountID: userToken,
       AppConstants.USER_SubscriptionValue: value==null? 1 : value,
       AppConstants.USER_Subscription_Method: USER_Subscription_Method,
@@ -4448,7 +4588,8 @@ logMethod(title: "User id", message: userId.toString());
     });
     }
     else{
-    firestore.collection(AppConstants.USER).doc(userId).update({
+    firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
+    .collection(AppConstants.USER).doc(userId).update({
       AppConstants.USER_BankAccountID: userToken,
       AppConstants.USER_SubscriptionValue: value==null? 1 : value,
     });
@@ -4458,7 +4599,7 @@ logMethod(title: "User id", message: userId.toString());
 
   Future<String> userSubscriptionStatusRestored({required String userId, required bool subscriptionStauts, required String USER_Subscription_Method,}) async {
     logMethod(title: 'User id and Subscription Status', message: "$userId and $subscriptionStauts");
-    firestore.collection(AppConstants.USER).doc(userId).update({
+    firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER).doc(userId).update({
       AppConstants.SubscriptionExpired: subscriptionStauts,
       AppConstants.DateOfSubscription: DateTime.now(),
       AppConstants.USER_Subscription_Method: USER_Subscription_Method,
@@ -4469,9 +4610,19 @@ logMethod(title: "User id", message: userId.toString());
 
   Future<String> updateUserPinCode(
       String id, String value, int pinLength,DateTime pinCodeChangeDateTime) async {
-    firestore.collection(AppConstants.USER).doc(id).update({
+    firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
+    .collection(AppConstants.USER).doc(id).update({
       AppConstants.USER_pin_code: encryptedValue(value: value),
       AppConstants.USER_pin_code_length: pinLength,
+      AppConstants.USER_PIN_CODE_SETUP_DATE_TIME: pinCodeChangeDateTime
+    });
+    return 'Successfull';
+  }
+  Future<String> updatePincodeSetupDateTime(
+      String id, DateTime pinCodeChangeDateTime) async {
+    logMethod(title: 'Pincode Change Date Time', message: 'Id: $id and $pinCodeChangeDateTime');
+    firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
+    .collection(AppConstants.USER).doc(id).update({
       AppConstants.USER_PIN_CODE_SETUP_DATE_TIME: pinCodeChangeDateTime
     });
     return 'Successfull';
@@ -4482,6 +4633,7 @@ logMethod(title: "User id", message: userId.toString());
     // print('Number is: $number');
     // var appConstants = Provider.of<AppConstants>(context!, listen: false);
     DocumentSnapshot? snapshot = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(id)
         .get();
@@ -4508,6 +4660,7 @@ logMethod(title: "User id", message: userId.toString());
     // print('Number is: $number');
     // var appConstants = Provider.of<AppConstants>(context!, listen: false);
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_phone_number, isEqualTo: number)
         .get();
@@ -4535,6 +4688,7 @@ logMethod(title: "User id", message: userId.toString());
     // print('Number is: $number');
     // var appConstants = Provider.of<AppConstants>(context!, listen: false);
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .where(AppConstants.USER_UserID, isEqualTo: id)
         .get();
@@ -4564,6 +4718,7 @@ logMethod(title: "User id", message: userId.toString());
     // var appConstants = Provider.of<AppConstants>(context!, listen: false);
     DocumentSnapshot<Map<String, dynamic>> value =
         await FirebaseFirestore.instance
+            .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
             .collection(AppConstants.USER)
             // .where(AppConstants.USER_phone_number, isEqualTo: number)
             .doc(id)
@@ -4601,7 +4756,7 @@ logMethod(title: "User id", message: userId.toString());
     // var todayTodo = DateTime.now();
     var toDayToDoDate =
         DateTime(createdAt!.year, createdAt.month, createdAt.day, 23, 59, 59);
-    CollectionReference users = firestore.collection(AppConstants.TO_DO);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     await users.doc(userId).collection(AppConstants.TO_DO).add({
       AppConstants.DO_parentId: parentId,
       AppConstants.DO_UserId: userId,
@@ -4633,7 +4788,7 @@ logMethod(title: "User id", message: userId.toString());
         String? receiverId,
         String? toDoId,
       }) async {
-    CollectionReference toDos = firestore.collection(AppConstants.To_Do_Pending_Approval);
+    CollectionReference toDos = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.To_Do_Pending_Approval);
     await toDos.add({
       AppConstants.TO_DO_Id: toDoId,
       AppConstants.DO_UserId: currentUserId,
@@ -4649,7 +4804,7 @@ logMethod(title: "User id", message: userId.toString());
       {
         String? toDoId,
       }) async {
-    CollectionReference toDos = firestore.collection(AppConstants.To_Do_Pending_Approval);
+    CollectionReference toDos = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.To_Do_Pending_Approval);
     // await 
     await toDos.where(AppConstants.TO_DO_Id, isEqualTo: toDoId)
     .get()
@@ -4663,7 +4818,7 @@ logMethod(title: "User id", message: userId.toString());
 
   Future<String?> updateToDoWeek(
       {String? userId, String? todoId, String? doType, DateTime? date}) async {
-    CollectionReference users = firestore.collection(AppConstants.TO_DO);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     if (date != null) {
       await users
           .doc(userId)
@@ -4692,7 +4847,7 @@ logMethod(title: "User id", message: userId.toString());
     String? todoId,
     String? doDay,
   }) async {
-    CollectionReference users = firestore.collection(AppConstants.TO_DO);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     await users.doc(userId).collection(AppConstants.TO_DO).doc(todoId).update({
       AppConstants.DO_Day: doDay!,
       // "created_at":DateTime.now().add(const Duration(days: 1))
@@ -4704,7 +4859,7 @@ logMethod(title: "User id", message: userId.toString());
       {String? userId, String? todoId, String? toDoStatus, required DateTime? nextSechduleDateTime}) async {
         var toDayToDoDate =
         DateTime(nextSechduleDateTime!.year, nextSechduleDateTime.month, nextSechduleDateTime.day, 23, 59, 59);
-    CollectionReference users = firestore.collection(AppConstants.TO_DO);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     await users.doc(userId).collection(AppConstants.TO_DO).doc(todoId).update({
       AppConstants.DO_Status: toDoStatus,
       AppConstants.DO_CreatedAt: nextSechduleDateTime,
@@ -4720,7 +4875,7 @@ logMethod(title: "User id", message: userId.toString());
 
   Future<String?> toDoCompltedTask(
       {String? userId, String? todoId, String? toDoStatus, required DateTime? dueDate}) async {
-    CollectionReference toDo = firestore.collection(AppConstants.TO_DO);
+    CollectionReference toDo = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     await toDo.doc(userId).collection(AppConstants.TO_DO_Completed).add({
       AppConstants.DO_Status: toDoStatus,
       AppConstants.TO_DO_Id: todoId,
@@ -4733,7 +4888,7 @@ logMethod(title: "User id", message: userId.toString());
 
   Future<String?> updateKidToDoStatus(
       {String? userId, String? todoId, String? toDoKidStatus, required String toDoWithReward}) async {
-    CollectionReference users = firestore.collection(AppConstants.TO_DO);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     await users.doc(userId).collection(AppConstants.TO_DO).doc(todoId).update({
       AppConstants.DO_Kid_Status: toDoKidStatus,
       AppConstants.ToDo_Reward_Status: toDoWithReward,
@@ -4744,7 +4899,7 @@ logMethod(title: "User id", message: userId.toString());
 
   Future<String?> updateToDoLinkAllowance(
       {String? userId, String? todoId, bool? allowanceLinked}) async {
-    CollectionReference users = firestore.collection(AppConstants.TO_DO);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     await users.doc(userId).collection(AppConstants.TO_DO).doc(todoId).update({
       AppConstants.DO_Allowance_Linked: allowanceLinked,
       // "created_at":DateTime.now().add(const Duration(days: 1))
@@ -4757,7 +4912,7 @@ logMethod(title: "User id", message: userId.toString());
     String? todoId,
     String? title,
   }) async {
-    CollectionReference users = firestore.collection(AppConstants.TO_DO);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     await users.doc(userId).collection(AppConstants.TO_DO).doc(todoId).update({
       AppConstants.DO_Title: title,
       AppConstants.DO_CreatedAt: DateTime.now()
@@ -4771,7 +4926,7 @@ logMethod(title: "User id", message: userId.toString());
     String? todoId,
     DateTime? updatedDate,
   }) async {
-    CollectionReference users = firestore.collection(AppConstants.TO_DO);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     await users.doc(userId).collection(AppConstants.TO_DO).doc(todoId).update({
       AppConstants.DO_newCreatedAt: updatedDate,
       // "created_at":DateTime.now().add(const Duration(days: 1))
@@ -4784,7 +4939,7 @@ logMethod(title: "User id", message: userId.toString());
     String? todoId,
     DateTime? repeatDateTime,
   }) async {
-    CollectionReference users = firestore.collection(AppConstants.TO_DO);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     await users.doc(userId).collection(AppConstants.TO_DO).doc(todoId).update({
       AppConstants.DO_End_Repeat: repeatDateTime!,
       // "created_at":DateTime.now().add(const Duration(days: 1))
@@ -4806,7 +4961,7 @@ logMethod(title: "User id", message: userId.toString());
   }) async {
     var toDayToDoDate =
         DateTime(dueDate!.year, dueDate.month, dueDate.day, 23, 59, 59);
-    CollectionReference users = firestore.collection(AppConstants.TO_DO);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     await users.doc(userId).collection(AppConstants.TO_DO).doc(todoId).update({
       AppConstants.ToDo_WithReward: toDoWithReward,
       AppConstants.ToDo_Reward_Amount: toDoRewardAmount,
@@ -4829,6 +4984,7 @@ logMethod(title: "User id", message: userId.toString());
       String? receiverId}) {
     ////////////Added into All Goals wallet
     FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(receiverId != null ? receiverId : documentId)
         .collection(AppConstants.USER_WALLETS)
@@ -4836,6 +4992,7 @@ logMethod(title: "User id", message: userId.toString());
         .update({AppConstants.wallet_balance: FieldValue.increment(amount!)});
     //////////Subtract ammount from selected wallet
     FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.USER)
         .doc(documentId)
         .collection(AppConstants.USER_WALLETS)
@@ -4845,6 +5002,7 @@ logMethod(title: "User id", message: userId.toString());
 
   Future<String?> checkGoalAmount({String? documentId, double? amount}) async {
     FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.GOAL)
         .doc(documentId)
         .update({
@@ -4860,6 +5018,7 @@ logMethod(title: "User id", message: userId.toString());
     double? amount,
   }) async {
     FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.GOAL)
         .doc(documentId)
         .update({
@@ -4867,6 +5026,7 @@ logMethod(title: "User id", message: userId.toString());
     });
     DocumentSnapshot<Map<String, dynamic>> data = await FirebaseFirestore
         .instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.GOAL)
         .doc(documentId)
         .get();
@@ -4890,6 +5050,7 @@ logMethod(title: "User id", message: userId.toString());
     String? title,
   }) async {
     QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.TO_DO)
         .doc(userId)
         .collection(AppConstants.TO_DO)
@@ -4906,7 +5067,7 @@ logMethod(title: "User id", message: userId.toString());
 
   Future<String?> updateDeletedByStatus(
       {String? userId, String? todoId, String? deletedBy}) async {
-    CollectionReference users = firestore.collection(AppConstants.TO_DO);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     await users.doc(userId).collection(AppConstants.TO_DO).doc(todoId).update({
       AppConstants.DO_Deleted_By: deletedBy,
       // "created_at":DateTime.now().add(const Duration(days: 1))
@@ -4915,7 +5076,7 @@ logMethod(title: "User id", message: userId.toString());
   }
 
   Future<void> deleteToDo({String? userId, String? todoId}) async {
-    CollectionReference users = firestore.collection(AppConstants.TO_DO);
+    CollectionReference users = firestore.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.TO_DO);
     await users.doc(userId).collection(AppConstants.TO_DO).doc(todoId).delete();
   }
 
@@ -4925,6 +5086,7 @@ logMethod(title: "User id", message: userId.toString());
     Query? query;
     if (limit == 1) {
       query= FirebaseFirestore.instance
+      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.TO_DO)
           .doc(id)
           .collection(AppConstants.TO_DO)
@@ -4938,6 +5100,7 @@ logMethod(title: "User id", message: userId.toString());
     var date = DateTime.now();
     if (limit == 1) {
       return FirebaseFirestore.instance
+          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.TO_DO)
           .doc(id)
           .collection(AppConstants.TO_DO)
@@ -4951,6 +5114,7 @@ logMethod(title: "User id", message: userId.toString());
     // For Home Screen Only 3
     if (limit == 3) {
       return FirebaseFirestore.instance
+          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.TO_DO)
           .doc(id)
           .collection(AppConstants.TO_DO)
@@ -4964,6 +5128,7 @@ logMethod(title: "User id", message: userId.toString());
     ///////////This is for Upcommings weeks
     if (selectedDateTime != null) {
       return FirebaseFirestore.instance
+          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.TO_DO)
           .doc(id)
           .collection(AppConstants.TO_DO)
@@ -4975,6 +5140,7 @@ logMethod(title: "User id", message: userId.toString());
           .snapshots();
     }
     final Stream<QuerySnapshot> _categoriesStream = FirebaseFirestore.instance
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
         .collection(AppConstants.TO_DO)
         .doc(id)
         .collection(AppConstants.TO_DO)
@@ -4993,6 +5159,7 @@ logMethod(title: "User id", message: userId.toString());
     // var date = DateTime.now();
     // if (limit == 1) {
       return FirebaseFirestore.instance
+          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.TO_DO)
           .doc(id)
           .collection(AppConstants.TO_DO_Completed)
@@ -5007,6 +5174,7 @@ logMethod(title: "User id", message: userId.toString());
 
     Future<String> deletedTodoFromComplted({String? todoId, String? selectedUserId, }) async{
          FirebaseFirestore.instance
+          .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
           .collection(AppConstants.TO_DO)
           .doc(selectedUserId)
           .collection(AppConstants.TO_DO_Completed)

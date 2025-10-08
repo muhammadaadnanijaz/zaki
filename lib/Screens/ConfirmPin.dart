@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/AppConstants.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Styles.dart';
 import 'package:zaki/Widgets/CustomConfermationScreen.dart';
 import 'package:zaki/Widgets/EnableBioMetricWidget.dart';
@@ -15,6 +15,7 @@ import '../Constants/Spacing.dart';
 import '../Services/SharedPrefMnager.dart';
 import '../Services/api.dart';
 import '../Widgets/AppBars/AppBar.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 
 class ConfirmPin extends StatefulWidget {
   final int? fromKidsSignUpPag;

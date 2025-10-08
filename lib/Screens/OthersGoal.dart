@@ -89,6 +89,8 @@ class _OthersGoalState extends State<OthersGoal> {
                             [AppConstants.GOAL_id]);
                     return StreamBuilder<DocumentSnapshot>(
                       stream: FirebaseFirestore.instance
+                      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID)
+                      // .collection(AppConstants.USER)
                           .collection(AppConstants.GOAL)
                           .doc(snapshot.data!.docs[index][AppConstants.GOAL_id])
                           // .where(AppConstants.GOAL_Status, isNotEqualTo: AppConstants.GOAL_Status_completed)

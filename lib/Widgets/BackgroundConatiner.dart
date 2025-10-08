@@ -13,7 +13,7 @@ import '../Constants/Styles.dart';
               (backgroundImageUrl!.contains('assets/images/') || (backgroundImageUrl==""))?
               DecorationImage(
                 image: 
-                AssetImage(  backgroundImageUrl=="" ? imageBaseAddress+"ZakiPayNoDebitCard.png" : backgroundImageUrl),
+                AssetImage(  backgroundImageUrl=="" ? cardImagesBaseAddress+"ZakiPayNoDebitCard.png" : backgroundImageUrl),
                 fit: BoxFit.fill,
                 // scale: 1
               ):

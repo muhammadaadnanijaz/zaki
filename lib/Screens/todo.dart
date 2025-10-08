@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Spacing.dart';
 // import 'package:zaki/Models/Items.dart';
 // import 'package:zaki/Models/ToDoModelWithQuery.dart';
@@ -20,6 +20,7 @@ import '../Constants/Styles.dart';
 import '../Services/api.dart';
 import '../Widgets/AppBars/AppBar.dart';
 import '../Widgets/UnSelectedKidsWidget.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 
 class TodoTasks extends StatefulWidget {
   const TodoTasks({Key? key}) : super(key: key);
@@ -813,8 +814,8 @@ class _TodoTasksState extends State<TodoTasks> {
                                 // query: allTransactions,
                                 // query: FirebaseFirestore.instance.collection('${AppConstants.USER}/${appConstants.userRegisteredId}/${AppConstants.Transaction}').orderBy(AppConstants.created_at, descending: true),
                                 query: selectedUserToDoQuery!,
-                                // query: FirebaseFirestore.instance.collection(AppConstants.USER).doc(userId).collection(AppConstants.Transaction),
-                                  // query: FirebaseFirestore.instance.collection(AppConstants.USER).orderBy(AppConstants.USER_created_at),
+                                // query: FirebaseFirestore.instance.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER).doc(userId).collection(AppConstants.Transaction),
+                                  // query: FirebaseFirestore.instance.collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER).orderBy(AppConstants.USER_created_at),
                                   isLive: true,
                                   physics: AlwaysScrollableScrollPhysics(),
                                   scrollDirection: Axis.vertical,

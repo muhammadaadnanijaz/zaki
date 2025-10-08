@@ -25,10 +25,11 @@ class GetStarted extends StatefulWidget {
 class _GetStartedState extends State<GetStarted> {
   late PageController controller;
   int slideIndex = 0;
-
+// AppConstants.TEMP_CODE;
   List<Map<String, String>> splashData = [
     {
-      "heading": "Issue a Debit Card",
+      // "heading": "Issue a Debit Card",
+      "heading": "Virtual Money",
       "text":
           "Personalize your kids Spend Limits and \nthen Monitor their spending. \nYour Family -  Your Rules",
       "image": imageBaseAddress + "RegistrationStartImage1.png"

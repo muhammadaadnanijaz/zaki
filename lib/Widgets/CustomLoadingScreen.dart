@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
-
-import '../Constants/Styles.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 
 class CustomLoadingScreen extends StatelessWidget {
   const CustomLoadingScreen({
@@ -24,7 +23,7 @@ class CustomLoadingScreen extends StatelessWidget {
       // ),
       child: Center(
         child: Image.asset(
-          imageBaseAddress+'loading_screen_transparent.gif',
+          APPLICATION_LOADING_IMAGE,
           height: small!=null ? 100: 200,
           )),
     );

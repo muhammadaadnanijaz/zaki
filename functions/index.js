@@ -26,9 +26,9 @@ let data;
 const MARQETA_BASE_URL = "https://sandbox-api.marqeta.com/v3/"; // Replace with actual Marqeta API Base URL
 const MARQETA_API_KEY = "YTkwNDA3NzItOTJkOS00NThlLTkyOTEtMjYzMTlhZmZlZjU0OjkxYzdiZDVmLWI1MjgtNGQ1ZC1hMGQ2LWRiZDZmN2NhMTU1OQ==";
 const ZAKI_PAY_ACCOUNT_NUMBER = "6eb9401b-d44d-44ca-ae22-5efc0e2d10ce";
-const USER_DEVICE_NOTIFICATION_TOKEN = "fSzALXYPSPWs6CQHjQkETV:APA91bGUgH6UOqVbgenu"+
-"9RF3tEUkDoczkfRwLMsUoReEI2ktLj4PzP4GbMNhC7ilhQL5WEb3wtqxn077eNXbqSd7AwXw5JkSv8Dn5wkFBpIfp3W5KjwHACrVnDzbg7gmosA-AiedcF-J";
-const USER_BANK_ACCOUNT_ID = "45a0f24c-adf3-4137-b301-4b967295b84b";
+// const USER_DEVICE_NOTIFICATION_TOKEN = "fSzALXYPSPWs6CQHjQkETV:APA91bGUgH6UOqVbgenu"+
+// "9RF3tEUkDoczkfRwLMsUoReEI2ktLj4PzP4GbMNhC7ilhQL5WEb3wtqxn077eNXbqSd7AwXw5JkSv8Dn5wkFBpIfp3W5KjwHACrVnDzbg7gmosA-AiedcF-J";
+// const USER_BANK_ACCOUNT_ID = "45a0f24c-adf3-4137-b301-4b967295b84b";
 const MARQATA_SHOW_CARD_PAN= "showpan";
 const BALANCE = "balances/";
 const PAY = "peertransfers";
@@ -41,12 +41,30 @@ const MTagItId = "TI";
 const MTagItName = "TN";
 const SpendWallet = "Spend-Wallet";
 const TAG_IT_TRANSACTION_TYPE_SUBSCRIPTION = "Subscription";
+// const Transaction_ReceiverUser_id= "Transaction_ReceiverUser_id";
+// const Transaction_receiver_name= "Transaction_receiver_name";
+// const Transaction_amount = "Transaction_amount";
+// const Transaction_SenderUser_id = "Transaction_SenderUser_id";
+// const Transaction_transaction_type= "Transaction_transaction_type";
+// const Transaction_Sender_UserName= "Transaction_Sender_UserName";
+// const Transaction_TAGIT_code
+// const Transaction_TAGIT_Category;
+// const Transaction_Method;
+// const Transaction_Message_Text;
+// const Transaction_To_Wallet;
+// const Transaction_From_Wallet;
+// const Transaction_id;
+// const created_at;
+// const Transaction_Common_id;
 const TAG_IT_TRANSACTION_TYPE_ALLOWANCE = "Allowance";
 const TAG_IT_ID_ALLOWANCE = "13";
 // const TRANSACTION_METHOD_PAYMENT = "Received";
 const TRANSACTION_METHOD_PAYMENT = "Payment";
 const TAGID0005 = "Clothing";
 const TAGID = 4;
+const BANK_ID = "SA_01";
+const COUNTRY_CODE = "PK";
+// .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).
 // const MARQETA_API_SECRET = "a9040772-92d9-458e-9291-26319affef54"; // Use the same Application Token as API Secret
 
 exports.sendUserNotification = functions.https.onRequest(async (request, res) => {
@@ -243,7 +261,7 @@ exports.showCardInformation = functions.https.onRequest(async (request, res) => 
 
 async function sendMoneyToSaving0rDonationWallet(userId, walletName, amount) {
   try {
-    const walletRef = db.collection("USER").doc(userId).collection("USER_WALLETS").doc(walletName);
+    const walletRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER").doc(userId).collection("USER_WALLETS").doc(walletName);
     const walletDoc = await walletRef.get();
     if (!walletDoc.exists) {
       throw new Error("Sender's wallet not found");
@@ -264,7 +282,8 @@ async function sendMoneyToSaving0rDonationWallet(userId, walletName, amount) {
 
 async function deductMoneyFromUserAccount(userSenderId, amount, userToken, useReceiverId, senderMainWalletAmount) {
   try {
-    const senderWalletRef = db.collection("USER").doc(userSenderId).collection("USER_WALLETS").doc("Spend-Wallet");
+    const senderWalletRef = db.collection(COUNTRY_CODE).doc(BANK_ID).
+        collection("USER").doc(userSenderId).collection("USER_WALLETS").doc("Spend-Wallet");
     const senderWalletDoc = await senderWalletRef.get();
     if (!senderWalletDoc.exists) {
       throw new Error("Sender's wallet not found");
@@ -272,7 +291,8 @@ async function deductMoneyFromUserAccount(userSenderId, amount, userToken, useRe
     const senderWallet = senderWalletDoc.data();
     const senderBalance = senderWallet.wallet_balance;
 
-    const receiverWalletRef = db.collection("USER").doc(useReceiverId).collection("USER_WALLETS").doc("Spend-Wallet");
+    const receiverWalletRef = db.collection(COUNTRY_CODE).doc(BANK_ID).
+        collection("USER").doc(useReceiverId).collection("USER_WALLETS").doc("Spend-Wallet");
     const receiverWalletDoc = await receiverWalletRef.get();
     if (!receiverWalletDoc.exists) {
       throw new Error("Receiver's wallet not found");
@@ -292,9 +312,9 @@ async function deductMoneyFromUserAccount(userSenderId, amount, userToken, useRe
     await senderWalletRef.update({wallet_balance: newSenderBalance});
     await receiverWalletRef.update({wallet_balance: newReceiverBalance});
 
-    // const userRef = db.collection("USER").doc(userSenderId);
+    // const userRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER").doc(userSenderId);
     // await userRef.update({USER_created_at: new Date(dateTime)});
-    sendingNotification(userToken, "Money Deducted From Users Spend Wallet", "Your money from spend wallet is deducted successfully");
+    // sendingNotification(userToken, "Money Deducted From Users Spend Wallet", "Your money from spend wallet is deducted successfully");
   } catch (error) {
     console.error("Error updating document or sending notification", error);
     return {success: false, message: error.message || error.toString()};
@@ -303,7 +323,8 @@ async function deductMoneyFromUserAccount(userSenderId, amount, userToken, useRe
 //
 async function deductMoneyFromUserAccountWithNoReceiver(userSenderId, amount) {
   try {
-    const senderWalletRef = db.collection("USER").doc(userSenderId).collection("USER_WALLETS").doc("Spend-Wallet");
+    const senderWalletRef = db.collection(COUNTRY_CODE).doc(BANK_ID).
+        collection("USER").doc(userSenderId).collection("USER_WALLETS").doc("Spend-Wallet");
     const senderWalletDoc = await senderWalletRef.get();
     if (!senderWalletDoc.exists) {
       throw new Error("Sender's wallet not found");
@@ -317,7 +338,7 @@ async function deductMoneyFromUserAccountWithNoReceiver(userSenderId, amount) {
     const newSenderBalance = senderBalance - Number(amount);
     await senderWalletRef.update({wallet_balance: newSenderBalance});
 
-    // const userRef = db.collection("USER").doc(userSenderId);
+    // const userRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER").doc(userSenderId);
     // await userRef.update({USER_created_at: new Date(dateTime)});
     // sendingNotification(userToken, "Money Deducted From Users Spend Wallet", "Your money from spend wallet is deducted successfully");
   } catch (error) {
@@ -347,7 +368,7 @@ async function sendingNotification(userToken, title, subtitle) {
 
 async function updateUserSubscriptionStatus(userSenderId, userSubscriptionStatus, subscriptionValue) {
   try {
-    const senderWalletRef = db.collection("USER").doc(userSenderId);
+    const senderWalletRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER").doc(userSenderId);
     const senderWalletDoc = await senderWalletRef.get();
     if (!senderWalletDoc.exists) {
       throw new Error("Sender's wallet not found");
@@ -360,7 +381,7 @@ async function updateUserSubscriptionStatus(userSenderId, userSubscriptionStatus
     });
     // await receiverWalletRef.update({wallet_balance: newReceiverBalance});
 
-    // const userRef = db.collection("USER").doc(userSenderId);
+    // const userRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER").doc(userSenderId);
     // await userRef.update({USER_created_at: new Date(dateTime)});
 
     return {success: true, message: "User Subscription Status Change."};
@@ -470,7 +491,8 @@ async function updateUserSubscriptionStatus(userSenderId, userSubscriptionStatus
 //   const {useReceiverId, userSenderId, userToken, title, body, amount, dateTime} = data;
 
 //   try {
-//     const senderWalletRef = db.collection("USER").doc(userSenderId).collection("USER_WALLETS").doc("Spend-Wallet");
+//     const senderWalletRef = db.collection(COUNTRY_CODE).doc(BANK_ID).
+//    collection("USER").doc(userSenderId).collection("USER_WALLETS").doc("Spend-Wallet");
 //     const senderWalletDoc = await senderWalletRef.get();
 //     if (!senderWalletDoc.exists) {
 //       throw new Error("Sender"s wallet not found");
@@ -478,7 +500,8 @@ async function updateUserSubscriptionStatus(userSenderId, userSubscriptionStatus
 //     const senderWallet = senderWalletDoc.data();
 //     const senderBalance = senderWallet.wallet_balance;
 
-//     const receiverWalletRef = db.collection("USER").doc(useReceiverId).collection("USER_WALLETS").doc("Spend-Wallet");
+//     const receiverWalletRef = db.collection(COUNTRY_CODE).doc(BANK_ID).
+//    collection("USER").doc(useReceiverId).collection("USER_WALLETS").doc("Spend-Wallet");
 //     const receiverWalletDoc = await receiverWalletRef.get();
 //     if (!receiverWalletDoc.exists) {
 //       throw new Error("Receiver"s wallet not found");
@@ -496,7 +519,7 @@ async function updateUserSubscriptionStatus(userSenderId, userSubscriptionStatus
 //     await senderWalletRef.update({wallet_balance: newSenderBalance});
 //     await receiverWalletRef.update({wallet_balance: newReceiverBalance});
 
-//     const userRef = db.collection("USER").doc(userSenderId);
+//     const userRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER").doc(userSenderId);
 //     await userRef.update({USER_created_at: new Date(dateTime)});
 
 //     if (!userToken) {
@@ -542,7 +565,7 @@ exports.updateCollectionAndNotifyUser = onCall(async (request) => {
 //   const updatedData = {fieldName: "USER_created_at", dateTime: dateTime};
 
 //   try {
-//     const userRef = db.collection("USER").doc(userId);
+//     const userRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER").doc(userId);
 //     await userRef.update(updatedData);
 
 //     const userDoc = await userRef.get();
@@ -587,123 +610,125 @@ exports.updateCollectionAndNotifyUser = onCall(async (request) => {
 //   await snap.ref.set({uppercase}, {merge: true});
 // });
 // Function to generate a list of users
-function generateUsers() {
-  const users = [
-    {
-      id: "n0jyC350qmo1Nn5jxqSD",
-      name: "Alice",
-      userToken: USER_DEVICE_NOTIFICATION_TOKEN,
-      userBanckId: USER_BANK_ACCOUNT_ID,
-      transactionStatus: "Paid",
-      dateOfExpiration: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(), // 1 day from now
-      nextDateToPay: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days from now
-    },
-    {
-      id: "n0jyC350qmo1Nn5jxqSD",
-      name: "Bob",
-      userToken: USER_DEVICE_NOTIFICATION_TOKEN,
-      userBanckId: USER_BANK_ACCOUNT_ID,
-      transactionStatus: "Paid",
-      dateOfExpiration: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days from now
-      nextDateToPay: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(), // 4 days from now
-    },
-    {
-      id: "n0jyC350qmo1Nn5jxqSD",
-      name: "Charlie",
-      userToken: USER_DEVICE_NOTIFICATION_TOKEN,
-      userBanckId: USER_BANK_ACCOUNT_ID,
-      transactionStatus: "Paid",
-      dateOfExpiration: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days from now
-      nextDateToPay: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days from now
-    },
-    {
-      id: "n0jyC350qmo1Nn5jxqSD",
-      name: "Diana",
-      userToken: USER_DEVICE_NOTIFICATION_TOKEN,
-      userBanckId: USER_BANK_ACCOUNT_ID,
-      transactionStatus: "Pending",
-      dateOfExpiration: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(), // 4 days from now
-      nextDateToPay: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString(), // 6 days from now
-    },
-    {
-      id: "n0jyC350qmo1Nn5jxqSD",
-      name: "Eve",
-      userToken: USER_DEVICE_NOTIFICATION_TOKEN,
-      userBanckId: USER_BANK_ACCOUNT_ID,
-      transactionStatus: "Paid",
-      dateOfExpiration: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days from now
-      nextDateToPay: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
-    },
-  ];
+// function generateUsers() {
+//   const users = [
+//     {
+//       id: "n0jyC350qmo1Nn5jxqSD",
+//       name: "Alice",
+//       userToken: USER_DEVICE_NOTIFICATION_TOKEN,
+//       userBanckId: USER_BANK_ACCOUNT_ID,
+//       transactionStatus: "Paid",
+//       dateOfExpiration: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(), // 1 day from now
+//       nextDateToPay: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days from now
+//     },
+//     {
+//       id: "n0jyC350qmo1Nn5jxqSD",
+//       name: "Bob",
+//       userToken: USER_DEVICE_NOTIFICATION_TOKEN,
+//       userBanckId: USER_BANK_ACCOUNT_ID,
+//       transactionStatus: "Paid",
+//       dateOfExpiration: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days from now
+//       nextDateToPay: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(), // 4 days from now
+//     },
+//     {
+//       id: "n0jyC350qmo1Nn5jxqSD",
+//       name: "Charlie",
+//       userToken: USER_DEVICE_NOTIFICATION_TOKEN,
+//       userBanckId: USER_BANK_ACCOUNT_ID,
+//       transactionStatus: "Paid",
+//       dateOfExpiration: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days from now
+//       nextDateToPay: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days from now
+//     },
+//     {
+//       id: "n0jyC350qmo1Nn5jxqSD",
+//       name: "Diana",
+//       userToken: USER_DEVICE_NOTIFICATION_TOKEN,
+//       userBanckId: USER_BANK_ACCOUNT_ID,
+//       transactionStatus: "Pending",
+//       dateOfExpiration: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(), // 4 days from now
+//       nextDateToPay: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString(), // 6 days from now
+//     },
+//     {
+//       id: "n0jyC350qmo1Nn5jxqSD",
+//       name: "Eve",
+//       userToken: USER_DEVICE_NOTIFICATION_TOKEN,
+//       userBanckId: USER_BANK_ACCOUNT_ID,
+//       transactionStatus: "Paid",
+//       dateOfExpiration: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days from now
+//       nextDateToPay: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
+//     },
+//   ];
 
-  return users;
-}
+//   return users;
+// }
 // Run once a day at midnight, to clean up the users
 // Manually run the task here https://console.cloud.google.com/cloudscheduler
 // every minute 0 2 * * *
-exports.runEveryDay2AM = onSchedule("0 2 * * *",
-    async (event) => {
-      try {
-        const usersList = generateUsers();
-        console.log("Generated Users List:", usersList);
-        usersList.forEach(async (user) => {
-          if (user.transactionStatus == "Pending") {
-            // id: "user_4" status = "Paid"
-            console.log(`User ID with Pending status: ${user.id}`);
-            await deductMoneyFromUserAccount(user.id, 20, user.userToken, "");
-            await moveMoney(
-                user.userBanckId,
-                ZAKI_PAY_ACCOUNT_NUMBER,
-                20,
-                `${MTransactiontype}=${TAG_IT_TRANSACTION_TYPE_SUBSCRIPTION},` +
-          `${MFromWallet}=${SpendWallet},` +
-          `${MToWallet}=${SpendWallet},` +
-          `${MGoalid}=,` +
-          `${MTransactionMethod}=${TRANSACTION_METHOD_PAYMENT},` +
-          `${MTagItId}=${TAGID},` +
-          `${MTagItName}=${TAGID0005},` +
-          `SID=${user.id},` +
-          `RID=${ZAKI_PAY_ACCOUNT_NUMBER},` +
-          `TID=,LATLNG:`,
-            );
-            await updateUserSubscriptionStatus(user.id, false, 3);
-          }
-        });
-        // LOad the list of users with there variables like id, name, status,
-        // it is coming from payfort its assemption
-        // if(listUser[index].cardStatus==false // expireation date also coming || listUser[index].userId){
-        // deduct money from users spend wallet and may be send notification also.
-        // }
-        // Query all users where "SubscriptionExpired" is true
-        const usersSnapshot = await db.collection("USER").where("SubscriptionExpired", "==", true).get();
-        // Check if there are any users with "SubscriptionExpired" set to true
-        if (!usersSnapshot.empty) {
-        // Loop through each user and send notifications
-          const promises = [];
-          usersSnapshot.forEach((doc) => {
-            const userData = doc.data();
-            const notifyToken = userData["USER_iNApp_NotifyToken"];
-            if (notifyToken) {
-              const message = {
-                token: notifyToken,
-                notification: {
-                  title: "Subscription Expired",
-                  body: "Your subscription has expired. Please renew to continue using our services.",
-                },
-              };
-              // Push the notification sending promise to the promises array
-              promises.push(db.messaging().send(message));
-            }
-          });
-          await Promise.all(promises);
-          console.log("Notifications sent successfully to users with expired subscriptions.");
-        } else {
-          console.log("No users with expired subscriptions found.");
-        }
-      } catch (error) {
-        console.error("Error sending notifications:", error);
-      }
-    });
+// exports.runEveryDay2AM = onSchedule("0 2 * * *",
+//     async (event) => {
+//       try {
+//         const usersList = generateUsers();
+//         console.log("Generated Users List:", usersList);
+//         usersList.forEach(async (user) => {
+//           if (user.transactionStatus == "Pending") {
+//             // id: "user_4" status = "Paid"
+//             console.log(`User ID with Pending status: ${user.id}`);
+//             await deductMoneyFromUserAccount(user.id, 20, user.userToken, "");
+//             await moveMoney(
+//                 user.userBanckId,
+//                 ZAKI_PAY_ACCOUNT_NUMBER,
+//                 20,
+//                 `${MTransactiontype}=${TAG_IT_TRANSACTION_TYPE_SUBSCRIPTION},` +
+//           `${MFromWallet}=${SpendWallet},` +
+//           `${MToWallet}=${SpendWallet},` +
+//           `${MGoalid}=,` +
+//           `${MTransactionMethod}=${TRANSACTION_METHOD_PAYMENT},` +
+//           `${MTagItId}=${TAGID},` +
+//           `${MTagItName}=${TAGID0005},` +
+//           `SID=${user.id},` +
+//           `RID=${ZAKI_PAY_ACCOUNT_NUMBER},` +
+//           `TID=,LATLNG:`,
+//             );
+//             await updateUserSubscriptionStatus(user.id, false, 3);
+//           }
+//         });
+//         // LOad the list of users with there variables like id, name, status,
+//         // it is coming from payfort its assemption
+//         // if(listUser[index].cardStatus==false // expireation date also coming || listUser[index].userId){
+//         // deduct money from users spend wallet and may be send notification also.
+//         // }
+//         // Query all users where "SubscriptionExpired" is true
+//         const usersSnapshot = await db.collection(COUNTRY_CODE).doc(BANK_ID).
+//    collection("USER").where("SubscriptionExpired", "==", true).get();
+//         // Check if there are any users with "SubscriptionExpired" set to true
+//         if (!usersSnapshot.empty) {
+//         // Loop through each user and send notifications
+//           const promises = [];
+//           usersSnapshot.forEach((doc) => {
+//             const userData = doc.data();
+//             const notifyToken = userData["USER_iNApp_NotifyToken"];
+//             if (notifyToken) {
+//               const message = {
+//                 token: notifyToken,
+//                 notification: {
+//                   title: "Subscription Expired",
+//                   body: "Your subscription has expired. Please renew to continue using our services.",
+//                 },
+//               };
+//               // Push the notification sending promise to the promises array
+//               promises.push(db.messaging().send(message));
+//             }
+//           });
+//           await Promise.all(promises);
+//           console.log("Notifications sent successfully to users with expired subscriptions.");
+//         } else {
+//           console.log("No users with expired subscriptions found.");
+//         }
+//       } catch (error) {
+//         console.error("Error sending notifications:", error);
+//       }
+//     });
+// "0 2 * * *",
 
 exports.allowanceAt2am = onSchedule("* * * * *",
     async (event) => {
@@ -711,11 +736,12 @@ exports.allowanceAt2am = onSchedule("* * * * *",
         const today = new Date();
         console.log(`Allowance is being called. ${today}`);
         // Get today's date in YYYY-MM-DD format
-        const todayStart = new Date(today.setHours(0, 0, 0, 0)); // Start of today
-        const todayEnd = new Date(today.setHours(23, 59, 59, 999)); // End of today
+        const now = new Date();
+        const todayStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0));
+        const todayEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 23, 59, 59, 999));
 
         // Query Firestore for documents in the 'ALLOW' collection where 'created_at' is today
-        const snapshot = await db.collection("ALLOW")
+        const snapshot = await db.collection(COUNTRY_CODE).doc(BANK_ID).collection("ALLOW")
             .where("created_at", ">=", todayStart)
             .where("created_at", "<=", todayEnd)
             .where("USER_allowance_status", "==", true)
@@ -753,28 +779,37 @@ exports.allowanceAt2am = onSchedule("* * * * *",
                 "Make Sure to charge your spend wallet so your kid get his allowance");
             // Kid Side notification
             sendingNotification(receiverToken,
-                "You Allowance is stoped",
+                "Your Allowance is stoped",
                 "Tell your parent to charge your spend wallet so you get allowance");
+          } else {
+            // This is the notification to the user that his allowance has arrived
+            sendingNotification(receiverToken,
+                "Wooho! 🌟 Allowance Arrived", "Your allowance just landed! Ready to make some smart money moves?");
           }
           const nextDate = calculateNextExecutionDate(data.created_at, data.USER_allowance_schedule);
           await updateUserAllowanceDateTime(data.USER_kid_id, nextDate);
           console.log("Next Date of excution is:", nextDate);
+          // Adding transaction to firestore
+          addTransactionToFireStore(data.USER_parent_id, data.USER_kid_id, data.USER_Allow1_amount, "",
+              TAG_IT_TRANSACTION_TYPE_ALLOWANCE, "", TAG_IT_ID_ALLOWANCE,
+              TAG_IT_TRANSACTION_TYPE_ALLOWANCE, TRANSACTION_METHOD_PAYMENT, "", SpendWallet, SpendWallet, "");
           try {
-            await moveMoney(
-                data.USER_allowance_Parent_BankAccount_Id,
-                data.USER_allowance_Kid_BankAccount_Id,
-                data.USER_Allow1_amount,
-                `${MTransactiontype}=${TAG_IT_TRANSACTION_TYPE_ALLOWANCE},` +
-      `${MFromWallet}=${SpendWallet},` +
-      `${MToWallet}=${SpendWallet},` +
-      `${MGoalid}=,` +
-      `${MTransactionMethod}=${TRANSACTION_METHOD_PAYMENT},` +
-      `${MTagItId}=${TAG_IT_ID_ALLOWANCE},` +
-      `${MTagItName}=${TAG_IT_TRANSACTION_TYPE_ALLOWANCE},` +
-      `SID=${data.USER_parent_id},` +
-      `RID=${data.USER_kid_id},` +
-      `TID=,LATLNG:`,
-            );
+            // Note this is the function that is commented out for marqeta peer transfer api is not working in allowance
+            //       await moveMoney(
+            //           data.USER_allowance_Parent_BankAccount_Id,
+            //           data.USER_allowance_Kid_BankAccount_Id,
+            //           data.USER_Allow1_amount,
+            //           `${MTransactiontype}=${TAG_IT_TRANSACTION_TYPE_ALLOWANCE},` +
+            // `${MFromWallet}=${SpendWallet},` +
+            // `${MToWallet}=${SpendWallet},` +
+            // `${MGoalid}=,` +
+            // `${MTransactionMethod}=${TRANSACTION_METHOD_PAYMENT},` +
+            // `${MTagItId}=${TAG_IT_ID_ALLOWANCE},` +
+            // `${MTagItName}=${TAG_IT_TRANSACTION_TYPE_ALLOWANCE},` +
+            // `SID=${data.USER_parent_id},` +
+            // `RID=${data.USER_kid_id},` +
+            // `TID=,LATLNG:`,
+            //       );
           } catch (error) {
             console.error("Error fetching users created today:", error);
           }
@@ -799,6 +834,35 @@ exports.allowanceAt2am = onSchedule("* * * * *",
         return console.log("No users with expired subscriptions found.");
       }
     });
+// For Adding Transactions
+async function addTransactionToFireStore(senderId, receiverId, amount, selectedKidName, requestType,
+    accountHolderName, tagItId, tagItName, transactionMethod, message, toWallet, fromWallet, transactionId) {
+  try {
+    const commonId = [senderId, receiverId];
+    const dateTime = new Date();
+    db.collection(COUNTRY_CODE).doc(BANK_ID).collection("Transaction").add({
+      Transaction_ReceiverUser_id: receiverId,
+      Transaction_receiver_name: selectedKidName,
+      Transaction_amount: amount,
+      Transaction_SenderUser_id: senderId,
+      Transaction_transaction_type: requestType,
+      Transaction_Sender_UserName: accountHolderName,
+      Transaction_TAGIT_code: tagItId,
+      Transaction_TAGIT_Category: tagItName,
+      Transaction_Method: transactionMethod,
+      Transaction_Message_Text: message,
+      Transaction_To_Wallet: toWallet,
+      Transaction_From_Wallet: fromWallet,
+      Transaction_id: transactionId,
+      created_at: dateTime,
+      Transaction_Common_id: commonId,
+
+    });
+  } catch (error) {
+    console.error("No", error);
+    return {success: false, message: error.message || error.toString()};
+  }
+}
 function calculateNextExecutionDate(createdAt, schedule) {
   // Convert Firestore Timestamp to JavaScript Date object if it's not already
   const currentDate = createdAt instanceof Date ? createdAt : createdAt.toDate();
@@ -822,7 +886,7 @@ function calculateNextExecutionDate(createdAt, schedule) {
   return nextDate; // Return the next execution date as a Date object
 }
 async function getUserToken(userId) {
-  const tokenRef = db.collection("USER").doc(userId);
+  const tokenRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER").doc(userId);
   const tokenRefDoc = await tokenRef.get();
   const tokenData = tokenRefDoc.data();
   const receiverToken = await tokenData.USER_iNApp_NotifyToken;
@@ -830,7 +894,7 @@ async function getUserToken(userId) {
 }
 async function updateUserAllowanceDateTime(userId, nextDateToExcute) {
   try {
-    const userAllowanceRef = db.collection("ALLOW").doc(userId);
+    const userAllowanceRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("ALLOW").doc(userId);
     const userAllowanceDoc = await userAllowanceRef.get();
     if (!userAllowanceDoc.exists) {
       throw new Error("Sender's wallet not found");
@@ -842,7 +906,7 @@ async function updateUserAllowanceDateTime(userId, nextDateToExcute) {
     });
     // await receiverWalletRef.update({wallet_balance: newReceiverBalance});
 
-    // const userRef = db.collection("USER").doc(userSenderId);
+    // const userRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER").doc(userSenderId);
     // await userRef.update({USER_created_at: new Date(dateTime)});
 
     return {success: true, message: "User Next Date Updated"};
@@ -854,7 +918,7 @@ async function updateUserAllowanceDateTime(userId, nextDateToExcute) {
 //
 async function updateUserSubscriptionDateTime(userId, nextDateToExcute) {
   try {
-    const userAllowanceRef = db.collection("USER").doc(userId);
+    const userAllowanceRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER").doc(userId);
     const userAllowanceDoc = await userAllowanceRef.get();
     if (!userAllowanceDoc.exists) {
       throw new Error("Sender's not found");
@@ -866,7 +930,7 @@ async function updateUserSubscriptionDateTime(userId, nextDateToExcute) {
     });
     // await receiverWalletRef.update({wallet_balance: newReceiverBalance});
 
-    // const userRef = db.collection("USER").doc(userSenderId);
+    // const userRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER").doc(userSenderId);
     // await userRef.update({USER_created_at: new Date(dateTime)});
 
     return {success: true, message: "User Next Date Updated"};
@@ -930,7 +994,8 @@ exports.accountcleanup = onSchedule(cronExpression, async (event) => {
     console.debug(`Receiver id: ${useReceiverId}, Sender Id: ${userSenderId} token ${userToken}, cron: ${cronExpression}`);
 
     // Retrieve sender"s wallet balance
-    const senderWalletRef = db.collection("USER").doc(userSenderId).collection("USER_WALLETS").doc("Spend-Wallet");
+    const senderWalletRef = db.collection(COUNTRY_CODE).doc(BANK_ID).
+        collection("USER").doc(userSenderId).collection("USER_WALLETS").doc("Spend-Wallet");
     const senderWalletDoc = await senderWalletRef.get();
     if (!senderWalletDoc.exists) {
       throw new Error("Sender's wallet not found");
@@ -939,7 +1004,8 @@ exports.accountcleanup = onSchedule(cronExpression, async (event) => {
     const senderBalance = senderWallet.wallet_balance;
 
     // Retrieve receiver"s wallet balance
-    const receiverWalletRef = db.collection("USER").doc(useReceiverId).collection("USER_WALLETS").doc("Spend-Wallet");
+    const receiverWalletRef = db.collection(COUNTRY_CODE).doc(BANK_ID).
+        collection("USER").doc(useReceiverId).collection("USER_WALLETS").doc("Spend-Wallet");
     const receiverWalletDoc = await receiverWalletRef.get();
     if (!receiverWalletDoc.exists) {
       throw new Error("Receiver's wallet not found");
@@ -961,7 +1027,7 @@ exports.accountcleanup = onSchedule(cronExpression, async (event) => {
     await receiverWalletRef.update({wallet_balance: newReceiverBalance});
 
     // Update user"s document with timestamp
-    const userRef = db.collection("USER").doc(userSenderId);
+    const userRef = db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER").doc(userSenderId);
     await userRef.update(updatedData);
 
     // Send notification
@@ -997,7 +1063,7 @@ exports.userSubscriptionCheckFunction = onSchedule("* * * * *",
         const todayEnd = new Date(today.setHours(23, 59, 59, 999)); // End of today
 
         // Query Firestore for documents in the 'ALLOW' collection where 'created_at' is today
-        const snapshot = await db.collection("USER")
+        const snapshot = await db.collection(COUNTRY_CODE).doc(BANK_ID).collection("USER")
             .where("DateOfExpirationSubscription", ">=", todayStart)
             .where("DateOfExpirationSubscription", "<=", todayEnd)
             .get();

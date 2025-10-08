@@ -54,3 +54,4 @@ app.*.map.json
 node_modules
 google-cloud-sdk/
 
+.qodo

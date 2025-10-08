@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
 import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Styles.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:zaki/Widgets/TextHeader.dart';
 import '../Constants/AppConstants.dart';
 import '../Constants/Spacing.dart';

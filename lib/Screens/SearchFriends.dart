@@ -37,13 +37,13 @@ class _SearchFriendsState extends State<SearchFriends> {
   fetchUserKidsWithFuture({String? parentId, String? currentUserId}) async {
     List<UserModel> list = [];
     // QuerySnapshot family =  await FirebaseFirestore.instance
-    //   .collection(AppConstants.USER)
+    //   .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
     //   // .where(AppConstants.USER_Family_Id, isEqualTo: parentId)
     //   .where(AppConstants.USER_Family_Id, isEqualTo: parentId)
     //   .where(AppConstants.USER_UserID, isNotEqualTo: currentUserId)
     //   .get();
     QuerySnapshot friends = await FirebaseFirestore.instance
-        .collection(AppConstants.USER)
+        .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
         .doc(currentUserId)
         .collection(AppConstants.USER_contacts)
         .where(AppConstants.USER_invited_signedup, isEqualTo: true)

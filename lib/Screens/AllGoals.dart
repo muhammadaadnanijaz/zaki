@@ -241,7 +241,7 @@ class _AllGoalsState extends State<AllGoals> {
                               ),
                               StreamBuilder(
                                   stream: FirebaseFirestore.instance
-                                      .collection(AppConstants.USER)
+                                      .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
                                       .doc(appConstants.userRegisteredId)
                                       .collection(AppConstants
                                           .Goal_InviteReceivedFrom_UserID)

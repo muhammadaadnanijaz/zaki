@@ -6,7 +6,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zaki/Constants/AppConstants.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
 import 'package:zaki/Services/api.dart';
-GoogleSignIn? googleSignIn = GoogleSignIn(
+
+//googleapis, google_sign_in, googleapis_auth, google_sign_in_web, googleapis_auth_web, googleapis_auth_nodejs, googleapis_auth_io, googleapis_auth_flutter
+GoogleSignIn? googleSignIns = GoogleSignIn(
   // Optional clientId
   // clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
   scopes: <String>[

@@ -8,8 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/AuthMethods.dart';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Screens/AddMembersWorkFlow.dart';
 import 'package:zaki/Widgets/FloatingActionButton.dart';
 import 'package:zaki/Widgets/ReadOnlyCustomWidget.dart';
@@ -1188,7 +1189,7 @@ void checkForKids({required String parentId, required String familyId}) async {
                                                       }
                                                       
                                                       /////////Marqata Logic for checking Balance and pay user
-                                                      if (appConstants.testMode !=
+                                                      if (appConstants.appMode !=
                                                           false) {
                                                         // CreaditCardApi
                                                         //     creaditCardApi =

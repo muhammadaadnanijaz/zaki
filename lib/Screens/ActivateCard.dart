@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Spacing.dart';
 import 'package:zaki/Services/CreaditCardApis.dart';
 import 'package:zaki/Widgets/CustomConfermationScreen.dart';
 // import 'package:zaki/Widgets/CustomSizedBox.dart';
 import 'package:zaki/Widgets/ZakiPrimaryButton.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 
 import '../Constants/AppConstants.dart';
 import '../Constants/HelperFunctions.dart';
@@ -204,6 +205,8 @@ class _ActivateCardState extends State<ActivateCard> {
                                     AppConstants.INTERNET_STATUS_NOT_CONNECTED
                                 ? null
                                 : () {
+                                  AppConstants.TEMP_CODE;
+                                  
                                     if (!formKey.currentState!.validate()) {
                                       return;
                                     } else {

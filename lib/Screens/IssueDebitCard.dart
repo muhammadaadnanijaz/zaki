@@ -1343,7 +1343,7 @@ class _IssueDebitCardState extends State<IssueDebitCard> {
         children: [
           Center(
             child: Image.asset(
-              imageBaseAddress + "ZakiPayNoDebitCard.png",
+              cardImagesBaseAddress + "ZakiPayNoDebitCard.png",
               width: width,
               fit: BoxFit.fitWidth,
               )),

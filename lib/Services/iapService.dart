@@ -2,6 +2,8 @@ import 'package:cloud_functions/cloud_functions.dart';
 // import 'package:decider/services/firebase_service.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
+//  cloud_functions, in_app_purchase
+
 class IAPService {
   String? uid;
   IAPService({this.uid});

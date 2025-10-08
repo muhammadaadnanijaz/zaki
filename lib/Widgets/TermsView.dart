@@ -5,6 +5,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 // import 'package:zaki/Constants/Styles.dart';
 import 'package:zaki/Widgets/CustomLoader.dart';
 
+// flutter_inappwebview
 class TermsView extends StatefulWidget {
   final String? url;
   TermsView({this.url});

@@ -28,11 +28,11 @@ class CardBackGroundImage extends StatefulWidget {
 
 class _CardBackGroundImageState extends State<CardBackGroundImage> {
   List<ImageModel> imageList = [
-    ImageModel(id: 0, imageName: imageBaseAddress + '1_background.png'),
-    ImageModel(id: 1, imageName: imageBaseAddress + '2_background.jpg'),
-    ImageModel(id: 2, imageName: imageBaseAddress + '3_background.jpg'),
-    ImageModel(id: 3, imageName: imageBaseAddress + '4_background.jpg'),
-    ImageModel(id: 4, imageName: imageBaseAddress + '5_background.jpg'),
+    ImageModel(id: 0, imageName: userBackgroundImagesBaseAddress + '1_background.png'),
+    ImageModel(id: 1, imageName: userBackgroundImagesBaseAddress + '2_background.jpg'),
+    ImageModel(id: 2, imageName: userBackgroundImagesBaseAddress + '3_background.jpg'),
+    ImageModel(id: 3, imageName: userBackgroundImagesBaseAddress + '4_background.jpg'),
+    ImageModel(id: 4, imageName: userBackgroundImagesBaseAddress + '5_background.jpg'),
   ];
 
   @override
@@ -254,8 +254,10 @@ class _CardBackGroundImageState extends State<CardBackGroundImage> {
                     });
                     return;
                   }
+                  // ZakiPay/Country code-bank code/sendreceive/User id/images/
+                  String fullPath = '${appConstants.userModel.usaCountry}/cardImages/${appConstants.userRegisteredId}/images';
                   String? path =
-                      await ApiServices().uploadImage(path: imageUrl, userId: appConstants.userRegisteredId);
+                      await ApiServices().uploadImage(fullPath: fullPath, path: imageUrl, userId: appConstants.userRegisteredId);
                   if (path != null) {
                     showNotification(
                         error: 0, icon: Icons.check, message: path);

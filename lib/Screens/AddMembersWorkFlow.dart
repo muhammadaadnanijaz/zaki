@@ -8,7 +8,7 @@ import 'package:zaki/Constants/AppConstants.dart';
 import 'package:zaki/Constants/AuthMethods.dart';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Spacing.dart';
 import 'package:zaki/Constants/Styles.dart';
 import 'package:zaki/Models/UserModel.dart';
@@ -22,6 +22,8 @@ import 'package:zaki/Widgets/StateSuffixIcon.dart';
 import 'package:zaki/Widgets/TermsAndConditions.dart';
 import 'package:zaki/Widgets/TextHeader.dart';
 import 'package:zaki/Widgets/ZakiPrimaryButton.dart';
+import 'package:zaki/Constants/Whitelable.dart';
+
 // Create a GlobalKey for FormState to validate the form
 // final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -150,7 +152,7 @@ class _AddMemberWorkFlowState extends State<AddMemberWorkFlow> {
                 appBarHeader_005( 
                     context: context,
                     requiredHeader: false,
-                    appBarTitle: 'Setup Wallet & Card',
+                    appBarTitle: (appConstants.appMode!= true) ? 'Setup Wallet': 'Setup Wallet & Card',
                     backArrow: false,
                     width: width),
                 Container(

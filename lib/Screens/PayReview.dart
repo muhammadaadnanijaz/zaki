@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:zaki/Constants/Whitelable.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:loading_animations/loading_animations.dart';
@@ -10,7 +10,7 @@ import 'package:uuid/uuid.dart';
 import 'package:zaki/Constants/AuthMethods.dart';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
 import 'package:zaki/Constants/LocationGetting.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Spacing.dart';
 import 'package:zaki/Models/BalanceModel.dart';
 import 'package:zaki/Services/CreaditCardApis.dart';
@@ -361,7 +361,7 @@ class _PayReviewState extends State<PayReview> {
 
                                                 CreaditCardApi creaditCardApi =
                                                     CreaditCardApi();
-                                                // if(appConstants.testMode!= false){
+                                                // if(appConstants.appMode!= false){
                                                 BalanceModel? balanceModel =
                                                     await creaditCardApi
                                                         .checkBalance(
@@ -498,8 +498,11 @@ class _PayReviewState extends State<PayReview> {
                                                     .payRequestModel.imageUrl!
                                                     .contains(
                                                         'com.zakipay.teencard')) {
+                                                  // ZakiPay/Country code-bank code/sendreceive/User id/images/
+                                                              String fullPath = '${appConstants.userModel.usaCountry}/sendreceive/${appConstants.userRegisteredId}/images';
                                                   String? pathImage =
                                                       await services.uploadImage(
+                                                        fullPath: fullPath,
                                                           path: appConstants
                                                               .payRequestModel
                                                               .imageUrl, userId: appConstants.userRegisteredId);
@@ -759,8 +762,11 @@ class _PayReviewState extends State<PayReview> {
                                         if (appConstants
                                             .payRequestModel.imageUrl!
                                             .contains('com.zakipay.teencard')) {
+                                              // ZakiPay/Country code-bank code/sendreceive/User id/images/
+                                                              String fullPath = '${appConstants.userModel.usaCountry}/sendreceive/${appConstants.userRegisteredId}/images';
                                           String? pathImage =
                                               await services.uploadImage(
+                                                fullPath: fullPath,
                                                   path: appConstants
                                                       .payRequestModel
                                                       .imageUrl, userId: appConstants.userRegisteredId);

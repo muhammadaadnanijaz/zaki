@@ -8,14 +8,15 @@ import 'package:geolocator/geolocator.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/LocationGetting.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+import 'package:zaki/Constants/Whitelable.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Screens/RestPinCode.dart';
 import 'package:zaki/Screens/WhosSettingUp.dart';
 import 'package:zaki/Services/SharedPrefMnager.dart';
 import 'package:zaki/Widgets/AppBars/AppBar.dart';
 import 'package:zaki/Widgets/TextHeader.dart';
 import 'package:zaki/Widgets/ZakiPrimaryButton.dart';
-
+// import 'package:zaki/Constants/Whitelable.dart';
 import '../Constants/AppConstants.dart';
 import '../Constants/HelperFunctions.dart';
 import '../Constants/Spacing.dart';
@@ -26,6 +27,8 @@ import '../Widgets/CustomLoadingScreen.dart';
 // import 'AccountSetupAsaKid.dart';
 // import 'HomeScreen.dart';
 import 'WhoLogin.dart';
+
+// geocoding, geolocator, ndialog, provider, zaki, flutter, font_awesome_flutter, flutter_local_notifications, firebase_messaging, firebase_core, firebase_auth, cloud_firestore, flutter_svg
 
 
 class VerficationCodeWhatsapp extends StatefulWidget {
@@ -213,6 +216,9 @@ class _VerficationCodeWhatsappState extends State<VerficationCodeWhatsapp> {
                       title: 'Confirm',
                       width: width,
                       onPressed: () async {
+                        // After 'Confirm' button is pressed, we are not using any service that is sending code. 
+                        // AppConstants.NEED_FIX_CODE;
+                        
                         CustomProgressDialog progressDialog =
                             CustomProgressDialog(context, blur: 10);
                         progressDialog.setLoadingWidget(CustomLoadingScreen());
@@ -223,7 +229,7 @@ class _VerficationCodeWhatsappState extends State<VerficationCodeWhatsapp> {
 
                         ///////If we are from Resset Password Scree
                         if (widget.fromRestPassword == true) { 
-
+                        
                           if(appConstants.userModel.usaUserType==AppConstants.USER_TYPE_PARENT){
                                 List<UserModel> pinCodeKidsList = await service.fetchUserPinCodeKids(appConstants.userModel.userFamilyId!, currentUserId: appConstants.userRegisteredId);
                                 logMethod(title: 'User Data Length:', message: pinCodeKidsList.length.toString());
@@ -255,7 +261,7 @@ class _VerficationCodeWhatsappState extends State<VerficationCodeWhatsapp> {
 
                         ////////We are from Login Screen
                         if (widget.fromSignUpScreen == true) {
-                          
+                          AppConstants.TEMP_CODE;
                           dynamic user = await service.loginUserThroughPhoneNumber(
                                   context: context,
                                   number: appConstants.phoneNumber);
@@ -279,6 +285,7 @@ class _VerficationCodeWhatsappState extends State<VerficationCodeWhatsapp> {
                           }
                           
                         }
+                        AppConstants.TEMP_CODE;
                            service.userLoginWorkFlow(user: user, appConstants: appConstants, touchEnabled: widget.touchEnabled, context: context, progressDialog: progressDialog);
 
                             // });
@@ -295,6 +302,7 @@ class _VerficationCodeWhatsappState extends State<VerficationCodeWhatsapp> {
 
                         //////////Sign Up
                         // return;
+                        AppConstants.TEMP_CODE;
                         List mobileDevices = [await service.getDeviceId()];
                         String? response =
                             await service.newUserPhoneVerification(

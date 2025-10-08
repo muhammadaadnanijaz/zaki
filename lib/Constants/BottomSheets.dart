@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
+// import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/AppConstants.dart';
 import 'package:zaki/Constants/Spacing.dart';
 import 'package:zaki/Constants/Styles.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 import '../Screens/GoalsContactInvitedScreen.dart';
 import '../Screens/MoveMoneyForGoals.dart';
 import '../Services/api.dart';
@@ -213,16 +214,16 @@ shareGoalBottomSheet({
                             documentId: documentId,
                             selectedIndex: selectedIndex);
                       });
-                      final ByteData bytes = await rootBundle
-                          .load(imageBaseAddress + 'ZakiPay.png');
-                      await Share.file(
-                        'Share My Image',
-                        'ZakiPay.png',
-                        bytes.buffer.asUint8List(),
-                        'image/png',
-                        text:
-                            '${appConstants.userModel.usaFirstName} ${AppConstants.ZAKI_PAY_GOAL_SHARE_TEXT_FIRST_TITLE} \n"${title}" \n${AppConstants.ZAKI_PAY_GOAL_SHARE_TEXT_LAST_TITLE}. \nDownload ZakiPay Now: ${AppConstants.ZAKI_PAY_APP_LINK}',
-                      );
+                      // final ByteData bytes = await rootBundle
+                      //     .load(APPLICATION_LOGO);
+                      // await Share.file(
+                      //   'Share My Image',
+                      //   'ZakiPay.png',
+                      //   bytes.buffer.asUint8List(),
+                      //   'image/png',
+                      //   text:
+                      //       '${appConstants.userModel.usaFirstName} ${AppConstants.ZAKI_PAY_GOAL_SHARE_TEXT_FIRST_TITLE} \n"${title}" \n${AppConstants.ZAKI_PAY_GOAL_SHARE_TEXT_LAST_TITLE}. \nDownload ZakiPay Now: ${AppConstants.ZAKI_PAY_APP_LINK}',
+                      // );
                       // appConstants.updateSlectedPrivacyTypeIndex(4);
                     },
                   ),

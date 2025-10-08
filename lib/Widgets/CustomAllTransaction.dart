@@ -20,10 +20,11 @@ import 'package:zaki/Widgets/CustomLoader.dart';
 // import '../Screens/AllActivities.dart';
 
 class AllActivitiesCustomTile extends StatefulWidget {
-  AllActivitiesCustomTile({required this.data, this.onTap, this.fromBankApi});
+  AllActivitiesCustomTile({required this.data, this.onTap, this.fromBankApi, this.selectedUserId});
   final Item data;
   final VoidCallback? onTap;
   final bool? fromBankApi;
+  final String? selectedUserId;
 
   @override
   State<AllActivitiesCustomTile> createState() =>
@@ -90,7 +91,10 @@ class _AllActivitiesCustomTileState extends State<AllActivitiesCustomTile> {
                   // (
                     // (widget.fromBankApi==true && widget.data.transactionAmount!.contains('-')) ? '-': (widget.fromBankApi==true && !widget.data.transactionAmount!.contains('-')) ? '+': (widget.data.transactionMethod == AppConstants.Transaction_Method_Payment) ? '-' : '+') +
                       '${getCurrencySymbol(context, appConstants: appConstants)}' + ' ' 
-                      '${(widget.data.transactionAmount!.contains('-') ? double.parse(widget.data.transactionAmount!).toStringAsFixed(2): "+"+double.parse(widget.data.transactionAmount!).toStringAsFixed(2))}',
+                      '${(widget.data.transactionAmount!.contains('-') ? double.parse(widget.data.transactionAmount!).toStringAsFixed(2): 
+                      widget.data.transactionSenderUserId ==
+                                (widget.selectedUserId?? appConstants.userRegisteredId)? "-"+double.parse(widget.data.transactionAmount!).toStringAsFixed(2):
+                      "+"+double.parse(widget.data.transactionAmount!).toStringAsFixed(2))}',
                   transactionType: widget.data.transactionTransactionType,
                   name: widget.data.transactionSenderUserName,
                   transactionDate: formatedDateWithMonthAndTime(date: widget.data.createdAt),
@@ -163,7 +167,7 @@ class _AllActivitiesCustomTileState extends State<AllActivitiesCustomTile> {
                                             AppConstants
                                                 .TAG_IT_Transaction_TYPE_Fund_My_Wallet)
                                     ? '${getTransactionName(appConstants: appConstants)}'
-                                    : '${getTransactionName(appConstants: appConstants)} ${checkTransactionType(userId: appConstants.userRegisteredId)} ${senderCurrentUser(userId: appConstants.userRegisteredId) ? widget.data.transactionReceiverName : widget.data.transactionSenderUserName}',
+                                    : '${getTransactionName(appConstants: appConstants)} ${checkTransactionType(userId: widget.selectedUserId?? appConstants.userRegisteredId)} ${senderCurrentUser(userId: appConstants.userRegisteredId) ? widget.data.transactionReceiverName : widget.data.transactionSenderUserName}',
                         overflow: TextOverflow.clip,
                         maxLines: 2,
                         style: heading3TextStyle(width * 0.9),
@@ -254,7 +258,8 @@ class _AllActivitiesCustomTileState extends State<AllActivitiesCustomTile> {
                     //               : black),
                     // ),
                     Text(
-                      '${formatNumberWithSpace(double.parse(widget.data.transactionAmount!).toStringAsFixed(2))}',
+                      '${widget.selectedUserId!=null? widget.data.transactionSenderUserId ==
+                                (widget.selectedUserId)? '-': '+':''}${formatNumberWithSpace(double.parse(widget.data.transactionAmount!).toStringAsFixed(2))}',
                       // '${getCurrencySymbol(context, appConstants: appConstants )} ${getTwoDecimalNumber(amount: double.parse(widget.data[AppConstants.Transaction_amount]))}',
                       overflow: TextOverflow.clip,
                       maxLines: 1,
@@ -262,14 +267,18 @@ class _AllActivitiesCustomTileState extends State<AllActivitiesCustomTile> {
                           color:
                           (widget.fromBankApi==true && widget.data.transactionAmount!.contains('-'))? black:
                           (widget.fromBankApi==true && !widget.data.transactionAmount!.contains('-'))? green:
-                          (widget.data.transactionMethod == AppConstants.Transaction_Method_Received)
+                          // (widget.data.transactionMethod == AppConstants.Transaction_Method_Received)
+                          widget.data.transactionSenderUserId !=
+                                (widget.selectedUserId)
                                   ? green
                                   : black),
                     ),
                     widget.data.transactionTransactionType ==
                             AppConstants.TAG_IT_Transaction_TYPE_SEND_OR_REQUEST
-                        ? widget.data.transactionSenderUserId ==
-                                appConstants.userRegisteredId
+                        ? 
+                        
+                        widget.data.transactionSenderUserId ==
+                                (widget.selectedUserId?? appConstants.userRegisteredId)
                             ? InkWell(
                                 onTap: () {
                                   logMethod(
@@ -396,7 +405,7 @@ class _AllActivitiesCustomTileState extends State<AllActivitiesCustomTile> {
     );
   }
 
-  getSendOrReceiveText(){
+  getSendOrReceiveText({String? userId}) {
      if(widget.fromBankApi==true && widget.data.transactionAmount!.contains('-')) {
       //It means transafer method ==Payment
       return 'sent';
@@ -405,7 +414,8 @@ class _AllActivitiesCustomTileState extends State<AllActivitiesCustomTile> {
       //It means transafer method ==Payment
       return 'received';
     } 
-    if(widget.data.transactionMethod == AppConstants.Transaction_Method_Payment )
+    // if(widget.data.transactionMethod == AppConstants.Transaction_Method_Payment )
+    if(widget.data.transactionReceiverUserId != userId)
     
     return 'sent'; 
     else
@@ -418,7 +428,7 @@ class _AllActivitiesCustomTileState extends State<AllActivitiesCustomTile> {
         // data.transactionTransactionType == AppConstants.TAG_IT_Transaction_TYPE_SEND_OR_REQUEST &&
         widget.data.transactionTransactionType ==
             AppConstants.TAG_IT_Transaction_TYPE_SEND_OR_REQUEST) {
-      return 'Money ${getSendOrReceiveText()}';
+      return 'Money ${getSendOrReceiveText(userId: widget.selectedUserId)}';
     } else if (widget.data.transactionTransactionType ==
         AppConstants.TAG_IT_Transaction_TYPE_ALLOWANCE) {
       return '${AppConstants.TAG_IT_Transaction_TYPE_ALLOWANCE} ${(widget.fromBankApi==true && widget.data.transactionAmount!.contains('-')) ? 'sent' : (widget.fromBankApi==true && !widget.data.transactionAmount!.contains('-')) ? '':widget.data.transactionMethod == AppConstants.Transaction_Method_Payment ? 'sent' : ''}';
@@ -474,10 +484,12 @@ class _AllActivitiesCustomTileState extends State<AllActivitiesCustomTile> {
       //It means transafer method ==Payment
       return 'from';
     } 
-    if (widget.data.transactionMethod ==
-        AppConstants.Transaction_Method_Payment)
+    logMethod(title: "Sender and receiver", message: 'Sender: ${widget.data.transactionSenderUserId} and Receiver: ${widget.data.transactionReceiverUserId} and current user id: $userId');
+    if (
+      // widget.data.transactionMethod ==
+      //   AppConstants.Transaction_Method_Payment)
 
-    //     widget.data[AppConstants.Transaction_SenderUser_id] == userId)
+        widget.data.transactionReceiverUserId != userId)
     {
       return 'to';
     } else {

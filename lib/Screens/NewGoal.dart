@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Spacing.dart';
 import 'package:zaki/Services/api.dart';
 import 'package:zaki/Widgets/TextHeader.dart';
@@ -14,6 +14,7 @@ import '../Widgets/AppBars/AppBar.dart';
 import '../Widgets/CustomTextButon.dart';
 import '../Widgets/CustomTextField.dart';
 import 'GaolContributionScreen.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 
 class NewGoal extends StatefulWidget {
   const NewGoal({Key? key}) : super(key: key);
@@ -111,7 +112,7 @@ class _NewGoalState extends State<NewGoal> {
                     //     Expanded(
                     //       child: StreamBuilder(
                     //           stream: FirebaseFirestore.instance
-                    //               .collection(AppConstants.USER)
+                    //               .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
                     //               .doc(appConstants.userRegisteredId)
                     //               .collection(AppConstants.USER_WALLETS)
                     //               .doc(AppConstants.Savings_Wallet)
@@ -156,7 +157,7 @@ class _NewGoalState extends State<NewGoal> {
                     //     Expanded(
                     //       child: StreamBuilder(
                     //           stream: FirebaseFirestore.instance
-                    //               .collection(AppConstants.USER)
+                    //               .collection(AppConstants().COUNTRY_CODE).doc(AppConstants().BANK_ID).collection(AppConstants.USER)
                     //               .doc(appConstants.userRegisteredId)
                     //               .collection(AppConstants.USER_WALLETS)
                     //               .doc(AppConstants.Donations_Wallet)

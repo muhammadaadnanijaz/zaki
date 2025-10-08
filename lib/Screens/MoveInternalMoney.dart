@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zaki/Constants/CheckInternetConnections.dart';
 import 'package:zaki/Constants/HelperFunctions.dart';
-import 'package:zaki/Constants/NotificationTitle.dart';
+// import 'package:zaki/Constants/NotificationTitle.dart';
 import 'package:zaki/Constants/Spacing.dart';
 import 'package:zaki/Constants/Styles.dart';
 import 'package:zaki/Screens/FromAccount.dart';
@@ -12,6 +12,7 @@ import '../Widgets/AppBars/AppBar.dart';
 import '../Widgets/CustomConfermationScreen.dart';
 import '../Widgets/CustomTextField.dart';
 import '../Widgets/ZakiPrimaryButton.dart';
+import 'package:zaki/Constants/Whitelable.dart';
 
 class MoveInternalMoney extends StatefulWidget {
   const MoveInternalMoney({Key? key}) : super(key: key);

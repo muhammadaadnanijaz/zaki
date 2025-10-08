@@ -567,25 +567,25 @@ Future<String?> addTransactionsToDb(
 
 
   ////////Geting token from server
-  Future<String> getClientTokenFromYourServer() async {
-  final url = Uri.parse('https://yourbackendserver.com/get_client_token');
-  try {
-    final response = await http.get(url);
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      return data['token'];
+//   Future<String> getClientTokenFromYourServer() async {
+//   final url = Uri.parse('https://yourbackendserver.com/get_client_token');
+//   try {
+//     final response = await http.get(url);
+//     if (response.statusCode == 200) {
+//       var data = jsonDecode(response.body);
+//       return data['token'];
       
-    } else {
-      // Handling different status codes or server errors
-      return AppConstants.BRAINTREE_TOCKENIZATION_KEY;
-      // throw Exception('Failed to retrieve client token with status code: ${response.statusCode}');
-    }
-  } catch (e) {
-    // Handling exceptions that occur during the HTTP request
-    return AppConstants.BRAINTREE_TOCKENIZATION_KEY;
-    // throw Exception('Error occurred while fetching client token: $e');
-  }
-}
+//     } else {
+//       // Handling different status codes or server errors
+//       return AppConstants.BRAINTREE_TOCKENIZATION_KEY;
+//       // throw Exception('Failed to retrieve client token with status code: ${response.statusCode}');
+//     }
+//   } catch (e) {
+//     // Handling exceptions that occur during the HTTP request
+//     return AppConstants.BRAINTREE_TOCKENIZATION_KEY;
+//     // throw Exception('Error occurred while fetching client token: $e');
+//   }
+// }
 
 //Payfort tokenCreation
 Future<String?> tokenCreationPayfort({
