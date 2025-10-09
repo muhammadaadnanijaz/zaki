@@ -155,6 +155,7 @@ class _GetStartedState extends State<GetStarted> {
                                 SmoothPageIndicator(
                                   controller: controller,
                                   count: 3,
+                                
                                   effect: SlideEffect(
                                       spacing: 8.0,
                                       radius: 10.0,
